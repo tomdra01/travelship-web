@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
+import {GoogleApiService, UserInfo} from "../../../service/google-api.service";
 
 @Component({
   selector: 'app-main-view',
@@ -9,7 +10,6 @@ import {CommonModule} from "@angular/common";
   styleUrl: './main-view.component.css'
 })
 export class MainViewComponent {
-
   //SAMPLE TRIPS
   trips = [
     {
