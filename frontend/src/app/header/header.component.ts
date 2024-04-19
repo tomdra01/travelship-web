@@ -12,7 +12,7 @@ export class HeaderComponent {
 
   userInfo?: UserInfo
 
-  constructor(private readonly googleApi: GoogleApiService) {
+  constructor(private readonly googleApi: GoogleApiService, private router: Router) {
     googleApi.userProfileSubject.subscribe( info => {
       this.userInfo = info
     })
@@ -27,6 +27,7 @@ export class HeaderComponent {
   }
 
   loginClick() {
-    this.googleApi.initLogin();
+    //this.googleApi.initLogin();
+    this.router.navigate(['login']);
   }
 }
