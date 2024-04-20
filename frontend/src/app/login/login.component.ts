@@ -21,8 +21,4 @@ export class LoginComponent {
   clickGoogleLogin() {
     this.authService.login();
   }
-
-  clickLogOut() {
-    this.authService.logout();
-  }
 }

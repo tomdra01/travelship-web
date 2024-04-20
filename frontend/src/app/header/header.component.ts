@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit{
   }
 
   accountClick() {
-    this.router.navigate(['login']);
+    this.router.navigate(['account']);
   }
 
   homeButton(){
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit{
   }
 
   joinTravelButton() {
-    this.authService.logout();
+    this.router.navigate(['']);
   }
 
   loginClick() {
