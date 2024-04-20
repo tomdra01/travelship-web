@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {MainViewComponent} from "./main-view/main-view.component";
 import {LoginComponent} from "./login/login.component";
 import {AccountComponent} from "./account/account.component";
+import {ViewTravelComponent} from "./view-travel/view-travel.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'account',
     component: AccountComponent,
+  },
+  {
+    path: 'travel/:tripId',
+    component: ViewTravelComponent,
   }
 ];
 
