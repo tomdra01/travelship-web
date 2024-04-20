@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit{
   }
 
   joinTravelButton() {
-    this.router.navigate(['']);
+    this.router.navigate(['join']);
   }
 
   loginClick() {

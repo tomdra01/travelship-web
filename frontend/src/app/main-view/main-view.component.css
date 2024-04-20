@@ -1,6 +1,6 @@
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 20px;
   padding: 20px;
   background-color: #fff;
@@ -22,7 +22,7 @@
 .open-btn {
   background-color: #000;
   color: #fff;
-  border: none;
+  border: 2px solid transparent;
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;

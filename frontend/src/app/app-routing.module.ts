@@ -4,6 +4,7 @@ import {MainViewComponent} from "./main-view/main-view.component";
 import {LoginComponent} from "./login/login.component";
 import {AccountComponent} from "./account/account.component";
 import {ViewTravelComponent} from "./view-travel/view-travel.component";
+import {JoinPrivateTravelComponent} from "./join-private-travel/join-private-travel.component";
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'travel/:tripId',
     component: ViewTravelComponent,
+  },
+  {
+    path: 'join',
+    component: JoinPrivateTravelComponent,
   }
 ];
 
