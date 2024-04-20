@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {Router} from "@angular/router";
 import {GoogleApiService, UserInfo} from "../../../service/google-api.service";
 
@@ -11,27 +11,18 @@ import {GoogleApiService, UserInfo} from "../../../service/google-api.service";
 })
 export class LoginComponent {
   userInfo?: UserInfo
+  private authService = inject(GoogleApiService);
+
 
   constructor(private readonly googleApi: GoogleApiService, private router: Router) {
-    googleApi.userProfileSubject.subscribe( info => {
-      this.userInfo = info
-    })
-  }
 
-  isLoggedIn(): boolean {
-    return this.googleApi.isLoggedIn()
-  }
-
-  logout() {
-    this.googleApi.signOut()
   }
 
   clickGoogleLogin() {
-    this.router.navigate(['']);
-    this.googleApi.initLogin();
+    this.authService.login();
   }
 
   clickLogOut() {
-  this.googleApi.signOut();
+    this.authService.logout();
   }
 }

@@ -1,16 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { Observable, Subject } from 'rxjs';
-
-const authCodeFlowConfig: AuthConfig = {
-  issuer: 'https://accounts.google.com',
-  strictDiscoveryDocumentValidation: false,
-  redirectUri: window.location.origin,
-  clientId: '916269164787-rqfbtvs8asktdfdsm7anje90tst69ata.apps.googleusercontent.com',
-  scope: 'openid profile email',
-  showDebugInformation: true,
-};
+import {Router} from "@angular/router";
 
 export interface UserInfo {
   info: {
@@ -25,34 +17,48 @@ export interface UserInfo {
   providedIn: 'root'
 })
 export class GoogleApiService {
+  private oAuthService = inject(OAuthService);
+  private router = inject(Router);
 
-  userProfileSubject = new Subject<UserInfo>()
+  constructor() {
+    this.initConfiguration();
+  }
+  initConfiguration() {
+    const authConfig: AuthConfig = {
+      issuer: 'https://accounts.google.com',
+      strictDiscoveryDocumentValidation: false,
+      redirectUri: window.location.origin+'/login',
+      clientId: '916269164787-rqfbtvs8asktdfdsm7anje90tst69ata.apps.googleusercontent.com',
+      scope: 'openid profile email',
+      showDebugInformation: true,
+    };
 
-  constructor(private readonly oAuthService: OAuthService, private readonly httpClient: HttpClient) {
-    // Configure OAuth2 service
-    this.oAuthService.configure(authCodeFlowConfig);
-    this.oAuthService.logoutUrl = "https://www.google.com/accounts/Logout";
+
+    this.oAuthService.configure(authConfig);
+    this.oAuthService.loadDiscoveryDocumentAndTryLogin();
+    this.oAuthService.setupAutomaticSilentRefresh();
   }
 
-  initLogin() {
-    this.oAuthService.loadDiscoveryDocument().then(() => {
-      this.oAuthService.tryLoginImplicitFlow().then(() => {
-        if (!this.oAuthService.hasValidAccessToken()) {
-          this.oAuthService.initLoginFlow();
-        } else {
-          this.oAuthService.loadUserProfile().then((userProfile) => {
-            this.userProfileSubject.next(userProfile as UserInfo);
-          });
-        }
-      });
-    });
+  login() {
+    this.oAuthService.initImplicitFlow();
   }
 
-  isLoggedIn(): boolean {
-    return this.oAuthService.hasValidAccessToken();
-  }
-
-  signOut() {
+  logout() {
+    this.oAuthService.revokeTokenAndLogout();
     this.oAuthService.logOut();
   }
+
+  getProfile() {
+    return this.oAuthService.getIdentityClaims();
+  }
+
+  getToken() {
+    return this.oAuthService.getAccessToken();
+  }
+}
+
+export interface UserInfo {
+  name: string;
+  picture: string;
+  email: string;
 }

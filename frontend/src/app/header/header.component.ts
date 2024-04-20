@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {GoogleApiService, UserInfo} from "../../../service/google-api.service";
 import {Router} from "@angular/router";
-import {waitForAsync} from "@angular/core/testing";
 
 @Component({
   selector: 'app-header',
@@ -10,27 +9,12 @@ import {waitForAsync} from "@angular/core/testing";
 })
 export class HeaderComponent implements OnInit{
   loginButton = true;
+  private authService = inject(GoogleApiService);
 
-  userInfo?: UserInfo
+  userInfo?: { name: any; picture: any; email: any }
+
 
   constructor(private readonly googleApi: GoogleApiService, private router: Router) {
-    googleApi.userProfileSubject.subscribe( info => {
-      this.userInfo = info
-    })
-  }
-
-  isLoggedIn(): boolean {
-    return this.googleApi.isLoggedIn()
-  }
-
-  logout() {
-    this.googleApi.signOut()
-  }
-
-  loginClick() {
-    this.googleApi.initLogin();
-
-    //this.router.navigate(['login']);
   }
 
   accountClick() {
@@ -42,24 +26,28 @@ export class HeaderComponent implements OnInit{
   }
 
   joinTravelButton() {
-    this.router.navigate(['join']);
+    this.authService.logout();
   }
 
+  loginClick() {
+    //this.authService.login();
+    this.router.navigate(['login']);
+  }
   ngOnInit(): void {
-    const token = sessionStorage.getItem('id_token_claims_obj');
-    if (token) {
-      const tokenObj = JSON.parse(token);
-
-      this.userInfo = {
-        info: {
-          sub: tokenObj.sub,
-          email: tokenObj.email,
-          name: tokenObj.name,
-          picture: tokenObj.picture
-        }
-      };
-
+    if (this.googleApi.getToken()) {
       this.loginButton = false;
+      const profile = this.googleApi.getProfile();
+      if (profile) {
+        console.log('User Info:', profile);
+        // Accessing properties using bracket notation
+        this.userInfo = {
+          name: profile['name'],   // Using bracket notation for properties
+          picture: profile['picture'],
+          email: profile['email']
+        };
+      }
     }
   }
+
 }
+
