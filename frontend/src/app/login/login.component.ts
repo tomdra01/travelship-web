@@ -29,6 +29,9 @@ export class LoginComponent {
   clickGoogleLogin() {
     this.router.navigate(['']);
     this.googleApi.initLogin();
+  }
 
+  clickLogOut() {
+  this.googleApi.signOut();
   }
 }

@@ -8,7 +8,7 @@ const authCodeFlowConfig: AuthConfig = {
   strictDiscoveryDocumentValidation: false,
   redirectUri: window.location.origin,
   clientId: '916269164787-rqfbtvs8asktdfdsm7anje90tst69ata.apps.googleusercontent.com',
-  scope: 'openid profile email https://www.googleapis.com/auth/gmail.readonly',
+  scope: 'openid profile email',
   showDebugInformation: true,
 };
 
@@ -25,8 +25,6 @@ export interface UserInfo {
   providedIn: 'root'
 })
 export class GoogleApiService {
-
-  gmail = 'https://gmail.googleapis.com'
 
   userProfileSubject = new Subject<UserInfo>()
 

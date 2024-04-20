@@ -1,8 +1,8 @@
 <div class="header">
-  <button>Home</button>
-  <button>Join Travel</button>
-  <button (click)="loginClick()">Login</button>
+  <button (click)="homeButton()">Home</button>
+  <button (click)="joinTravelButton()">Join Travel</button>
+  <button *ngIf="loginButton" (click)="loginClick()">Login</button>
+  <button *ngIf="!loginButton" (click)="accountClick()">Account</button>
     <div>{{ userInfo?.info?.name }}</div>
-    <div>{{ userInfo?.info?.email }}</div>
-    <div><img src="{{ userInfo?.info?.picture }}"></div>
+    <div><img class="profilePic" src="{{ userInfo?.info?.picture }}"></div>
 </div>
