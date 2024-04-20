@@ -1,8 +1,10 @@
-header {
+.header {
   display: flex;
   justify-content: start;
   align-items: center;
   border-bottom: 2px solid #3C3D42;
+  position: sticky;
+  margin-top: 0.75%;
 }
 
 button {
@@ -18,4 +20,11 @@ button {
 button:hover {
   transform: scale(1.12);
   transition: transform 0.4s ease;
+}
+
+.profilePic{
+  width: 30px;
+  height: 30px;
+  border-radius: 30%;
+  margin-left: 3%;
 }

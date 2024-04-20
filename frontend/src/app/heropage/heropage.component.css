@@ -1,0 +1,41 @@
+.title1{
+  font-size: 8rem;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 3%;
+}
+
+.title2{
+  font-size: 3rem;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 3%;
+}
+
+.spaceDivider{
+  margin-top: 12%;
+  margin-bottom: 12%;
+}
+
+.buttonContainer{
+  display: flex;
+  justify-content: center;
+}
+
+
+.button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-left: 0.8%;
+  margin-right: 0.8%;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.button:hover {
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
+}

@@ -1,5 +1,8 @@
-<header>
-  <button>Home</button>
-  <button>Join Travel</button>
-  <button>Login</button>
-</header>
+<div class="header">
+  <button (click)="homeButton()">Home</button>
+  <button (click)="joinTravelButton()">Join Travel</button>
+  <button *ngIf="loginButton" (click)="loginClick()">Login</button>
+  <button *ngIf="!loginButton" (click)="accountClick()">Account</button>
+    <div *ngIf="!loginButton">{{ userInfo?.name }}</div>
+    <div *ngIf="!loginButton"><img class="profilePic" src="{{ userInfo?.picture }}"></div>
+</div>
