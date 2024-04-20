@@ -8,3 +8,27 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+/* Targets the scrollbar itself */
+::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+}
+
+/* Targets the draggable part of the scrollbar */
+::-webkit-scrollbar-thumb {
+  background-color: darkgrey; /* color of the scroll thumb */
+  border-radius: 6px; /* roundness of the scroll thumb */
+  border: 3px solid whitesmoke; /* creates a border around the scroll thumb */
+}
+
+/* Targets the track (part that the thumb drags within) */
+::-webkit-scrollbar-track {
+  background: whitesmoke; /* color of the track */
+  border-radius: 6px; /* roundness of the track */
+  box-shadow: inset 0 0 0px grey; /* adds shadow to the track */
+}
+
+/* Targets the track when the window is inactive (optional) */
+::-webkit-scrollbar-track-piece:window-inactive {
+  background: lightgray;
+}
