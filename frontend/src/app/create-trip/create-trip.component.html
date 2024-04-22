@@ -1,0 +1,43 @@
+<div class="title2">Add a Trip</div>
+<div class="spaceDivider"></div>
+<div class="content-container"> <!-- Flex container -->
+  <form (ngSubmit)="onSubmit()" [formGroup]="tripForm" class="form-container">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" formControlName="name" required class="form-control">
+      <div *ngIf="tripForm.get('name')?.errors?.['required'] && tripForm.get('name')?.touched">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location:</label>
+      <input type="text" id="location" formControlName="location" required class="form-control">
+      <div *ngIf="tripForm.get('location')?.errors?.['required'] && tripForm.get('location')?.touched">
+        Location is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="date">Date:</label>
+      <input type="date" id="date" formControlName="date" required class="form-control">
+      <div *ngIf="tripForm.get('date')?.errors?.['required'] && tripForm.get('date')?.touched">
+        Date is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description" rows="4" required class="form-control"></textarea>
+      <div *ngIf="tripForm.get('description')?.errors?.['required'] && tripForm.get('description')?.touched">
+        Description is required.
+      </div>
+    </div>
+
+    <div class="buttonContainer">
+      <button type="submit" class="button" [disabled]="!tripForm.valid">Submit</button>
+    </div>
+  </form>
+
+  <div class="image"></div>
+</div>
