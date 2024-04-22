@@ -13,8 +13,8 @@
 }
 
 .spaceDivider{
-  margin-top: 12%;
-  margin-bottom: 12%;
+  margin-top: 6.5%;
+  margin-bottom: 6.5%;
 }
 
 .buttonContainer{
@@ -38,4 +38,25 @@
   background-color: #fff;
   color: #000;
   border: 2px solid #000;
+}
+
+.worldImage {
+  width: 35%;
+  margin-left: 22%;
+  margin-top: 2%;
+  height: 47vh;
+  background-image: url("/assets/world.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.content-container {
+  display: flex;
+  align-items: center;
+}
+
+.text-container {
+  margin-right: 20px;
 }

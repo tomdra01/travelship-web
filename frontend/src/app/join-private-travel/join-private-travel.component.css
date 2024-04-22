@@ -15,9 +15,10 @@
   border: 2px solid #000;
 }
 
-.spaceDivider{
-  margin-top: 12%;
-  margin-bottom: 12%;
+.spaceDivider {
+  margin-top: 13.5%;
+  margin-bottom: 13.5%;
+  position: relative; /* Ensures that the background can be positioned relative to this container */
 }
 
 .middleCenter {
@@ -26,9 +27,36 @@
   align-items: center;
 }
 
-.title2{
+.title2 {
   font-size: 3rem;
   font-weight: bold;
   color: #000000;
-  margin-left: 3%;
+  background-size: contain; /* Ensures the background image fits well in the div */
+}
+
+.form-container {
+  width: 100%; /* Gives full width to align children centrally */
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Provides a gap between the input field and the button */
+}
+
+input[type="text"] {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 4px; /* Adds a slight radius to the corners of the input box */
+}
+
+.balloon-background {
+  position: absolute;
+  top: 20%; /* Adjusts the vertical position */
+  right: 82%; /* Adjusts the horizontal position */
+  width: 320px; /* Width of the balloon image */
+  height: 320px; /* Height of the balloon image */
+  background-image: url('/assets/baloon.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1; /* Ensures the balloon appears behind other content if necessary */
 }

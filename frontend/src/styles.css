@@ -1,12 +1,45 @@
 html, body {
-  background-color: whitesmoke;
+  background-color: #FFFEF0;
   height: 100%;
   width: 100%;
+  z-index: 0;
+  position: relative;
 }
 
 * {
   margin: 0;
   padding: 0;
+}
+
+.bgImage {
+  background-image: url("/assets/background.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+}
+
+.custom-shape-divider-top-1713708173 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-top-1713708173 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 270px;
+}
+
+.custom-shape-divider-top-1713708173 .shape-fill {
+  fill: #FFFFFF;
 }
 
 /* Targets the scrollbar itself */

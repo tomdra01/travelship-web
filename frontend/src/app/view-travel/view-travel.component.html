@@ -1,1 +1,13 @@
-<div>Trip ID: {{tripId}}</div>
+<div class="trip-info">
+  <h1>Trip Details</h1>
+  <div>Trip ID: {{ tripId }}</div>
+  <div>Name: {{ tripInfo.name }}</div>
+  <div>Location: {{ tripInfo.location }}</div>
+  <div>Date: {{ tripInfo.date | date:'mediumDate' }}</div>
+  <div>People Joined: {{ tripInfo.peopleJoined }}</div>
+  <p>Description: {{ tripInfo.description }}</p>
+</div>
+<div class="pinboard">
+  <!-- Placeholder for dynamic pins -->
+</div>
+<button class="button">Join Trip</button>
