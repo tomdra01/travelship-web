@@ -3,6 +3,8 @@
   <button (click)="joinTravelButton()">Join Travel</button>
   <button *ngIf="loginButton" (click)="loginClick()">Login</button>
   <button *ngIf="!loginButton" (click)="accountClick()">Account</button>
-    <div *ngIf="!loginButton">{{ userInfo?.name }}</div>
-    <div *ngIf="!loginButton"><img class="profilePic" src="{{ userInfo?.picture }}"></div>
+  <div *ngIf="!loginButton" class="userDetails">
+    <div>{{ userInfo?.name }}</div>
+    <div><img class="profilePic" src="{{ userInfo?.picture }}"></div>
+  </div>
 </div>

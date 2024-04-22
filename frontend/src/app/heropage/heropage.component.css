@@ -13,13 +13,15 @@
 }
 
 .spaceDivider{
-  margin-top: 6.5%;
-  margin-bottom: 6.5%;
+  margin-top: 4%;
+  margin-bottom: 4%;
 }
 
 .buttonContainer{
   display: flex;
   justify-content: center;
+  margin-bottom: 12%;
+  margin-top: 10%;
 }
 
 
@@ -35,18 +37,17 @@
 }
 
 .button:hover {
-  background-color: #fff;
+  background-color: #0088ff;
   color: #000;
   border: 2px solid #000;
 }
 
 .worldImage {
-  width: 35%;
-  margin-left: 22%;
-  margin-top: 2%;
-  height: 47vh;
-  background-image: url("/assets/world.svg");
-  background-size: cover;
+  margin-left: 12%;
+  height: 40vh;
+  width: 100%;
+  background-image: url("/assets/travel2.svg");
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;

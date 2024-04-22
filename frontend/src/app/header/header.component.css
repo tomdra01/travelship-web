@@ -18,7 +18,8 @@ button {
 }
 
 button:hover {
-  transform: scale(1.12);
+  background-color: #0088ff;
+  transform: scale(1.075);
   transition: transform 0.4s ease;
 }
 
@@ -27,4 +28,11 @@ button:hover {
   height: 30px;
   border-radius: 30%;
   margin-left: 3%;
+}
+
+.userDetails {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 3%;
 }
