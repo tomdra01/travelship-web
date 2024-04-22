@@ -9,6 +9,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import {HttpClientModule} from "@angular/common/http";
 import {OAuthModule} from "angular-oauth2-oidc";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {OAuthModule} from "angular-oauth2-oidc";
     CommonModule,
     HttpClientModule,
     OAuthModule.forRoot(),
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

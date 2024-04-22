@@ -1,0 +1,86 @@
+.title1 {
+  font-size: 8rem;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 3%;
+}
+
+.title2 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 3%;
+}
+
+.spaceDivider {
+  margin-top: 4%;
+  margin-bottom: 4%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12%;
+  margin-top: 10%;
+}
+
+.button {
+  background-color: #000;
+  color: #fff;
+  border: 2px solid transparent;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-left: 0.8%;
+  margin-right: 0.8%;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.button:hover {
+  background-color: #0088ff;
+  color: #000;
+  border: 2px solid #000;
+}
+
+.image {
+  width: 40%;
+  height: 40vh;
+  background-image: url("/assets/travel1.svg");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.content-container {
+  display: flex;
+  align-items: flex-start; /* Align items at the start of the flex container */
+  justify-content: space-between; /* Spreads the children across the container */
+  width: 100%; /* Full width to ensure the container expands */
+}
+
+.form-container {
+  flex-grow: 1; /* Allows the form to grow and take necessary space */
+  margin-right: 20px; /* Adds margin between the form and the image */
+}
+
+.text-container {
+  margin-right: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin: 1% 0;
+}
+
+.form-control {
+  width: 45%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-left: 3%;
+}
+
+.form-group div {
+  color: red;
+  font-size: 0.8rem;
+  margin-left: 3%;
+}

@@ -1,4 +1,6 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
+import {GoogleApiService} from "../../../service/google-api.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-heropage',
@@ -10,7 +12,18 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 export class HeropageComponent {
   @ViewChild('publicTrips') publicTripsDiv!: ElementRef<HTMLDivElement>;
 
+  constructor(private router: Router) {
+  }
+
   scrollToPublicTrips(): void {
     this.publicTripsDiv.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  clickPlanTrip() {
+    this.router.navigate(['create']);
+  }
+
+  clickJoinTravel() {
+    this.router.navigate(['join']);
   }
 }

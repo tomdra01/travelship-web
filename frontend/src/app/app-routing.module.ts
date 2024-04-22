@@ -5,6 +5,7 @@ import {LoginComponent} from "./login/login.component";
 import {AccountComponent} from "./account/account.component";
 import {ViewTravelComponent} from "./view-travel/view-travel.component";
 import {JoinPrivateTravelComponent} from "./join-private-travel/join-private-travel.component";
+import {CreateTripComponent} from "./create-trip/create-trip.component";
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'join',
     component: JoinPrivateTravelComponent,
+  },
+  {
+    path: 'create',
+    component: CreateTripComponent,
   }
 ];
 
