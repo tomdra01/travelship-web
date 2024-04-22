@@ -21,6 +21,13 @@ public class TripsController : ControllerBase
     {
         return Ok(await _service.GetAllTrips());
     }
+    
+    // GET: api/trips/public
+    [HttpGet("public")]
+    public async Task<ActionResult<IEnumerable<Trip>>> GetPublicTrips()
+    {
+        return Ok(await _service.GetPublicTrips());
+    }
 
     // GET: api/trips/{id}
     [HttpGet("{id}")]
@@ -32,6 +39,17 @@ public class TripsController : ControllerBase
             return NotFound("Trip not found");
         }
         return trip;
+    }
+    
+    [HttpGet("bycode/{code}")]
+    public async Task<ActionResult<Trip>> GetTripByCode(string code)
+    {
+        var trip = await _service.GetTripByCode(code);
+        if (trip == null)
+        {
+            return NotFound("Trip not found");
+        }
+        return Ok(trip);
     }
 
     // POST: api/trips

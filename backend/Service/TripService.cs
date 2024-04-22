@@ -55,6 +55,18 @@ public class TripService : ITripService
                 throw new Exception("An unexpected error occurred while trying to get all trips.", ex);
             }
         }
+        
+        public async Task<IEnumerable<Trip>> GetPublicTrips()
+        {
+            try
+            {
+                return await _tripRepository.GetPublicTrips();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An unexpected error occurred while trying to get all PUBLIC trips.", ex);
+            }
+        }
 
         public async Task<Trip> GetTripById(int id)
         {
@@ -72,6 +84,12 @@ public class TripService : ITripService
             {
                 throw new Exception("Could not get the trip by ID");
             }
+        }
+        
+        public async Task<Trip> GetTripByCode(string code)
+        {
+            // This method should interact with the repository to fetch a trip by its code.
+            return await _tripRepository.GetTripByCode(code);
         }
 
         public async Task<Trip> UpdateTrip(Trip trip)

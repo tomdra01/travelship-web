@@ -4,6 +4,7 @@ import {CommonModule, DatePipe} from "@angular/common";
 import {GoogleApiService} from "../../../service/google-api.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ServerAddsClientToRoomDto, ServerBroadcastsMessageWithUsernameDto} from "../../../ws-dto/BaseDto";
+import {TripService} from "../../../service/TripService";
 
 @Component({
   selector: 'app-view-travel',
@@ -30,7 +31,7 @@ export class ViewTravelComponent implements OnInit{
   messages: { text: string, fromUser: boolean }[] = [];
 
 
-  constructor(private route: ActivatedRoute, private readonly googleApi: GoogleApiService, private router: Router) {
+  constructor(private tripService: TripService, private route: ActivatedRoute, private readonly googleApi: GoogleApiService, private router: Router) {
     // Get the tripId from the URL
     this.route.params.subscribe(params => {
       this.tripId = +params['tripId'];
@@ -83,7 +84,25 @@ export class ViewTravelComponent implements OnInit{
       }
     }
 
+    this.route.params.subscribe(params => {
+      this.tripId = +params['tripId'];
+      if (this.tripId) {
+        this.loadTripDetails(this.tripId);
+      }
+    });
+
     this.initiateWebSocketCommunication();
+  }
+
+  loadTripDetails(tripId: number): void {
+    this.tripService.getTripById(tripId).subscribe({
+      next: (trip) => {
+        this.tripInfo = trip;
+      },
+      error: (error) => {
+        console.error('Failed to load trip:', error);
+      }
+    });
   }
 
 

@@ -1,7 +1,7 @@
 <div class="balloon-background"></div>
-<div class="spaceDivider middleCenter title2">Join a Private Travel</div>
-<div class="form-container middleCenter">
-  <input type="text" placeholder="Travel ID">
-  <button class="button" (click)="submitCode()">Submit</button>
+<div class="join-trip">
+  <h2>Join a Private Trip</h2>
+  <input type="text" [(ngModel)]="code" placeholder="Enter trip code" />
+  <button (click)="submitCode()">Join Trip</button>
 </div>
 <div class="spaceDivider"></div>
