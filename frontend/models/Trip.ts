@@ -5,4 +5,5 @@ export interface Trip {
   date: Date;
   description: string;
   peopleJoined: number;
+  code: string;
 }
