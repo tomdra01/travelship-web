@@ -24,7 +24,7 @@ export class MainViewComponent implements OnInit {
   }
 
   loadTrips(): void {
-    this.tripService.getTrips().subscribe({
+    this.tripService.getPublicTrips().subscribe({
       next: (data) => {
         this.trips = data;  // Set the trips data with response from the server
       },

@@ -30,6 +30,16 @@ public class TripRepository
             return await conn.QueryAsync<Trip>(sql);
         }
     }
+    
+    public async Task<IEnumerable<Trip>> GetPublicTrips()
+    {
+        const string sql = "SELECT * FROM Production.Trips WHERE code IS NULL OR code = '';";
+        using (var connection = new NpgsqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            return await connection.QueryAsync<Trip>(sql);
+        }
+    }
 
     public async Task<Trip> GetTripById(int tripId)
     {
@@ -40,12 +50,22 @@ public class TripRepository
             return await conn.QuerySingleOrDefaultAsync<Trip>(sql, new { TripId = tripId });
         }
     }
+    
+    public async Task<Trip> GetTripByCode(string code)
+    {
+        const string sql = "SELECT * FROM Production.Trips WHERE code = @Code;";
+        using (var connection = new NpgsqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            return await connection.QuerySingleOrDefaultAsync<Trip>(sql, new { Code = code });
+        }
+    }
 
     public async Task<Trip> CreateTrip(Trip trip)
     {
         const string sql = @"
-INSERT INTO Production.Trips (Name, Location, Date, Description, PeopleJoined)
-VALUES (@Name, @Location, @Date, @Description, @PeopleJoined) RETURNING *;";
+INSERT INTO Production.Trips (Name, Location, Date, Description, PeopleJoined, Code)
+VALUES (@Name, @Location, @Date, @Description, @PeopleJoined, @Code) RETURNING *;";
 
         using (var conn = CreateConnection())
         {
@@ -58,7 +78,7 @@ VALUES (@Name, @Location, @Date, @Description, @PeopleJoined) RETURNING *;";
     {
         const string sql = @"
 UPDATE Production.Trips
-SET Name = @Name, Location = @Location, Date = @Date, Description = @Description, PeopleJoined = @PeopleJoined
+SET Name = @Name, Location = @Location, Date = @Date, Description = @Description, PeopleJoined = @PeopleJoined, Code = @Code
 WHERE id = @ID
 RETURNING *;";
 

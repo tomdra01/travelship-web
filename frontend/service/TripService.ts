@@ -16,8 +16,18 @@ export class TripService {
     return this.http.get<any[]>(url);
   }
 
+  getPublicTrips(): Observable<Trip[]> {
+    const url = `${environment.baseUrl}/api/trips/public`;
+    return this.http.get<Trip[]>(url);
+  }
+
   getTripById(id: number): Observable<Trip> {
     const url = `${environment.baseUrl}/api/trips/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  getTripByCode(code: string): Observable<Trip> {
+    const url = `${environment.baseUrl}/api/trips/bycode/${code}`;
     return this.http.get<any>(url);
   }
 

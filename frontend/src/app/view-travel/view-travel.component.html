@@ -1,6 +1,14 @@
 <div class="trip-info">
-  <h1>Trip Details</h1>
-  <div>Trip ID: {{ tripId }}</div>
+  <div *ngIf="tripInfo; else loading">
+    <h1>Trip Details: {{ tripInfo.name }}</h1>
+    <div><strong>Location:</strong> {{ tripInfo.location }}</div>
+    <div><strong>Date:</strong> {{ tripInfo.date | date }}</div> <!-- Using date pipe for formatting -->
+    <div><strong>Description:</strong> {{ tripInfo.description }}</div>
+    <div><strong>Participants:</strong> {{ tripInfo.peopleJoined }}</div>
+  </div>
+  <ng-template #loading>
+    <p>Loading trip details...</p>
+  </ng-template>
 </div>
 <div class="pinboard">
   <!-- Placeholder for dynamic pins -->
