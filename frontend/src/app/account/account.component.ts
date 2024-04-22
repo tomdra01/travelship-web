@@ -15,7 +15,7 @@ import {NgIf} from "@angular/common";
 export class AccountComponent implements OnInit{
   private authService = inject(GoogleApiService);
 
-  userInfo?: { name: any; picture: any; email: any }
+  userInfo?: { name: any; picture: any; email: any; sub: any }
 
   constructor(private readonly googleApi: GoogleApiService, private router: Router) {
   }
@@ -31,7 +31,8 @@ export class AccountComponent implements OnInit{
         this.userInfo = {
           name: profile['name'],
           picture: profile['picture'],
-          email: profile['email']
+          email: profile['email'],
+          sub: profile['sub']
         };
       }
     }

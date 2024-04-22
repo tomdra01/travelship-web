@@ -17,7 +17,6 @@
       <div [class]="message.fromUser ? 'message-entry user-message' : 'message-entry other-message'">
         <!-- Assuming profile pictures are only shown for the user -->
         <div class="message-content">
-          <div class="username">{{ userInfo?.name}}:</div>
           <div class="message-text">{{ message.text }}</div>
         </div>
       </div>
