@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsocketApi", "WebsocketAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpApi", "HttpApi\HttpApi.csproj", "{466C0018-CD1D-4725-8FBB-3B3B67523A98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{EB176760-F7F9-4EA9-A5DF-C48AF274861C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{EB176760-F7F9-4EA9-A5DF-C48AF274861C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{8F95800B-F22D-4A27-AD33-EDB589EA861C}"
 EndProject
