@@ -28,7 +28,6 @@ export class AccountComponent implements OnInit{
     if (this.googleApi.getToken()) {
       const profile = this.googleApi.getProfile();
       if (profile) {
-        console.log('User Info:', profile);
         this.userInfo = {
           name: profile['name'],
           picture: profile['picture'],
@@ -37,4 +36,5 @@ export class AccountComponent implements OnInit{
       }
     }
   }
+
 }

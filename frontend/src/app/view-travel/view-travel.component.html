@@ -1,13 +1,30 @@
 <div class="trip-info">
   <h1>Trip Details</h1>
   <div>Trip ID: {{ tripId }}</div>
-  <div>Name: {{ tripInfo.name }}</div>
-  <div>Location: {{ tripInfo.location }}</div>
-  <div>Date: {{ tripInfo.date | date:'mediumDate' }}</div>
-  <div>People Joined: {{ tripInfo.peopleJoined }}</div>
-  <p>Description: {{ tripInfo.description }}</p>
 </div>
 <div class="pinboard">
   <!-- Placeholder for dynamic pins -->
 </div>
+
+<img class="profilePic" src="{{ userInfo?.picture }}">
+<div class="user-info">
+  <div class="text name">Signed In As: {{ userInfo?.name }}</div>
+</div>
+
+<div class="chat-container">
+  <div class="chat-messages">
+    <div *ngFor="let message of messages">
+      <div [class]="message.fromUser ? 'message-entry user-message' : 'message-entry other-message'">
+        <!-- Assuming profile pictures are only shown for the user -->
+        <div class="message-content">
+          <div class="username">{{ userInfo?.name}}:</div>
+          <div class="message-text">{{ message.text }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="text" [(ngModel)]="messageContent" placeholder="Type your message..." class="chat-input">
+  <button (click)="sendMessage()" class="chat-send-button">Send</button>
+</div>
+
 <button class="button">Join Trip</button>

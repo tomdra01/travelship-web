@@ -4,15 +4,6 @@ import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { Observable, Subject } from 'rxjs';
 import {Router} from "@angular/router";
 
-export interface UserInfo {
-  info: {
-    sub: string
-    email: string,
-    name: string,
-    picture: string
-  }
-}
-
 @Injectable({
   providedIn: 'root'
 })
