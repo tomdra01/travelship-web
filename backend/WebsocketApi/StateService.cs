@@ -25,6 +25,11 @@ public static class StateService
     {
         return Connections.TryAdd(ws.ConnectionInfo.Id, new WsWithMetaData(ws));
     }
+    
+    public static bool RemoveConnection(IWebSocketConnection ws)
+    {
+        return Connections.Remove(ws.ConnectionInfo.Id);
+    }
 
     public static bool AddToRoom(IWebSocketConnection ws, int room)
     {
@@ -39,6 +44,7 @@ public static class StateService
             return guids.Remove(ws.ConnectionInfo.Id);
         return false;
     }
+    
     
     public static void BroadcastToRoom(int room, string message)
     {

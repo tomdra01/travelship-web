@@ -1,6 +1,8 @@
 using System.Reflection;
+using System.Text.Json;
 using Fleck;
 using lib;
+using WebsocketApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,40 +11,41 @@ var services = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAss
 
 var app = builder.Build();
 var server = new WebSocketServer("ws://0.0.0.0:8181");
+
+var allSockets = new List<IWebSocketConnection>();
+
 server.Start(socket =>
 {
-    socket.OnOpen = () => Console.WriteLine("Open!");
-    socket.OnClose = () => Console.WriteLine("Close!");
+    socket.OnOpen = () =>
+    {
+        Console.WriteLine("Open!");
+        StateService.AddConnection(socket);  // Ensure connection is added
+        allSockets.Add(socket);
+    };
+    socket.OnClose = () =>
+    {
+        Console.WriteLine("Close!");
+        StateService.RemoveConnection(socket);  // Remove connection on close
+        allSockets.Remove(socket);
+    };
     socket.OnMessage = async message =>
     {
         try
         {
-            //STEP 2: ADD THIS LINE TO INVOKE THE EVENT HANDLER
+            // Invoke the event handler
             await app.InvokeClientEventHandler(services, socket, message);
         }
         catch (Exception e)
         {
-            Console.WriteLine("Catched Exception at WebsocketApi/Program.cs: "+e.Message);
-            // trigger some global error handler to not ruin your life
+            Console.WriteLine("Caught Exception at WebsocketApi/Program.cs: " + e.Message);
+            socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClient { errorMessage = "An error occurred: " + e.Message }));
         }
 
     };
 });
 Console.ReadLine();
 
-public class ClientWantsToEchoDto : BaseDto
+public class ServerSendsErrorMessageToClient : BaseDto
 {
-    public string message { get; set; }
-}
-
-//STEP 3: ADD EVENTS BY EXTENDING BaseEventHandler<T> WHERE T IS YOUR DEFINED DTO
-public class ClientWantsToEcho : BaseEventHandler<ClientWantsToEchoDto>
-{
-    //STEP 4: IMPLEMENT THE Handle(dto, socket) METHOD DEFINED BY BASEEVENTHANDLER
-    public override Task Handle(ClientWantsToEchoDto dto, IWebSocketConnection socket)
-    {
-        // Step 5: profit
-        socket.Send("hey");
-        return Task.CompletedTask;
-    }
+    public string errorMessage { get; set; }
 }
