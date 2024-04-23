@@ -1,4 +1,4 @@
-namespace ClipTok.Utils;
+namespace HttpApi.Utils;
 
 public static class Configuration
 {
