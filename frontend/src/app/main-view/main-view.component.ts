@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
-import {GoogleApiService, UserInfo} from "../../../service/google-api.service";
 import {HeropageComponent} from "../heropage/heropage.component";
 import {Router} from "@angular/router";
 import {TripService} from "../../../service/TripService";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-main-view',

@@ -1,6 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {GoogleApiService, UserInfo} from "../../../service/google-api.service";
+import {GoogleApiService} from "../../../service/google-api.service";
 import {Router} from "@angular/router";
+import {TimezoneService} from "../../../service/timezone.service";
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,16 @@ import {Router} from "@angular/router";
 export class HeaderComponent implements OnInit{
   loginButton = true;
   private authService = inject(GoogleApiService);
+  flagUrl: string | undefined;
 
   userInfo?: { name: any; picture: any; email: any }
 
 
-  constructor(private readonly googleApi: GoogleApiService, private router: Router) {
+  constructor(
+    private readonly googleApi: GoogleApiService,
+    private timezoneService: TimezoneService,
+    private router: Router
+  ) {
   }
 
   accountClick() {
@@ -38,16 +44,19 @@ export class HeaderComponent implements OnInit{
       this.loginButton = false;
       const profile = this.googleApi.getProfile();
       if (profile) {
-        console.log('User Info:', profile);
-        // Accessing properties using bracket notation
         this.userInfo = {
-          name: profile['name'],   // Using bracket notation for properties
+          name: profile['name'],
           picture: profile['picture'],
           email: profile['email']
         };
       }
     }
-  }
 
+    const timezone = this.timezoneService.getUserTimezone();
+    const country = this.timezoneService.getCountryByTimezone(timezone);
+    if (country) {
+      this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
+    }
+  }
 }
 

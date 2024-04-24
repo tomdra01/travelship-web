@@ -7,4 +7,5 @@
     <div>{{ userInfo?.name }}</div>
     <div><img class="profilePic" src="{{ userInfo?.picture }}"></div>
   </div>
+  <img *ngIf="flagUrl" [src]="flagUrl" alt="Country flag">
 </div>

@@ -1,5 +1,4 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {GoogleApiService} from "../../../service/google-api.service";
 import {Router} from "@angular/router";
 
 @Component({
