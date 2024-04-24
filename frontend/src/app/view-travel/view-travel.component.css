@@ -1,3 +1,4 @@
+/* General Styles for Trip Info and Other Components */
 .trip-info {
   margin: 20px;
   padding: 20px;
@@ -34,6 +35,7 @@
   border: 2px solid #000;
 }
 
+/* Chat Container */
 .chat-container {
   width: 300px;
   border: 1px solid #ccc;
@@ -74,6 +76,7 @@
   background-color: #45a049;
 }
 
+/* User Info Styles */
 .user-info {
   display: flex;
   align-items: center;
@@ -92,13 +95,32 @@
   color: #333;
 }
 
+/* Message Styling */
 .message-entry {
   display: flex;
   margin-bottom: 10px;
 }
 
+.user-message {
+  justify-content: flex-end;
+}
+
+.other-message {
+  justify-content: flex-start;
+}
+
 .message-content {
-  flex-grow: 1;
+  max-width: 80%;
+  padding: 5px;
+  border-radius: 8px;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+}
+
+.user-message .message-content {
+  background-color: #b3d9ff;
+  margin-left: auto;
 }
 
 .message-text {

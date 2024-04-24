@@ -5,6 +5,7 @@ import {GoogleApiService} from "../../../service/google-api.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ServerAddsClientToRoomDto, ServerBroadcastsMessageWithUsernameDto} from "../../../ws-dto/BaseDto";
 import {TripService} from "../../../service/TripService";
+import {TimezoneService} from "../../../service/timezone.service";
 
 @Component({
   selector: 'app-view-travel',
@@ -19,58 +20,34 @@ import {TripService} from "../../../service/TripService";
   styleUrl: './view-travel.component.css'
 })
 export class ViewTravelComponent implements OnInit{
-  //private authService = inject(GoogleApiService);
   tripId: number | undefined;
   tripInfo: any;
-  userInfo?: { name: any; picture: any; email: any }
+  userInfo?: { name: string; picture: string; email: string };
   username?: string;
-  picture?: any;
+  picture?: string;
+  flagUrl: string | undefined;
+  ws: WebSocket;
+  messageContent: string = '';
+  messages: { text: string, username: string, fromUser: boolean, flagUrl?: string }[] = [];
 
-  ws: WebSocket = new WebSocket('ws://localhost:8181');
-  messageContent: string | undefined;
-  messages: { text: string, fromUser: boolean }[] = [];
-
-
-  constructor(private tripService: TripService, private route: ActivatedRoute, private readonly googleApi: GoogleApiService, private router: Router) {
-    // Get the tripId from the URL
-    this.route.params.subscribe(params => {
-      this.tripId = +params['tripId'];
-    });
-
+  constructor(
+    private tripService: TripService,
+    private route: ActivatedRoute,
+    private timezoneService: TimezoneService,
+    private googleApi: GoogleApiService,
+    private router: Router
+  ) {
     this.ws = new WebSocket('ws://localhost:8181');
-    this.ws.onopen = () => {
-      console.log("WebSocket connection established.");
-      this.initiateWebSocketCommunication();
-    };
-    this.ws.onerror = (event) => {
-      console.error("WebSocket error:", event);
-    };
-
-    this.ws.onmessage = (event) => {
-      const dto = JSON.parse(event.data);
-      // @ts-ignore
-      if (dto.eventType && this[dto.eventType]) {
-        // @ts-ignore
-        this[dto.eventType](dto);
-      } else {
-        console.warn("Unhandled event type:", dto.eventType);
-      }
-    };
-  }
-
-  sendMessage() {
-    this.clientBroadcastToRoom();
-    console.log(this.messages);
-  }
-
-  initiateWebSocketCommunication() {
-    if (this.userInfo) {
-      this.clientSetUsername();
-      this.enterRoom();
-    }
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.tripId = +params['tripId'];
+      if (this.tripId) {
+        this.loadTripDetails(this.tripId);
+      }
+    });
+
     if (this.googleApi.getToken()) {
       const profile = this.googleApi.getProfile();
       if (profile) {
@@ -82,19 +59,54 @@ export class ViewTravelComponent implements OnInit{
         this.username = this.userInfo.name;
         this.picture = this.userInfo.picture;
       }
+
+      const timezone = this.timezoneService.getUserTimezone();
+      const country = this.timezoneService.getCountryByTimezone(timezone);
+      if (country) {
+        this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
+      }
     }
 
-    this.route.params.subscribe(params => {
-      this.tripId = +params['tripId'];
-      if (this.tripId) {
-        this.loadTripDetails(this.tripId);
-      }
-    });
-
-    this.initiateWebSocketCommunication();
+    this.initWebSocket();
   }
 
-  loadTripDetails(tripId: number): void {
+  private initWebSocket() {
+    this.ws.onopen = () => {
+      console.log("WebSocket connection established.");
+      this.clientSetUsername();
+      this.enterRoom();
+    };
+
+    this.ws.onmessage = (event) => {
+      const dto = JSON.parse(event.data);
+      if (dto.eventType === 'ServerBroadcastsMessageWithUsername') {
+        this.messages.push({
+          text: dto.message,
+          username: dto.username,
+          fromUser: dto.username === this.username,
+          flagUrl: dto.username === this.username ? this.flagUrl : undefined
+        });
+      }
+    };
+
+    this.ws.onerror = (event) => {
+      console.error("WebSocket error:", event);
+    };
+  }
+
+  sendMessage() {
+    if (this.messageContent.trim()) {
+      const message = {
+        eventType: "ClientWantsToBroadcastToRoom",
+        roomId: Number(this.tripId),
+        message: this.messageContent
+      };
+      this.ws.send(JSON.stringify(message));
+      this.messageContent = '';
+    }
+  }
+
+  loadTripDetails(tripId: number) {
     this.tripService.getTripById(tripId).subscribe({
       next: (trip) => {
         this.tripInfo = trip;
@@ -105,11 +117,8 @@ export class ViewTravelComponent implements OnInit{
     });
   }
 
-
-  // WEBSOCKET IMPLEMENTATION
-
-  clientSetUsername() {
-    var object = {
+  private clientSetUsername() {
+    const object = {
       eventType: "ClientWantsToSetUsername",
       Username: this.username
     };
@@ -117,36 +126,15 @@ export class ViewTravelComponent implements OnInit{
     console.log("Username set to: " + this.username);
   }
 
-  enterRoom() {
-    var object = {
+  private enterRoom() {
+    const object = {
       eventType: "ClientWantsToEnterRoom",
       roomId: Number(this.tripId)
     };
     this.ws.send(JSON.stringify(object));
   }
 
-  clientBroadcastToRoom() {
-    const object = {
-      eventType: "ClientWantsToBroadcastToRoom",
-      roomId: Number(this.tripId),
-      message: this.messageContent
-    };
-    this.ws.send(JSON.stringify(object));
-
-    //this.messages.unshift({ text: "" + this.messageContent, fromUser: true });
-  }
-  RoomMessageReceived(dto: any) {
-    // Assuming dto contains a 'message' and 'username' field
-    const isFromUser = dto.username === this.username;
-    this.messages.unshift({ text: dto.username + ": " + dto.message, fromUser: isFromUser });
-  }
-
-  ServerBroadcastsMessageWithUsername(dto: ServerBroadcastsMessageWithUsernameDto) {
-    const isFromUser = dto.username === this.username;
-    this.messages.unshift({ text: dto.username + ": " + dto.message, fromUser: isFromUser });
-  }
-
-  ServerAddsClientToRoom(dto: ServerAddsClientToRoomDto) {
-    console.log("A new user joined the room " + this.tripId);
+  trackById(index: number, message: any): any {
+    return message.id;  // Make sure each message has a unique 'id' property
   }
 }
