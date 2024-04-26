@@ -1,4 +1,4 @@
-﻿namespace ClipTok.Utils;
+﻿namespace Utilities;
 
 public class FormatConnectionString
 {
