@@ -24,7 +24,7 @@ Ensure that your PostgreSQL database is up and running.
    ```bash
    npm install
 3. Start the Angular server:
- ```bash
+    ```bash
    ng serve
 4. Access the frontend by visiting http://localhost:4200 in your web browser.
 
