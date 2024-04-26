@@ -48,6 +48,7 @@ export class ViewTravelComponent implements OnInit{
       }
     });
 
+    // If user is Logged IN
     if (this.googleApi.getToken()) {
       const profile = this.googleApi.getProfile();
       if (profile) {
@@ -59,6 +60,18 @@ export class ViewTravelComponent implements OnInit{
         this.username = this.userInfo.name;
         this.picture = this.userInfo.picture;
       }
+
+      const timezone = this.timezoneService.getUserTimezone();
+      const country = this.timezoneService.getCountryByTimezone(timezone);
+      if (country) {
+        this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
+      }
+    }
+
+    // If user is NOT Logged IN
+    if (!this.googleApi.getToken()) {
+      this.username = 'GUEST' + Math.floor(Math.random() * 1000);
+      this.picture = "/assets/user-icon.png"
 
       const timezone = this.timezoneService.getUserTimezone();
       const country = this.timezoneService.getCountryByTimezone(timezone);
