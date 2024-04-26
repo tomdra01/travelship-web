@@ -21,8 +21,10 @@ Ensure that your PostgreSQL database is up and running.
    ```bash
    cd Travelship/frontend
 2. Install dependencies:
+   ```bash
    npm install
 3. Start the Angular server:
+ ```bash
    ng serve
 4. Access the frontend by visiting http://localhost:4200 in your web browser.
 
@@ -30,14 +32,18 @@ Ensure that your PostgreSQL database is up and running.
 
 ##### HttpApi
 1. Navigate to the HttpApi directory:
+   ```bash
    cd Travelship/backend/HttpApi
 2. Run the Http API:
+   ```bash
    dotnet run
 
 ##### WebsocketApi
 1. Navigate to the WebsocketApi directory:
+   ```bash
    cd ../WebsocketApi
 2. Run the Websocket API:
+   ```bash
    dotnet run
 
 ### Authors
