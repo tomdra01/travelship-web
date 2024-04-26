@@ -38,11 +38,10 @@ export class CreateTripComponent {
       this.tripService.createTrip(formValue).subscribe({
         next: (trip) => {
           console.log('Trip created successfully:', trip);
-          this.router.navigate(['/some-success-route']);  // Adjust the route as necessary
+          this.router.navigate(['/travel/'+trip.id]);
         },
         error: (error) => {
           console.error('Failed to create trip:', error);
-          // Handle errors, perhaps show a user-friendly error message
         }
       });
     }
