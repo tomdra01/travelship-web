@@ -1,5 +1,5 @@
 using System.Text;
-using ClipTok.Utils;
+using Utilities;
 using dotenv.net;
 using Service;
 using Repository;
@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 DotEnv.Load();
 
-var dbConString = FormatConnectionString.Format(Environment.GetEnvironmentVariable("DB_CON"));
+var dbConString = FormatConnectionString.Format(Configuration.DbCon);
 
 builder.Services.AddSingleton<TripRepository>(provider =>
     new TripRepository(dbConString));
@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder.WithOrigins("http://localhost:4200", "http://localhost:3000", "http://localhost:5181", "http://localhost:8181")
-            //builder.WithOrigins("https://craftburger-2fe56.firebaseapp.com")
+            //builder.WithOrigins("deployed url here")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -48,7 +48,7 @@ var policyCollection = new HeaderPolicyCollection()
     .AddDefaultSecurityHeaders()
     .AddContentSecurityPolicy(builder =>
     {
-        //builder.AddDefaultSrc().Self().From("https://craftburger-2fe56.firebaseapp.com");
+        //builder.AddDefaultSrc().Self().From("deployed url here");
         builder.AddDefaultSrc().Self().From("http://localhost:4200, http://localhost:3000");
     });
 app.UseSecurityHeaders(policyCollection);

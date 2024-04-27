@@ -19,6 +19,25 @@
   position: relative;
 }
 
+.pin {
+  user-select: none; /* Prevent text selection */
+  position: absolute;
+  width: 200px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.close {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
 .button {
   background-color: #000;
   color: #fff;
