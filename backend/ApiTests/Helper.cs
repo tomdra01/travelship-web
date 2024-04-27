@@ -7,12 +7,13 @@ public static class Helper
 {
     public static readonly NpgsqlDataSource DataSource;
     public static readonly string ClientBaseUrl = "http://localhost:4200/";
-    public static readonly string ApiBaseUrl = "http://localhost:5118/api";
+    public static readonly string ApiBaseUrl = "http://localhost:5181/api";
 
     static Helper()
     {
         var envVarKeyName = "pgconn";
-        var connectionString = Environment.GetEnvironmentVariable(envVarKeyName);
+        ///var connectionString = Environment.GetEnvironmentVariable("DB_CON");
+        var connectionString = "postgres://jiddccrd:dStoIch-khgauAEnetRDOCnLyNg_8Km8@cornelius.db.elephantsql.com/jiddccrd";
         if (connectionString == null)
         {
             throw new Exception("Connection string environment variable 'pgconn' is empty.");
@@ -54,9 +55,9 @@ public static class Helper
 
 
     public static string RebuildScript = @"
-        DROP TABLE IF EXISTS trips CASCADE;
+        DROP TABLE IF EXISTS Test.trips CASCADE;
         
-        CREATE TABLE trips (
+        CREATE TABLE Test.trips (
             id           serial PRIMARY KEY,
             name         varchar(255) NOT NULL,
             location     varchar(255) NOT NULL,
