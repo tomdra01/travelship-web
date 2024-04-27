@@ -1,6 +1,4 @@
 ﻿using Dapper;
-using dotenv.net;
-using Utilities;
 using Npgsql;
 
 namespace ApiTests;
@@ -9,19 +7,20 @@ public static class Helper
 {
     public static readonly NpgsqlDataSource DataSource;
     public static readonly string ClientBaseUrl = "http://localhost:4200/";
-    public static readonly string ApiBaseUrl = "http://localhost:5181/api";
+    public static readonly string ApiBaseUrl = "http://localhost:5118/api";
 
     static Helper()
     {
-        var rawConnectionString = "postgres://jiddccrd:dStoIch-khgauAEnetRDOCnLyNg_8Km8@cornelius.db.elephantsql.com/jiddccrd";
-        if (rawConnectionString == null)
+        var envVarKeyName = "pgconn";
+        var connectionString = Environment.GetEnvironmentVariable(envVarKeyName);
+        if (connectionString == null)
         {
-            throw new Exception("Connection string is empty.");
+            throw new Exception("Connection string environment variable 'pgconn' is empty.");
         }
 
         try
         {
-            var uri = new Uri(rawConnectionString);
+            var uri = new Uri(connectionString);
             var properlyFormattedConnectionString = string.Format(
                 "Server={0};Database={1};User Id={2};Password={3};Port={4};Pooling=true;MaxPoolSize=6;",
                 uri.Host,
@@ -38,13 +37,6 @@ public static class Helper
         }
     }
     
-    public static NpgsqlConnection GetOpenConnection()
-    {
-        var connectionString = "Host=localhost;Database=mydb;Username=myuser;Password=mypass;";
-        return new NpgsqlConnection(connectionString);
-    }
-
-
     public static void TriggerRebuild()
     {
         using (var conn = DataSource.OpenConnection())
@@ -60,13 +52,19 @@ public static class Helper
         }
     }
 
+
     public static string RebuildScript = @"
-DROP TABLE IF EXISTS test.trips CASCADE;
-CREATE TABLE test.trips (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
-    price DECIMAL NOT NULL,
-    description VARCHAR(500) NOT NULL,
-    imageurl VARCHAR(2083) NULL
-);";
+        DROP TABLE IF EXISTS trips CASCADE;
+        
+        CREATE TABLE trips (
+            id           serial PRIMARY KEY,
+            name         varchar(255) NOT NULL,
+            location     varchar(255) NOT NULL,
+            date         date NOT NULL,
+            description  text,
+            peoplejoined integer NOT NULL DEFAULT 0,
+            code         varchar(10) CONSTRAINT unique_trip_code UNIQUE
+        );
+        ";
+    
 }

@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace ApiTests.Models;
 
-namespace ApiTests.Model;
+using System.ComponentModel.DataAnnotations;
+
 
 public class Trip
 {   
@@ -17,13 +18,13 @@ public class Trip
 
     [Required(ErrorMessage = "Date is required.")]
     [DataType(DataType.Date)]
-    public DateTime? Date { get; set; }
+    public DateTime Date { get; set; }
 
     [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
     public string? Description { get; set; }
 
-    [Required(ErrorMessage = "PeopleJoined is required.")]
-    public int? PeopleJoined { get; set; }
+    [Range(0, int.MaxValue, ErrorMessage = "Number of people joined must be a non-negative number.")]
+    public int PeopleJoined { get; set; }
     
     [StringLength(6, ErrorMessage = "Code cannot exceed 6 characters.")]
     [RegularExpression("^[A-Z]*$", ErrorMessage = "Code must consist of uppercase letters only.")]
