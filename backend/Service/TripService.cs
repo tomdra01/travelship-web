@@ -73,12 +73,7 @@ public class TripService : ITripService
             try
             {
                 var trip = await _tripRepository.GetTripById(id);
-                if (trip == null) throw new KeyNotFoundException("Trip not found");
-                return trip;
-            }
-            catch (KeyNotFoundException)
-            {
-                throw;
+                return trip; 
             }
             catch (Exception)
             {
