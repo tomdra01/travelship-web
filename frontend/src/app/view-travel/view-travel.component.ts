@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, inject, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CommonModule, DatePipe} from "@angular/common";
 import {GoogleApiService} from "../../../service/google-api.service";
@@ -20,15 +20,28 @@ import {TimezoneService} from "../../../service/timezone.service";
   styleUrl: './view-travel.component.css'
 })
 export class ViewTravelComponent implements OnInit{
+
   tripId: number | undefined;
   tripInfo: any;
+
   userInfo?: { name: string; picture: string; email: string };
   username?: string;
   picture?: string;
   flagUrl: string | undefined;
+
   ws: WebSocket;
   messageContent: string = '';
   messages: { text: string, username: string, fromUser: boolean, flagUrl?: string }[] = [];
+
+  @ViewChild('pinboard', { static: true }) pinboard!: ElementRef;
+  pins = [
+    { id: 1, title: 'Pin 1', description: 'Description for Pin 1', x: 50, y: 100 },
+    { id: 2, title: 'Pin 2', description: 'Description for Pin 2', x: 150, y: 200 }
+  ];
+  currentPin: any = null;
+  offsetX: number = 0;
+  offsetY: number = 0;
+  dragging: boolean = false;
 
   constructor(
     private tripService: TripService,
@@ -149,5 +162,48 @@ export class ViewTravelComponent implements OnInit{
 
   trackById(index: number, message: any): any {
     return message.id;  // Make sure each message has a unique 'id' property
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {
+    if (this.dragging) {
+      this.movePin(event);
+    }
+  }
+
+  @HostListener('document:mouseup', ['$event'])
+  onMouseUp(event: MouseEvent): void {
+    if (this.dragging) {
+      this.dragging = false;
+    }
+  }
+
+  onDragStart(event: MouseEvent, pin: any): void {
+    this.dragging = true;
+    this.currentPin = pin;
+    this.offsetX = event.clientX - pin.x;
+    this.offsetY = event.clientY - pin.y;
+  }
+
+  movePin(event: MouseEvent): void {
+    let newX = event.clientX - this.offsetX;
+    let newY = event.clientY - this.offsetY;
+
+    // Constraints
+    const pinboardRect = this.pinboard.nativeElement.getBoundingClientRect();
+    const maxX = pinboardRect.width - 200;  // Assuming pin width is 200px
+    const maxY = pinboardRect.height - 100; // Assuming pin height is 100px
+
+    // Apply constraints
+    this.currentPin.x = Math.max(0, Math.min(newX, maxX));
+    this.currentPin.y = Math.max(0, Math.min(newY, maxY));
+  }
+
+  onButtonClick(pin: any): void {
+    alert('Button on ' + pin.title + ' clicked!');
+  }
+
+  removePin(pinToRemove: any): void {
+    this.pins = this.pins.filter(pin => pin !== pinToRemove);
   }
 }

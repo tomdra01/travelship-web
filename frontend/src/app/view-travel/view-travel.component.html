@@ -10,9 +10,20 @@
     <p>Loading trip details...</p>
   </ng-template>
 </div>
-<div class="pinboard">
-  <!-- Placeholder for dynamic pins -->
+
+<div class="pinboard" #pinboard>
+  <div *ngFor="let pin of pins"
+       class="pin"
+       [style.top]="pin.y + 'px'"
+       [style.left]="pin.x + 'px'"
+       (mousedown)="onDragStart($event, pin)">
+    <h3>{{ pin.title }}</h3>
+    <p>{{ pin.description }}</p>
+    <button class="button" (click)="onButtonClick(pin)">Click Me</button>
+    <span class="close" (click)="removePin(pin)">&times;</span>
+  </div>
 </div>
+
 
 <img class="profilePic" src="{{ userInfo?.picture }}">
 <div class="user-info">
