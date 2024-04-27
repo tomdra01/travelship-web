@@ -38,7 +38,7 @@ public class TripsController : ControllerBase
         {
             return NotFound("Trip not found");
         }
-        return trip;
+        return Ok(trip);
     }
     
     [HttpGet("bycode/{code}")]
