@@ -34,6 +34,10 @@ const routes: Routes = [
     component: CreateTripComponent,
   },
   {
+    path: 'notfound',
+    component: NotFoundComponent,
+  },
+  {
     path: '**',
     component: NotFoundComponent
   }

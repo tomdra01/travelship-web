@@ -17,20 +17,18 @@
        [style.top]="pin.y + 'px'"
        [style.left]="pin.x + 'px'"
        (mousedown)="onDragStart($event, pin)">
-    <h3>{{ pin.title }}</h3>
+    <h3>{{ pin.title }}</h3> <p>{{pin.id}}</p>
     <p>{{ pin.description }}</p>
     <button class="button" (click)="onButtonClick(pin)">Click Me</button>
     <span class="close" (click)="removePin(pin)">&times;</span>
   </div>
 </div>
-
-
-<img class="profilePic" src="{{ userInfo?.picture }}">
-<div class="user-info">
-  <div class="text name">Signed In As: {{ userInfo?.name }}</div>
+<div>
+  <input type="text" [(ngModel)]="pinName">
+  <button (click)="addPin()">Add Pin</button>
 </div>
 
-<div class="chat-container">
+<div class="chat-container"> Room Chat
   <div class="chat-messages">
     <!-- Using Angular's trackBy function for better performance -->
     <div *ngFor="let message of messages; trackBy: trackById" [ngClass]="{'user-message': message.fromUser, 'other-message': !message.fromUser}" class="message-entry">
