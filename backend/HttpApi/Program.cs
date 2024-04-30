@@ -1,8 +1,8 @@
 using System.Text;
-using Utilities;
 using dotenv.net;
 using Service;
 using Repository;
+using Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 

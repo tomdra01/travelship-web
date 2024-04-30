@@ -42,6 +42,7 @@ export class ViewTravelComponent implements OnInit{
   offsetX: number = 0;
   offsetY: number = 0;
   dragging: boolean = false;
+  pinName: string = '';
 
   constructor(
     private tripService: TripService,
@@ -139,6 +140,7 @@ export class ViewTravelComponent implements OnInit{
       },
       error: (error) => {
         console.error('Failed to load trip:', error);
+        this.router.navigate(['notfound'])
       }
     });
   }
@@ -205,5 +207,10 @@ export class ViewTravelComponent implements OnInit{
 
   removePin(pinToRemove: any): void {
     this.pins = this.pins.filter(pin => pin !== pinToRemove);
+  }
+
+  addPin() {
+    this.pins.push({id: this.pins.length + 1, title: this.pinName, description: 'sample', x: 0, y: 0});
+    this.pinName = '';
   }
 }
