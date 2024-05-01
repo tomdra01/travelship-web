@@ -1,7 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
-import { Observable, Subject } from 'rxjs';
 import {Router} from "@angular/router";
 
 @Injectable({
@@ -13,6 +11,7 @@ export class GoogleApiService {
 
   constructor() {
     this.initConfiguration();
+    this.handleAuthenticationEvents();
   }
   initConfiguration() {
     const authConfig: AuthConfig = {
@@ -28,6 +27,17 @@ export class GoogleApiService {
     this.oAuthService.configure(authConfig);
     this.oAuthService.loadDiscoveryDocumentAndTryLogin();
     this.oAuthService.setupAutomaticSilentRefresh();
+  }
+
+  handleAuthenticationEvents() {
+    this.oAuthService.events.subscribe(event => {
+      if (event.type === 'token_received') {
+        // Tokens are received, now you can navigate
+        this.router.navigate(['']).then(() => {
+          window.location.reload();
+        });
+      }
+    });
   }
 
   login() {
