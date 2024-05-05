@@ -104,14 +104,19 @@ export class ViewTravelComponent implements OnInit{
     };
 
     this.ws.onmessage = (event) => {
-      const dto = JSON.parse(event.data);
-      if (dto.eventType === 'ServerBroadcastsMessageWithUsername') {
-        this.messages.push({
-          text: dto.message,
-          username: dto.username,
-          fromUser: dto.username === this.username,
-          flagUrl: dto.username === this.username ? this.flagUrl : undefined
-        });
+      const data = JSON.parse(event.data);
+      switch(data.eventType) {
+        case 'ServerBroadcastsMessageWithUsername':
+          this.messages.push({
+            text: data.message,
+            username: data.username,
+            fromUser: data.username === this.username,
+            flagUrl: data.username === this.username ? this.flagUrl : undefined
+          });
+          break;
+        case 'ServerMovesPin':
+          this.movePinOnBoard(data.pinId, data.xPosition, data.yPosition);
+          break;
       }
     };
 
@@ -129,6 +134,14 @@ export class ViewTravelComponent implements OnInit{
       };
       this.ws.send(JSON.stringify(message));
       this.messageContent = '';
+    }
+  }
+
+  movePinOnBoard(pinId: number, newX: number, newY: number): void {
+    const pin = this.pins.find(p => p.id === pinId);
+    if (pin) {
+      pin.x = newX;
+      pin.y = newY;
     }
   }
 
@@ -176,6 +189,13 @@ export class ViewTravelComponent implements OnInit{
   onMouseUp(event: MouseEvent): void {
     if (this.dragging) {
       this.dragging = false;
+      this.ws.send(JSON.stringify({
+        eventType: 'ClientWantsToMovePin',
+        pinId: this.currentPin.id,
+        xPosition: this.currentPin.x,
+        yPosition: this.currentPin.y,
+        roomId: this.tripId
+      }));
     }
   }
 
