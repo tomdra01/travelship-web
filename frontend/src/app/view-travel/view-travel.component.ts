@@ -115,7 +115,7 @@ export class ViewTravelComponent implements OnInit{
           });
           break;
         case 'ServerMovesPin':
-          this.movePinOnBoard(data.pinId, data.xPosition, data.yPosition);
+          this.movePinUpdate(data.PinId, data.XPosition, data.YPosition);
           break;
       }
     };
@@ -134,14 +134,6 @@ export class ViewTravelComponent implements OnInit{
       };
       this.ws.send(JSON.stringify(message));
       this.messageContent = '';
-    }
-  }
-
-  movePinOnBoard(pinId: number, newX: number, newY: number): void {
-    const pin = this.pins.find(p => p.id === pinId);
-    if (pin) {
-      pin.x = newX;
-      pin.y = newY;
     }
   }
 
@@ -232,4 +224,12 @@ export class ViewTravelComponent implements OnInit{
     this.pins.push({id: this.pins.length + 1, title: this.pinName, description: 'sample', x: 0, y: 0});
     this.pinName = '';
   }
+
+    private movePinUpdate(pinId: number, xPosition: number, yPosition: number) {
+        const pin = this.pins.find(pin => pin.id === pinId);
+        if (pin) {
+        pin.x = xPosition;
+        pin.y = yPosition;
+        }
+    }
 }
