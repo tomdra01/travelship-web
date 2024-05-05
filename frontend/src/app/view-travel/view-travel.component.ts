@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CommonModule, DatePipe} from "@angular/common";
 import {GoogleApiService} from "../../../service/google-api.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ServerAddsClientToRoomDto, ServerBroadcastsMessageWithUsernameDto} from "../../../ws-dto/BaseDto";
 import {TripService} from "../../../service/TripService";
 import {TimezoneService} from "../../../service/timezone.service";
 

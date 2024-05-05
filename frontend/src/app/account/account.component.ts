@@ -22,6 +22,9 @@ export class AccountComponent implements OnInit{
 
   clickLogOut() {
     this.authService.logout();
+    this.router.navigate(['']).then(() => {
+      window.location.reload();
+    });
   }
 
   ngOnInit(): void {

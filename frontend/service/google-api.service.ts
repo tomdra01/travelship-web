@@ -32,7 +32,6 @@ export class GoogleApiService {
   handleAuthenticationEvents() {
     this.oAuthService.events.subscribe(event => {
       if (event.type === 'token_received') {
-        // Tokens are received, now you can navigate
         this.router.navigate(['']).then(() => {
           window.location.reload();
         });
