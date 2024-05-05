@@ -33,11 +33,7 @@ public class ClientWantsToMovePin : BaseEventHandler<ClientWantsToMovePinDto>
             // Serialize the movement to JSON
             var jsonMessage = JsonSerializer.Serialize(message);
 
-            // Use StateService to move the pin and broadcast the move
             StateService.MovePin(dto.RoomId, jsonMessage);
-
-            // Optionally, you might want to broadcast this move to the room
-            StateService.BroadcastToRoom(dto.RoomId, jsonMessage);
         }
         else
         {
