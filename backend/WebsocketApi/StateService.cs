@@ -72,12 +72,17 @@ public static class StateService
         }
     }
     
-    public static IEnumerable<string> GetLastMessagesForRoom(int room)
+    public static void MovePin(int roomId, string jsonMessage)
     {
-        if (RoomMessages.TryGetValue(room, out var messagesQueue))
+        if (Rooms.TryGetValue(roomId, out var guids))
         {
-            return messagesQueue.ToList();
+            foreach (var guid in guids)
+            {
+                if (Connections.TryGetValue(guid, out var ws))
+                {
+                    ws.Connection.Send(jsonMessage);
+                }
+            }
         }
-        return Enumerable.Empty<string>();
     }
 }
