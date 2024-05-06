@@ -1,7 +1,7 @@
-﻿namespace WebsocketApi.DTOs;
-
-using Fleck;
+﻿using Fleck;
 using lib;
+
+namespace WebsocketApi.Events;
 
 public class ClientWantsToSetUsernameDto : BaseDto
 {

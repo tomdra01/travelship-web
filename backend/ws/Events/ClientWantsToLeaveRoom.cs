@@ -1,9 +1,8 @@
-﻿namespace WebsocketApi.DTOs;
-
-using System.Net.Sockets;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Fleck;
 using lib;
+
+namespace WebsocketApi.Events;
 
 public class ClientWantsToLeaveRoomDto : BaseDto
 {

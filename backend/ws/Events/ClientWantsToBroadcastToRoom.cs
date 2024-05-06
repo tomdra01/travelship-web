@@ -1,11 +1,8 @@
-﻿namespace WebsocketApi.DTOs;
-
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Fleck;
 using lib;
-using System.Net.Http;
-using System.Net.Http.Headers;
+
+namespace WebsocketApi.Events;
 
 public class ClientWantsToBroadcastToRoomDto : BaseDto
 {

@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>HttpApi</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,9 +24,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Service\Service.csproj" />
-      <ProjectReference Include="..\Repository\Repository.csproj" />
-      <ProjectReference Include="..\Utilities\Utilities.csproj" />
+      <ProjectReference Include="..\service\service.csproj" />
+      <ProjectReference Include="..\repository\repository.csproj" />
+      <ProjectReference Include="..\utility\utility.csproj" />
     </ItemGroup>
 
 
