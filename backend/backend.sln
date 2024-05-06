@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsocketApi", "WebsocketApi\WebsocketApi.csproj", "{B80C9031-BA00-4DF0-A3AB-AC01733A10F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ws", "ws\ws.csproj", "{B80C9031-BA00-4DF0-A3AB-AC01733A10F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpApi", "HttpApi\HttpApi.csproj", "{466C0018-CD1D-4725-8FBB-3B3B67523A98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "api\api.csproj", "{466C0018-CD1D-4725-8FBB-3B3B67523A98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{EB176760-F7F9-4EA9-A5DF-C48AF274861C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "service", "service\service.csproj", "{EB176760-F7F9-4EA9-A5DF-C48AF274861C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{8F95800B-F22D-4A27-AD33-EDB589EA861C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "repository", "repository\repository.csproj", "{8F95800B-F22D-4A27-AD33-EDB589EA861C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{50F24210-3B79-4E6D-B692-3A79E7B594FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "utility", "utility\utility.csproj", "{50F24210-3B79-4E6D-B692-3A79E7B594FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTests", "ApiTests\ApiTests.csproj", "{D58FB590-12D8-48FB-BFD3-31785C6D3BF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{D58FB590-12D8-48FB-BFD3-31785C6D3BF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

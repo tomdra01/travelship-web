@@ -37,7 +37,7 @@ server.Start(socket =>
         }
         catch (Exception e)
         {
-            Console.WriteLine("Caught Exception at WebsocketApi/Program.cs: " + e.Message);
+            Console.WriteLine("Caught Exception at ws/Program.cs: " + e.Message);
             socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClient { errorMessage = "An error occurred: " + e.Message }));
         }
 
