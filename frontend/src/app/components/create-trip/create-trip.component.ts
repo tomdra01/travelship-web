@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {TripService} from "../../service/TripService";
 import {Router} from "@angular/router";
+import {TripService} from "../../service/TripService";
 
 @Component({
   selector: 'app-create-trip',

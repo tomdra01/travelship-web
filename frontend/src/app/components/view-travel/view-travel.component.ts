@@ -1,11 +1,11 @@
-import {Component, ElementRef, HostListener, inject, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {CommonModule, DatePipe} from "@angular/common";
-import {GoogleApiService} from "../../service/google-api.service";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {TripService} from "../../service/TripService";
-import {TimezoneService} from "../../service/timezone.service";
-import {WebsocketService} from "../../service/websocket.service";
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { CommonModule, DatePipe } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { WebsocketService } from "../../service/websocket.service";
+import { TripDetailsService } from "../../service/trip-details.service";
+import { UserDetailsService } from "../../service/user-details.service";
+import {Trip} from "../../../../models/Trip";
 
 @Component({
   selector: 'app-view-travel',
@@ -22,7 +22,6 @@ import {WebsocketService} from "../../service/websocket.service";
 export class ViewTravelComponent implements OnInit {
   tripId: number | undefined;
   tripInfo: any;
-  userInfo?: { name: string; picture: string; email: string };
   username?: string;
   picture?: string;
   flagUrl: string | undefined;
@@ -41,12 +40,11 @@ export class ViewTravelComponent implements OnInit {
   @ViewChild('pinboard', { static: true }) pinboard!: ElementRef;
 
   constructor(
-    private tripService: TripService,
     private route: ActivatedRoute,
-    private timezoneService: TimezoneService,
-    private googleApi: GoogleApiService,
     private router: Router,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private tripDetailsService: TripDetailsService,
+    private userDetails: UserDetailsService
   ) {}
 
   ngOnInit(): void {
@@ -57,38 +55,15 @@ export class ViewTravelComponent implements OnInit {
       }
     });
 
-    this.initUserDetails();
+    this.setUserDetails();
     this.initWebSocket();
   }
 
-  private initUserDetails() {
-    if (this.googleApi.getToken()) {
-      const profile = this.googleApi.getProfile();
-      if (profile) {
-        this.userInfo = {
-          name: profile['name'],
-          picture: profile['picture'],
-          email: profile['email']
-        };
-        this.username = this.userInfo.name;
-        this.picture = this.userInfo.picture;
-      }
-
-      const timezone = this.timezoneService.getUserTimezone();
-      const country = this.timezoneService.getCountryByTimezone(timezone);
-      if (country) {
-        this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
-      }
-    } else {
-      this.username = 'GUEST' + Math.floor(Math.random() * 1000);
-      this.picture = "/assets/user-icon.png";
-
-      const timezone = this.timezoneService.getUserTimezone();
-      const country = this.timezoneService.getCountryByTimezone(timezone);
-      if (country) {
-        this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
-      }
-    }
+  private setUserDetails() {
+    this.userDetails.getUserDetails();
+    this.username = this.userDetails.username;
+    this.picture = this.userDetails.picture;
+    this.flagUrl = this.userDetails.flagUrl;
   }
 
   private initWebSocket() {
@@ -122,13 +97,17 @@ export class ViewTravelComponent implements OnInit {
   }
 
   loadTripDetails(tripId: number) {
-    this.tripService.getTripById(tripId).subscribe({
-      next: (trip) => {
+    this.tripDetailsService.loadTripDetails(tripId).subscribe({
+      next: (trip: Trip | null) => {
         this.tripInfo = trip;
+        if (!this.tripInfo) {
+          console.error('Failed to load trip details');
+          this.router.navigate(['notfound']);
+        }
       },
-      error: (error) => {
-        console.error('Failed to load trip:', error);
-        this.router.navigate(['notfound'])
+      error: (error: any) => {
+        console.error('Failed to load trip details:', error);
+        this.router.navigate(['notfound']);
       }
     });
   }
@@ -165,12 +144,10 @@ export class ViewTravelComponent implements OnInit {
     let newX = event.clientX - this.offsetX;
     let newY = event.clientY - this.offsetY;
 
-    // Constraints
     const pinboardRect = this.pinboard.nativeElement.getBoundingClientRect();
     const maxX = pinboardRect.width - 200;  // Assuming pin width is 200px
     const maxY = pinboardRect.height - 100; // Assuming pin height is 100px
 
-    // Apply constraints
     this.currentPin.x = Math.max(0, Math.min(newX, maxX));
     this.currentPin.y = Math.max(0, Math.min(newY, maxY));
   }
@@ -197,6 +174,6 @@ export class ViewTravelComponent implements OnInit {
   }
 
   trackById(index: number, message: any): any {
-    return message.id;  // Make sure each message has a unique 'id' property
+    return message.id;
   }
 }
