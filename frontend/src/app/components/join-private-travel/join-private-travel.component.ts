@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-import {TripService} from "../../../service/TripService";
+import {TripService} from "../../service/TripService";
 import {FormsModule} from "@angular/forms";
 
 @Component({

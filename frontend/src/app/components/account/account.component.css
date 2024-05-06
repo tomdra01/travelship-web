@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   margin-top: 5%;
-  justify-content: start; /* Align items from the start to ensure a neat layout */
+  justify-content: flex-start; /* Align items from the start to ensure a neat layout */
   padding-left: 3%; /* Provides padding from the left side of the container */
 }
 

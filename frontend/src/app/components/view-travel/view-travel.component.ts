@@ -1,10 +1,11 @@
 import {Component, ElementRef, HostListener, inject, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CommonModule, DatePipe} from "@angular/common";
-import {GoogleApiService} from "../../../service/google-api.service";
+import {GoogleApiService} from "../../service/google-api.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {TripService} from "../../../service/TripService";
-import {TimezoneService} from "../../../service/timezone.service";
+import {TripService} from "../../service/TripService";
+import {TimezoneService} from "../../service/timezone.service";
+import {WebsocketService} from "../../service/websocket.service";
 
 @Component({
   selector: 'app-view-travel',
@@ -18,21 +19,15 @@ import {TimezoneService} from "../../../service/timezone.service";
   templateUrl: './view-travel.component.html',
   styleUrl: './view-travel.component.css'
 })
-export class ViewTravelComponent implements OnInit{
-
+export class ViewTravelComponent implements OnInit {
   tripId: number | undefined;
   tripInfo: any;
-
   userInfo?: { name: string; picture: string; email: string };
   username?: string;
   picture?: string;
   flagUrl: string | undefined;
-
-  ws: WebSocket;
   messageContent: string = '';
   messages: { text: string, username: string, fromUser: boolean, flagUrl?: string }[] = [];
-
-  @ViewChild('pinboard', { static: true }) pinboard!: ElementRef;
   pins = [
     { id: 1, title: 'Pin 1', description: 'Description for Pin 1', x: 50, y: 100 },
     { id: 2, title: 'Pin 2', description: 'Description for Pin 2', x: 150, y: 200 }
@@ -43,15 +38,16 @@ export class ViewTravelComponent implements OnInit{
   dragging: boolean = false;
   pinName: string = '';
 
+  @ViewChild('pinboard', { static: true }) pinboard!: ElementRef;
+
   constructor(
     private tripService: TripService,
     private route: ActivatedRoute,
     private timezoneService: TimezoneService,
     private googleApi: GoogleApiService,
-    private router: Router
-  ) {
-    this.ws = new WebSocket('ws://localhost:8181');
-  }
+    private router: Router,
+    private websocketService: WebsocketService
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -61,7 +57,11 @@ export class ViewTravelComponent implements OnInit{
       }
     });
 
-    // If user is Logged IN
+    this.initUserDetails();
+    this.initWebSocket();
+  }
+
+  private initUserDetails() {
     if (this.googleApi.getToken()) {
       const profile = this.googleApi.getProfile();
       if (profile) {
@@ -79,12 +79,9 @@ export class ViewTravelComponent implements OnInit{
       if (country) {
         this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
       }
-    }
-
-    // If user is NOT Logged IN
-    if (!this.googleApi.getToken()) {
+    } else {
       this.username = 'GUEST' + Math.floor(Math.random() * 1000);
-      this.picture = "/assets/user-icon.png"
+      this.picture = "/assets/user-icon.png";
 
       const timezone = this.timezoneService.getUserTimezone();
       const country = this.timezoneService.getCountryByTimezone(timezone);
@@ -92,19 +89,10 @@ export class ViewTravelComponent implements OnInit{
         this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
       }
     }
-
-    this.initWebSocket();
   }
 
   private initWebSocket() {
-    this.ws.onopen = () => {
-      console.log("WebSocket connection established.");
-      this.clientSetUsername();
-      this.enterRoom();
-    };
-
-    this.ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+    this.websocketService.initWebSocket(this.username!, this.tripId!, (data) => {
       switch(data.eventType) {
         case 'ServerBroadcastsMessageWithUsername':
           this.messages.push({
@@ -118,21 +106,17 @@ export class ViewTravelComponent implements OnInit{
           this.movePinUpdate(data.PinId, data.XPosition, data.YPosition);
           break;
       }
-    };
-
-    this.ws.onerror = (event) => {
-      console.error("WebSocket error:", event);
-    };
+    });
   }
 
   sendMessage() {
     if (this.messageContent.trim()) {
       const message = {
         eventType: "ClientWantsToBroadcastToRoom",
-        roomId: Number(this.tripId),
+        roomId: this.tripId!,
         message: this.messageContent
       };
-      this.ws.send(JSON.stringify(message));
+      this.websocketService.sendMessage(message);
       this.messageContent = '';
     }
   }
@@ -149,27 +133,6 @@ export class ViewTravelComponent implements OnInit{
     });
   }
 
-  private clientSetUsername() {
-    const object = {
-      eventType: "ClientWantsToSetUsername",
-      Username: this.username
-    };
-    this.ws.send(JSON.stringify(object));
-    console.log("Username set to: " + this.username);
-  }
-
-  private enterRoom() {
-    const object = {
-      eventType: "ClientWantsToEnterRoom",
-      roomId: Number(this.tripId)
-    };
-    this.ws.send(JSON.stringify(object));
-  }
-
-  trackById(index: number, message: any): any {
-    return message.id;  // Make sure each message has a unique 'id' property
-  }
-
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (this.dragging) {
@@ -181,13 +144,13 @@ export class ViewTravelComponent implements OnInit{
   onMouseUp(event: MouseEvent): void {
     if (this.dragging) {
       this.dragging = false;
-      this.ws.send(JSON.stringify({
+      this.websocketService.sendMessage({
         eventType: 'ClientWantsToMovePin',
         pinId: this.currentPin.id,
         xPosition: this.currentPin.x,
         yPosition: this.currentPin.y,
-        roomId: this.tripId
-      }));
+        roomId: this.tripId!
+      });
     }
   }
 
@@ -225,11 +188,15 @@ export class ViewTravelComponent implements OnInit{
     this.pinName = '';
   }
 
-    private movePinUpdate(pinId: number, xPosition: number, yPosition: number) {
-        const pin = this.pins.find(pin => pin.id === pinId);
-        if (pin) {
-        pin.x = xPosition;
-        pin.y = yPosition;
-        }
+  private movePinUpdate(pinId: number, xPosition: number, yPosition: number) {
+    const pin = this.pins.find(pin => pin.id === pinId);
+    if (pin) {
+      pin.x = xPosition;
+      pin.y = yPosition;
     }
+  }
+
+  trackById(index: number, message: any): any {
+    return message.id;  // Make sure each message has a unique 'id' property
+  }
 }

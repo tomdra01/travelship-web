@@ -1,28 +1,29 @@
-.title1 {
+.title1{
   font-size: 8rem;
   font-weight: bold;
   color: #000000;
   margin-left: 3%;
 }
 
-.title2 {
+.title2{
   font-size: 3rem;
   font-weight: bold;
   color: #000000;
   margin-left: 3%;
 }
 
-.spaceDivider {
+.spaceDivider{
   margin-top: 4%;
   margin-bottom: 4%;
 }
 
-.buttonContainer {
+.buttonContainer{
   display: flex;
   justify-content: center;
   margin-bottom: 12%;
   margin-top: 10%;
 }
+
 
 .button {
   background-color: #000;
@@ -41,46 +42,22 @@
   border: 2px solid #000;
 }
 
-.image {
-  width: 40%;
+.worldImage {
+  margin-left: 12%;
   height: 40vh;
-  background-image: url("/assets/travel1.svg");
+  width: 100%;
+  background-image: url("/src/assets/travel2.svg");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: -1;
+  z-index: 0;
 }
 
 .content-container {
   display: flex;
-  align-items: flex-start; /* Align items at the start of the flex container */
-  justify-content: space-between; /* Spreads the children across the container */
-  width: 100%; /* Full width to ensure the container expands */
-}
-
-.form-container {
-  flex-grow: 1; /* Allows the form to grow and take necessary space */
-  margin-right: 20px; /* Adds margin between the form and the image */
+  align-items: center;
 }
 
 .text-container {
   margin-right: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin: 1% 0;
-}
-
-.form-control {
-  width: 45%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-left: 3%;
-}
-
-.form-group div {
-  color: red;
-  font-size: 0.8rem;
-  margin-left: 3%;
 }

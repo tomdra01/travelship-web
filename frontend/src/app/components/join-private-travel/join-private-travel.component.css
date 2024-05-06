@@ -52,6 +52,6 @@ input[type="text"] {
   right: 82%;
   width: 320px;
   height: 320px;
-  background: url('/assets/baloon.svg') center/cover no-repeat;
+  background: url('/src/assets/baloon.svg') center/cover no-repeat;
   z-index: -1;
 }

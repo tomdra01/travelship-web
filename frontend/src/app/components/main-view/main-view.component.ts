@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {HeropageComponent} from "../heropage/heropage.component";
 import {Router} from "@angular/router";
-import {TripService} from "../../../service/TripService";
+import {TripService} from "../../service/TripService";
 
 @Component({
   selector: 'app-main-view',
