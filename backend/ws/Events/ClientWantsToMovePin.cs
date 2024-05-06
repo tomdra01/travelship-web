@@ -1,12 +1,8 @@
 ﻿namespace WebsocketApi.DTOs;
 
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using Fleck;
 using lib;
-using System.Net.Http;
-using System.Net.Http.Headers;
-
 
 public class ClientWantsToMovePinDto : BaseDto
 {
