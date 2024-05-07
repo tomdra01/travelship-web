@@ -6,6 +6,7 @@ import { WebsocketService } from "../../service/websocket.service";
 import { TripDetailsService } from "../../service/trip-details.service";
 import { UserDetailsService } from "../../service/user-details.service";
 import {Trip} from "../../../../models/Trip";
+import { fabric } from 'fabric';
 
 @Component({
   selector: 'app-view-travel',
@@ -31,13 +32,7 @@ export class ViewTravelComponent implements OnInit {
     { id: 1, title: 'Pin 1', description: 'Description for Pin 1', x: 50, y: 100 },
     { id: 2, title: 'Pin 2', description: 'Description for Pin 2', x: 150, y: 200 }
   ];
-  currentPin: any = null;
-  offsetX: number = 0;
-  offsetY: number = 0;
-  dragging: boolean = false;
-  pinName: string = '';
-
-  @ViewChild('pinboard', { static: true }) pinboard!: ElementRef;
+  private canvas!: fabric.Canvas;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +50,7 @@ export class ViewTravelComponent implements OnInit {
       }
     });
 
+    this.initializeFabric();
     this.setUserDetails();
     this.initWebSocket();
   }
@@ -78,10 +74,78 @@ export class ViewTravelComponent implements OnInit {
           });
           break;
         case 'ServerMovesPin':
-          this.movePinUpdate(data.PinId, data.XPosition, data.YPosition);
+          this.moveFabricPin(data.PinId, data.XPosition, data.YPosition);
           break;
       }
     });
+  }
+
+  initializeFabric() {
+    this.canvas = new fabric.Canvas('pinboard', {
+      hoverCursor: 'pointer',
+      selection: true,
+      backgroundColor: '#f3f3f3'
+    });
+
+    this.canvas.on('object:moving', (e) => {
+      let obj = e.target as CustomFabricObject; // Use type assertion here
+      if (obj && obj.id !== undefined) { // Check that `id` is not undefined
+        this.websocketService.sendMessage({
+          eventType: 'ClientWantsToMovePin',
+          pinId: obj.id,
+          xPosition: obj.left,
+          yPosition: obj.top,
+          roomId: this.tripId!
+        });
+      }
+    });
+
+
+    // Load pins initially
+    this.pins.forEach(pin => this.addFabricPin(pin));
+  }
+
+  addFabricPin(pin: any) {
+    const rect = new fabric.Rect({
+      left: pin.x,
+      top: pin.y,
+      fill: 'red',
+      width: 60,
+      height: 70,
+      hasControls: true
+    }) as CustomFabricObject;
+
+    rect.id = pin.id; // Now TypeScript knows about `id`
+    this.canvas.add(rect);
+  }
+
+  addNewObject() {
+    const rect = new fabric.Rect({
+      left: 100, // Default position
+      top: 100, // Default position
+      fill: 'red',
+      width: 60,
+      height: 70,
+      hasControls: true
+    });
+
+    this.canvas.add(rect);
+    this.canvas.setActiveObject(rect); // Optionally set it as the active object
+  }
+
+  removeSelectedObject() {
+    const activeObject = this.canvas.getActiveObject();
+    if (activeObject) {
+      this.canvas.remove(activeObject);
+    }
+  }
+
+  moveFabricPin(pinId: number, xPosition: number, yPosition: number) {
+    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
+    if (obj) {
+      obj.set({ left: xPosition, top: yPosition });
+      this.canvas.requestRenderAll();
+    }
   }
 
   sendMessage() {
@@ -112,68 +176,11 @@ export class ViewTravelComponent implements OnInit {
     });
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent): void {
-    if (this.dragging) {
-      this.movePin(event);
-    }
-  }
-
-  @HostListener('document:mouseup', ['$event'])
-  onMouseUp(event: MouseEvent): void {
-    if (this.dragging) {
-      this.dragging = false;
-      this.websocketService.sendMessage({
-        eventType: 'ClientWantsToMovePin',
-        pinId: this.currentPin.id,
-        xPosition: this.currentPin.x,
-        yPosition: this.currentPin.y,
-        roomId: this.tripId!
-      });
-    }
-  }
-
-  onDragStart(event: MouseEvent, pin: any): void {
-    this.dragging = true;
-    this.currentPin = pin;
-    this.offsetX = event.clientX - pin.x;
-    this.offsetY = event.clientY - pin.y;
-  }
-
-  movePin(event: MouseEvent): void {
-    let newX = event.clientX - this.offsetX;
-    let newY = event.clientY - this.offsetY;
-
-    const pinboardRect = this.pinboard.nativeElement.getBoundingClientRect();
-    const maxX = pinboardRect.width - 200;  // Assuming pin width is 200px
-    const maxY = pinboardRect.height - 100; // Assuming pin height is 100px
-
-    this.currentPin.x = Math.max(0, Math.min(newX, maxX));
-    this.currentPin.y = Math.max(0, Math.min(newY, maxY));
-  }
-
-  onButtonClick(pin: any): void {
-    alert('Button on ' + pin.title + ' clicked!');
-  }
-
-  removePin(pinToRemove: any): void {
-    this.pins = this.pins.filter(pin => pin !== pinToRemove);
-  }
-
-  addPin() {
-    this.pins.push({id: this.pins.length + 1, title: this.pinName, description: 'sample', x: 0, y: 0});
-    this.pinName = '';
-  }
-
-  private movePinUpdate(pinId: number, xPosition: number, yPosition: number) {
-    const pin = this.pins.find(pin => pin.id === pinId);
-    if (pin) {
-      pin.x = xPosition;
-      pin.y = yPosition;
-    }
-  }
-
   trackById(index: number, message: any): any {
     return message.id;
   }
+}
+
+interface CustomFabricObject extends fabric.Object {
+  id?: number; // Optional custom property
 }
