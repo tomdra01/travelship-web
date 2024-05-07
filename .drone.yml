@@ -1,0 +1,57 @@
+kind: pipeline
+type: docker
+name: integration
+
+steps:
+  - name: code-analysis
+    image: boulundeasv/dotnet-sdk-with-java
+    commands:
+      - dotnet sonarscanner begin /k:"project_key" /d:sonar.login="sqp_478135e4b3648233c52af52e191e4bd9369db857"
+      - cd backend/HttpApi & dotnet build HttpApi.csproj
+      - cd ../WebsocketApi & dotnet build WebsocketApi.csproj
+      - dotnet sonarscanner end /d:sonar.login="sqp_478135e4b3648233c52af52e191e4bd9369db857"
+
+  - name: build-apis
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    commands:
+      - cd backend/HttpApi
+      - dotnet build HttpApi.csproj
+      - cd ../WebsocketApi
+      - dotnet build WebsocketApi.csproj
+
+  - name: run-apis
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    commands:
+      - cd backend/HttpApi
+      - dotnet run HttpApi.csproj
+      - cd ../WebsocketApi
+      - dotnet run WebsocketApi.csproj
+
+  - name: ApiTests
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    environment:
+      DB_CON:
+        from_secret: DB_CON
+    commands:
+      - cd backend/test
+      - dotnet test
+
+  - name: BuildFrontend
+    image: node:latest
+    commands:
+      - cd frontend
+      - npm install
+      - npm run build
+
+  - name: RunFrontend
+    image: node:latest
+    commands:
+      - cd frontend
+      - ng serve
+
+  - name: TestCafeTests
+    image: node:latest
+    commands:
+      - npm install testcafe
+      - cd test-cafe
+      - testcafe chrome angular-test.js

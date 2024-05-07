@@ -19,7 +19,7 @@ Ensure that your PostgreSQL database is up and running.
 #### Frontend
 1. Navigate to the frontend directory:
    ```bash
-   cd Travelship/frontend
+   cd frontend
 2. Install dependencies:
    ```bash
    npm install
@@ -30,10 +30,16 @@ Ensure that your PostgreSQL database is up and running.
 
 #### Backend
 
+##### Setting up Environment Variables
+1. Create a .env file in the HttpApi directory.
+2. It has to contain the DB_CON variable
+    ```bash
+    DB_CON="your Database connection string"
+
 ##### HttpApi
 1. Navigate to the HttpApi directory:
    ```bash
-   cd Travelship/backend/HttpApi
+   cd backend/HttpApi
 2. Run the Http API:
    ```bash
    dotnet run
@@ -45,6 +51,24 @@ Ensure that your PostgreSQL database is up and running.
 2. Run the Websocket API:
    ```bash
    dotnet run
+
+### Running Tests
+
+##### Backend Tests
+1. Navigate to the test directory:
+   ```bash
+   cd backend/test
+2. Run the tests, whilst the backend is running:
+   ```bash
+   dotnet test
+   
+##### Frontend Tests
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend/test-cafe
+2. Run the tests:
+   ```bash
+   testcafe chrome angular-test.js
 
 ### Authors
 Martin Grulyo - martingrulyo@gmail.com
