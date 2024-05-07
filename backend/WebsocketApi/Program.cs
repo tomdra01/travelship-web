@@ -6,7 +6,6 @@ using WebsocketApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// STEP 1: ADD THIS LINE
 var services = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
@@ -19,13 +18,13 @@ server.Start(socket =>
     socket.OnOpen = () =>
     {
         Console.WriteLine("Open!");
-        StateService.AddConnection(socket);  // Ensure connection is added
+        StateService.AddConnection(socket); 
         allSockets.Add(socket);
     };
     socket.OnClose = () =>
     {
         Console.WriteLine("Close!");
-        StateService.RemoveConnection(socket);  // Remove connection on close
+        StateService.RemoveConnection(socket);  
         allSockets.Remove(socket);
     };
     socket.OnMessage = async message =>
@@ -37,7 +36,7 @@ server.Start(socket =>
         }
         catch (Exception e)
         {
-            Console.WriteLine("Caught Exception at ws/Program.cs: " + e.Message);
+            Console.WriteLine("Caught Exception at WebsocketApi/Program.cs: " + e.Message);
             socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClient { errorMessage = "An error occurred: " + e.Message }));
         }
 
