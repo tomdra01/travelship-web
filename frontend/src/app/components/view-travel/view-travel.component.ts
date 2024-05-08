@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -76,6 +76,9 @@ export class ViewTravelComponent implements OnInit {
         case 'ServerMovesPin':
           this.moveFabricPin(data.PinId, data.XPosition, data.YPosition);
           break;
+        case 'ServerScalesPin':
+          this.scaleFabricPin(data.PinId, data.ScaleX, data.ScaleY);
+          break;
       }
     });
   }
@@ -87,9 +90,11 @@ export class ViewTravelComponent implements OnInit {
       backgroundColor: '#f3f3f3'
     });
 
+    // Event: Object Moving
     this.canvas.on('object:moving', (e) => {
-      let obj = e.target as CustomFabricObject; // Use type assertion here
-      if (obj && obj.id !== undefined) { // Check that `id` is not undefined
+      console.log('Object moving event');
+      let obj = e.target as CustomFabricObject;
+      if (obj && obj.id !== undefined) {
         this.websocketService.sendMessage({
           eventType: 'ClientWantsToMovePin',
           pinId: obj.id,
@@ -100,10 +105,49 @@ export class ViewTravelComponent implements OnInit {
       }
     });
 
+    // Event: Object Resizing
+    this.canvas.on('object:scaling', (e) => {
+      console.log('Object scaling event');
+      let obj = e.target as CustomFabricObject;
+      if (obj && obj.id !== undefined) {
+        this.websocketService.sendMessage({
+          eventType: 'ClientWantsToScalePin',
+          pinId: obj.id,
+          scaleX: obj.scaleX,
+          scaleY: obj.scaleY,
+          roomId: this.tripId!
+        });
+      }
+    });
+
+    // Event: Object Rotating
+    this.canvas.on('object:rotating', (e) => {
+      let obj = e.target as CustomFabricObject;
+      if (obj && obj.id !== undefined) {
+        // Handle rotating event
+      }
+    });
+
+    // Event: Object Added
+    this.canvas.on('object:added', (e) => {
+      let obj = e.target as CustomFabricObject;
+      if (obj && obj.id !== undefined) {
+        // Handle object added event
+      }
+    });
+
+    // Event: Object Removed
+    this.canvas.on('object:removed', (e) => {
+      let obj = e.target as CustomFabricObject;
+      if (obj && obj.id !== undefined) {
+        // Handle object removed event
+      }
+    });
 
     // Load pins initially
     this.pins.forEach(pin => this.addFabricPin(pin));
   }
+
 
   addFabricPin(pin: any) {
     const rect = new fabric.Rect({
@@ -123,7 +167,7 @@ export class ViewTravelComponent implements OnInit {
     const rect = new fabric.Rect({
       left: 100, // Default position
       top: 100, // Default position
-      fill: 'red',
+      fill: 'black',
       width: 60,
       height: 70,
       hasControls: true
@@ -145,6 +189,36 @@ export class ViewTravelComponent implements OnInit {
     if (obj) {
       obj.set({ left: xPosition, top: yPosition });
       this.canvas.requestRenderAll();
+    }
+  }
+
+  scaleFabricPin(pinId: number, scaleX: number, scaleY: number) {
+    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
+    if (obj) {
+      // Check if width and height are defined
+      if (typeof obj.width !== 'undefined' && typeof obj.height !== 'undefined') {
+        // Calculate new dimensions
+        const newWidth = obj.width * scaleX;
+        const newHeight = obj.height * scaleY;
+
+        // Update object dimensions
+        obj.set({
+          scaleX: scaleX,
+          scaleY: scaleY,
+          width: newWidth,
+          height: newHeight
+        });
+
+        // Optionally, you may want to update other properties like position
+        // if scaling from a different origin than top-left corner
+
+        // Request canvas render
+        this.canvas.requestRenderAll();
+      } else {
+        console.error(`Object with ID ${pinId} does not have defined width or height.`);
+      }
+    } else {
+      console.error(`Object with ID ${pinId} not found.`);
     }
   }
 
