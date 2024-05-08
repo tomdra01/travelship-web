@@ -15,8 +15,13 @@ public class ClientWantsToAddPin : BaseEventHandler<ClientWantsToAddPinDto>
             var message = new ServerAddsPin
             {
                 PinId = dto.PinId,
-                XPosition = dto.XPosition,
-                YPosition = dto.YPosition,
+                Type = dto.Type,
+                Left = dto.Left,
+                Top = dto.Top,
+                Width = dto.Width,
+                Height = dto.Height,
+                Title = dto.Title,
+                Description = dto.Description,
                 Username = metaData.Username
             };
 

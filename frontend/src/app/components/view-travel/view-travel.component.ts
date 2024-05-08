@@ -28,10 +28,6 @@ export class ViewTravelComponent implements OnInit {
   flagUrl: string | undefined;
   messageContent: string = '';
   messages: { text: string, username: string, fromUser: boolean, flagUrl?: string }[] = [];
-  pins = [
-    { id: 1, title: 'Pin 1', description: 'Description for Pin 1', x: 50, y: 100 },
-    { id: 2, title: 'Pin 2', description: 'Description for Pin 2', x: 150, y: 200 }
-  ];
   private canvas!: fabric.Canvas;
 
   constructor(
@@ -62,6 +58,22 @@ export class ViewTravelComponent implements OnInit {
     this.flagUrl = this.userDetails.flagUrl;
   }
 
+  loadTripDetails(tripId: number) {
+    this.tripDetailsService.loadTripDetails(tripId).subscribe({
+      next: (trip: Trip | null) => {
+        this.tripInfo = trip;
+        if (!this.tripInfo) {
+          console.error('Failed to load trip details');
+          this.router.navigate(['notfound']);
+        }
+      },
+      error: (error: any) => {
+        console.error('Failed to load trip details:', error);
+        this.router.navigate(['notfound']);
+      }
+    });
+  }
+
   private initWebSocket() {
     this.websocketService.initWebSocket(this.username!, this.tripId!, (data) => {
       switch(data.eventType) {
@@ -78,6 +90,9 @@ export class ViewTravelComponent implements OnInit {
           break;
         case 'ServerScalesPin':
           this.scaleFabricPin(data.PinId, data.ScaleX, data.ScaleY);
+          break;
+        case 'ServerAddsPin':
+          this.addPinFromServer(data);
           break;
       }
     });
@@ -128,14 +143,6 @@ export class ViewTravelComponent implements OnInit {
       }
     });
 
-    // Event: Object Added
-    this.canvas.on('object:added', (e) => {
-      let obj = e.target as CustomFabricObject;
-      if (obj && obj.id !== undefined) {
-        // Handle object added event
-      }
-    });
-
     // Event: Object Removed
     this.canvas.on('object:removed', (e) => {
       let obj = e.target as CustomFabricObject;
@@ -143,38 +150,43 @@ export class ViewTravelComponent implements OnInit {
         // Handle object removed event
       }
     });
-
-    // Load pins initially
-    this.pins.forEach(pin => this.addFabricPin(pin));
   }
 
+  addNewObject(): void {
+    // Dimensions for the rectangle
+    const rectWidth = 100;
+    const rectHeight = 100;
 
-  addFabricPin(pin: any) {
+    const uniqueId = Date.now();
+
+    // Calculating the center of the canvas
+    const centerX = (this.canvas.getWidth() / 2) - (rectWidth / 2);
+    const centerY = (this.canvas.getHeight() / 2) - (rectHeight / 2);
+
     const rect = new fabric.Rect({
-      left: pin.x,
-      top: pin.y,
-      fill: 'red',
-      width: 60,
-      height: 70,
+      left: centerX,
+      top: centerY,
+      fill: 'black',
+      width: rectWidth,
+      height: rectHeight,
       hasControls: true
     }) as CustomFabricObject;
 
-    rect.id = pin.id; // Now TypeScript knows about `id`
-    this.canvas.add(rect);
-  }
+    rect.id = uniqueId;
+    rect.title = "Black rectangle";
+    rect.description = "Just a rectangle";
 
-  addNewObject() {
-    const rect = new fabric.Rect({
-      left: 100, // Default position
-      top: 100, // Default position
-      fill: 'black',
-      width: 60,
-      height: 70,
-      hasControls: true
+    this.websocketService.sendMessage({
+      eventType: 'ClientWantsToAddPin',
+      pinId: rect.id,
+      left: rect.left,
+      top: rect.top,
+      width: rect.width,
+      height: rect.height,
+      title: rect.title,
+      description: rect.description,
+      roomId: this.tripId!
     });
-
-    this.canvas.add(rect);
-    this.canvas.setActiveObject(rect); // Optionally set it as the active object
   }
 
   removeSelectedObject() {
@@ -234,20 +246,23 @@ export class ViewTravelComponent implements OnInit {
     }
   }
 
-  loadTripDetails(tripId: number) {
-    this.tripDetailsService.loadTripDetails(tripId).subscribe({
-      next: (trip: Trip | null) => {
-        this.tripInfo = trip;
-        if (!this.tripInfo) {
-          console.error('Failed to load trip details');
-          this.router.navigate(['notfound']);
-        }
-      },
-      error: (error: any) => {
-        console.error('Failed to load trip details:', error);
-        this.router.navigate(['notfound']);
-      }
-    });
+  addPinFromServer(data: any) {
+    const pin = new fabric.Rect({
+      left: data.Left,
+      top: data.Top,
+      fill: data.color || 'blue',  // Default color if none provided
+      width: data.Width,
+      height: data.Height,
+      hasControls: true
+    }) as CustomFabricObject; // Asserting that this is a CustomFabricObject
+
+    // Now TypeScript knows `pin` includes CustomFabricObject properties
+    pin.id = data.PinId;
+    pin.title = data.Title;
+    pin.description = data.Description;
+
+    this.canvas.add(pin);
+    this.canvas.renderAll(); // Refresh the canvas to show the new pin
   }
 
   trackById(index: number, message: any): any {
@@ -257,4 +272,6 @@ export class ViewTravelComponent implements OnInit {
 
 interface CustomFabricObject extends fabric.Object {
   id?: number; // Optional custom property
+  title?: string; // Optional custom property
+  description?: string; // Optional custom property
 }
