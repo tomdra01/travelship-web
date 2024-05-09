@@ -29,6 +29,7 @@
        (mousedown)="onDragStart($event, pin)">
     <h3>{{ pin.title }}</h3> <p>{{pin.id}}</p>
     <p>{{ pin.description }}</p>
+    <p>type: {{ pin.type}}</p>
     <button class="button" (click)="onButtonClick(pin)">Click Me</button>
     <span class="close" (click)="removePin(pin)">&times;</span>
   </div>

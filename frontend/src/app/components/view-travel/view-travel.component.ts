@@ -33,8 +33,8 @@ export class ViewTravelComponent implements OnInit {
   selectedOption = this.pinOptions[0];
 
   pins = [
-    {id: 1, title: 'Pin 1', description: 'Description for Pin 1', x: 50, y: 100},
-    {id: 2, title: 'Pin 2', description: 'Description for Pin 2', x: 150, y: 200}
+    {id: 1, title: 'Pin 1', type: "NotePin", description: 'Description for Pin 1', x: 50, y: 100},
+    {id: 2, title: 'Pin 2', type: "FlightTicketPin", description: 'Description for Pin 2', x: 150, y: 200}
   ];
   currentPin: any = null;
   offsetX: number = 0;
@@ -114,8 +114,9 @@ export class ViewTravelComponent implements OnInit {
   addPinFromServer(data: any) {
     this.pins.push({
       id: data.PinId,
-      title: data.PinType,
-      description: data.PinDescription,
+      type: data.Type,
+      title: data.Title,
+      description: data.Description,
       x: 50,
       y: 50
     });
@@ -198,7 +199,7 @@ export class ViewTravelComponent implements OnInit {
       eventType: 'ClientWantsToAddPin',
       PinId: this.pins.length + 1,
       Type: this.selectedOption,
-      Title: this.pinName,
+      Title: 'sample name',
       Description: 'sample',
       RoomId: this.tripId!,
     });
