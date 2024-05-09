@@ -12,7 +12,7 @@ public class ClientWantsToDeletePin : BaseEventHandler<ClientWantsToDeletePinDto
     {
         if (StateService.Connections.TryGetValue(ws.ConnectionInfo.Id, out var metaData))
         {
-            var message = new ServerDeletesPin
+            var message = new ServerDeletesPinDto
             {
                 PinId = dto.PinId,
                 Username = metaData.Username
@@ -24,7 +24,7 @@ public class ClientWantsToDeletePin : BaseEventHandler<ClientWantsToDeletePinDto
         else
         {
             Console.WriteLine($"No connection found for ID: {ws.ConnectionInfo.Id}");
-            ws.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClient { errorMessage = "Connection not found" }));
+            ws.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClientDto { errorMessage = "Connection not found" }));
         }
         return Task.CompletedTask;
     }

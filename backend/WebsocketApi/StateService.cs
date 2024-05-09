@@ -113,18 +113,4 @@ public static class StateService
             }
         }
     }
-    
-    public static void ScalePin(int roomId, string jsonMessage)
-    {
-        if (Rooms.TryGetValue(roomId, out var guids))
-        {
-            foreach (var guid in guids)
-            {
-                if (Connections.TryGetValue(guid, out var ws))
-                {
-                    ws.Connection.Send(jsonMessage);
-                }
-            }
-        }
-    }
 }

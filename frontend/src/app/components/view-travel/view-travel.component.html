@@ -19,15 +19,22 @@
     </option>
   </select>
   <p>You selected: {{ selectedOption }}</p>
-
-  <!-- Button to add a new pin -->
-  <button (click)="addNewObject()">Add New Object</button>
-
-  <!-- Button to remove the selected pin -->
-  <button (click)="removeSelectedObject()">Remove Selected Object</button>
 </div>
 
-<canvas id="pinboard" width="800" height="600"></canvas>
+<div class="pinboard" #pinboard>
+  <div *ngFor="let pin of pins"
+       class="pin"
+       [style.top]="pin.y + 'px'"
+       [style.left]="pin.x + 'px'"
+       (mousedown)="onDragStart($event, pin)">
+    <h3>{{ pin.title }}</h3> <p>{{pin.id}}</p>
+    <p>{{ pin.description }}</p>
+    <button class="button" (click)="onButtonClick(pin)">Click Me</button>
+    <span class="close" (click)="removePin(pin)">&times;</span>
+  </div>
+</div>
+<button (click)="addPin()">Add Pin</button>
+
 
 <div class="chat-container"> Room Chat
   <div class="chat-messages">
