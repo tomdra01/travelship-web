@@ -7,6 +7,7 @@ import { TripDetailsService } from "service/trip-details.service";
 import { UserDetailsService } from "service/user-details.service";
 import {Trip} from "../../../../models/Trip";
 import { fabric } from 'fabric';
+import {DateSelection, Pin} from "../../../../models/Pin";
 
 @Component({
   selector: 'app-view-travel',
@@ -32,15 +33,19 @@ export class ViewTravelComponent implements OnInit {
   pinOptions = ['NotePin', 'HotelPin', 'FlightTicketPin', 'TripDatePin'];
   selectedOption = this.pinOptions[0];
 
-  pins = [
-    {id: 1, title: 'Pin 1', type: "NotePin", description: 'Description for Pin 1', x: 50, y: 100},
-    {id: 2, title: 'Pin 2', type: "FlightTicketPin", description: 'Description for Pin 2', x: 150, y: 200}
-  ];
+  pins: Pin[] = [];
+
+  dateSelection: DateSelection = {
+    arrival: '',
+    departure: ''
+  };
+  averageDate?: Date;
+
+
   currentPin: any = null;
   offsetX: number = 0;
   offsetY: number = 0;
   dragging: boolean = false;
-  pinName: string = '';
 
   @ViewChild('pinboard', {static: true}) pinboard!: ElementRef;
 
@@ -210,6 +215,15 @@ export class ViewTravelComponent implements OnInit {
     if (pin) {
       pin.x = xPosition;
       pin.y = yPosition;
+    }
+  }
+
+  calculateAverageDate(): void {
+    if (this.dateSelection.arrival && this.dateSelection.departure) {
+      const arrivalDate = new Date(this.dateSelection.arrival);
+      const departureDate = new Date(this.dateSelection.departure);
+      const averageTime = (arrivalDate.getTime() + departureDate.getTime()) / 2;
+      this.averageDate = new Date(averageTime);
     }
   }
 }

@@ -2,7 +2,7 @@
   <div *ngIf="tripInfo; else loading">
     <h1>Trip Details: {{ tripInfo.name }}</h1>
     <div><strong>Location:</strong> {{ tripInfo.location }}</div>
-    <div><strong>Date:</strong> {{ tripInfo.date | date }}</div> <!-- Using date pipe for formatting -->
+    <div><strong>Date:</strong> {{ tripInfo.date | date }}</div>
     <div><strong>Description:</strong> {{ tripInfo.description }}</div>
     <div><strong>Participants:</strong> {{ tripInfo.peopleJoined }}</div>
   </div>
@@ -18,7 +18,8 @@
       {{ option }}
     </option>
   </select>
-  <p>You selected: {{ selectedOption }}</p>
+  <button (click)="addPin()">Add Pin</button>
+
 </div>
 
 <div class="pinboard" #pinboard>
@@ -27,14 +28,40 @@
        [style.top]="pin.y + 'px'"
        [style.left]="pin.x + 'px'"
        (mousedown)="onDragStart($event, pin)">
-    <h3>{{ pin.title }}</h3> <p>{{pin.id}}</p>
-    <p>{{ pin.description }}</p>
-    <p>type: {{ pin.type}}</p>
+    <ng-container [ngSwitch]="pin.type">
+      <ng-container *ngSwitchCase="'NotePin'">
+        <p> {{ pin.type }} ({{pin.id}}) </p>
+        <textarea class="textArea" placeholder="Enter note here"> </textarea>
+      </ng-container>
+      <ng-container *ngSwitchCase="'HotelPin'">
+        <p>Hotel Info: {{ pin.description }}</p>
+      </ng-container>
+      <ng-container *ngSwitchCase="'FlightTicketPin'">
+        <p>Flight Details: {{ pin.description }}</p>
+      </ng-container>
+      <ng-container *ngSwitchCase="'TripDatePin'">
+        <p>{{ pin.type }} ({{ pin.id }})</p>
+        <div>
+          <label for="departureDate-{{ pin.id }}">Departure Date:</label>
+          <input type="date" id="departureDate-{{ pin.id }}" [(ngModel)]="dateSelection.departure">
+        </div>
+        <div>
+          <label for="arrivalDate-{{ pin.id }}">Arrival Date:</label>
+          <input type="date" id="arrivalDate-{{ pin.id }}" [(ngModel)]="dateSelection.arrival">
+        </div>
+        <button (click)="calculateAverageDate()">Calculate Average Date</button>
+        <div *ngIf="averageDate">
+          <p>Calculated Average Date: {{ averageDate | date:'fullDate' }}</p>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <p>Unsupported pin type</p>
+      </ng-container>
+    </ng-container>
     <button class="button" (click)="onButtonClick(pin)">Click Me</button>
     <span class="close" (click)="removePin(pin)">&times;</span>
   </div>
 </div>
-<button (click)="addPin()">Add Pin</button>
 
 
 <div class="chat-container"> Room Chat
