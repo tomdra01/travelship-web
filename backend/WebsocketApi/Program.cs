@@ -3,6 +3,7 @@ using System.Text.Json;
 using Fleck;
 using lib;
 using WebsocketApi;
+using WebsocketApi.DTOs.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,8 +44,3 @@ server.Start(socket =>
     };
 });
 Console.ReadLine();
-
-public class ServerSendsErrorMessageToClient : BaseDto
-{
-    public string errorMessage { get; set; }
-}

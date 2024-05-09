@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {MainViewComponent} from "./main-view/main-view.component";
-import {LoginComponent} from "./login/login.component";
-import {AccountComponent} from "./account/account.component";
-import {ViewTravelComponent} from "./view-travel/view-travel.component";
-import {JoinPrivateTravelComponent} from "./join-private-travel/join-private-travel.component";
-import {CreateTripComponent} from "./create-trip/create-trip.component";
-import {NotFoundComponent} from "./not-found/not-found.component";
+import {MainViewComponent} from "./components/main-view/main-view.component";
+import {LoginComponent} from "./components/login/login.component";
+import {AccountComponent} from "./components/account/account.component";
+import {ViewTravelComponent} from "./components/view-travel/view-travel.component";
+import {JoinPrivateTravelComponent} from "./components/join-private-travel/join-private-travel.component";
+import {CreateTripComponent} from "./components/create-trip/create-trip.component";
+import {NotFoundComponent} from "./components/not-found/not-found.component";
 
 const routes: Routes = [
   {

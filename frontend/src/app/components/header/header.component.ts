@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {GoogleApiService} from "../../../service/google-api.service";
+import {GoogleApiService} from "../../service/google-api.service";
 import {Router} from "@angular/router";
-import {TimezoneService} from "../../../service/timezone.service";
+import {TimezoneService} from "../../service/timezone.service";
 
 @Component({
   selector: 'app-header',
@@ -36,7 +36,6 @@ export class HeaderComponent implements OnInit{
   }
 
   loginClick() {
-    //this.authService.login();
     this.router.navigate(['login']);
   }
   ngOnInit(): void {
@@ -49,13 +48,13 @@ export class HeaderComponent implements OnInit{
           picture: profile['picture'],
           email: profile['email']
         };
-      }
-    }
 
-    const timezone = this.timezoneService.getUserTimezone();
-    const country = this.timezoneService.getCountryByTimezone(timezone);
-    if (country) {
-      this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
+        const timezone = this.timezoneService.getUserTimezone();
+        const country = this.timezoneService.getCountryByTimezone(timezone);
+        if (country) {
+          this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
+        }
+      }
     }
   }
 }
