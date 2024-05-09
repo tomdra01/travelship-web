@@ -63,7 +63,6 @@ export class ViewTravelComponent implements OnInit {
       next: (trip: Trip | null) => {
         this.tripInfo = trip;
         if (!this.tripInfo) {
-          console.error('Failed to load trip details');
           this.router.navigate(['notfound']);
         }
       },
@@ -85,14 +84,17 @@ export class ViewTravelComponent implements OnInit {
             flagUrl: data.username === this.username ? this.flagUrl : undefined
           });
           break;
-        case 'ServerMovesPin':
-          this.moveFabricPin(data.PinId, data.XPosition, data.YPosition);
-          break;
-        case 'ServerScalesPin':
-          this.scaleFabricPin(data.PinId, data.ScaleX, data.ScaleY);
-          break;
         case 'ServerAddsPin':
           this.addPinFromServer(data);
+          break;
+        case 'ServerDeletesPin':
+          this.removePinFromServer(data.PinId);
+          break;
+        case 'ServerMovesPin':
+          this.movePinFromServer(data.PinId, data.XPosition, data.YPosition);
+          break;
+        case 'ServerScalesPin':
+          this.scalePinFromServer(data.PinId, data.ScaleX, data.ScaleY);
           break;
       }
     });
@@ -142,14 +144,6 @@ export class ViewTravelComponent implements OnInit {
         // Handle rotating event
       }
     });
-
-    // Event: Object Removed
-    this.canvas.on('object:removed', (e) => {
-      let obj = e.target as CustomFabricObject;
-      if (obj && obj.id !== undefined) {
-        // Handle object removed event
-      }
-    });
   }
 
   addNewObject(): void {
@@ -189,48 +183,19 @@ export class ViewTravelComponent implements OnInit {
     });
   }
 
-  removeSelectedObject() {
-    const activeObject = this.canvas.getActiveObject();
-    if (activeObject) {
+  removeSelectedObject(): void {
+    const activeObject = this.canvas.getActiveObject() as CustomFabricObject;
+    if (activeObject && activeObject.id) {
+      // Send delete message to server
+      this.websocketService.sendMessage({
+        eventType: 'ClientWantsToDeletePin',
+        pinId: activeObject.id,
+        roomId: this.tripId!
+      });
+
+      // Remove from canvas locally
       this.canvas.remove(activeObject);
-    }
-  }
-
-  moveFabricPin(pinId: number, xPosition: number, yPosition: number) {
-    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
-    if (obj) {
-      obj.set({ left: xPosition, top: yPosition });
-      this.canvas.requestRenderAll();
-    }
-  }
-
-  scaleFabricPin(pinId: number, scaleX: number, scaleY: number) {
-    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
-    if (obj) {
-      // Check if width and height are defined
-      if (typeof obj.width !== 'undefined' && typeof obj.height !== 'undefined') {
-        // Calculate new dimensions
-        const newWidth = obj.width * scaleX;
-        const newHeight = obj.height * scaleY;
-
-        // Update object dimensions
-        obj.set({
-          scaleX: scaleX,
-          scaleY: scaleY,
-          width: newWidth,
-          height: newHeight
-        });
-
-        // Optionally, you may want to update other properties like position
-        // if scaling from a different origin than top-left corner
-
-        // Request canvas render
-        this.canvas.requestRenderAll();
-      } else {
-        console.error(`Object with ID ${pinId} does not have defined width or height.`);
-      }
-    } else {
-      console.error(`Object with ID ${pinId} not found.`);
+      this.canvas.renderAll();
     }
   }
 
@@ -263,6 +228,52 @@ export class ViewTravelComponent implements OnInit {
 
     this.canvas.add(pin);
     this.canvas.renderAll(); // Refresh the canvas to show the new pin
+  }
+
+  removePinFromServer(pinId: number): void {
+    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
+    if (obj) {
+      this.canvas.remove(obj);
+      this.canvas.renderAll();
+    }
+  }
+
+  movePinFromServer(pinId: number, xPosition: number, yPosition: number) {
+    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
+    if (obj) {
+      obj.set({ left: xPosition, top: yPosition });
+      this.canvas.requestRenderAll();
+    }
+  }
+
+  scalePinFromServer(pinId: number, scaleX: number, scaleY: number) {
+    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
+    if (obj) {
+      // Check if width and height are defined
+      if (typeof obj.width !== 'undefined' && typeof obj.height !== 'undefined') {
+        // Calculate new dimensions
+        const newWidth = obj.width * scaleX;
+        const newHeight = obj.height * scaleY;
+
+        // Update object dimensions
+        obj.set({
+          scaleX: scaleX,
+          scaleY: scaleY,
+          width: newWidth,
+          height: newHeight
+        });
+
+        // Optionally, you may want to update other properties like position
+        // if scaling from a different origin than top-left corner
+
+        // Request canvas render
+        this.canvas.requestRenderAll();
+      } else {
+        console.error(`Object with ID ${pinId} does not have defined width or height.`);
+      }
+    } else {
+      console.error(`Object with ID ${pinId} not found.`);
+    }
   }
 
   trackById(index: number, message: any): any {
