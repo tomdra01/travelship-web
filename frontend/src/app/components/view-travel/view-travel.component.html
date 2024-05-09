@@ -12,6 +12,14 @@
 </div>
 
 <div class="controls">
+
+  <select [(ngModel)]="selectedOption">
+    <option *ngFor="let option of pinOptions" [value]="option">
+      {{ option }}
+    </option>
+  </select>
+  <p>You selected: {{ selectedOption }}</p>
+
   <!-- Button to add a new pin -->
   <button (click)="addNewObject()">Add New Object</button>
 

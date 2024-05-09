@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {environment} from "../../../environment/Environment";
-import {Trip} from "../../../models/Trip";
+import {environment} from "../environment/Environment";
+import {Trip} from "../models/Trip";
 import {FormControl, ɵFormGroupValue, ɵTypedOrUntyped} from "@angular/forms";
 
 @Injectable({

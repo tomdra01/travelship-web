@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {GoogleApiService} from "../../service/google-api.service";
+import {GoogleApiService} from "../../../../service/google-api.service";
 import {Router} from "@angular/router";
-import {TimezoneService} from "../../service/timezone.service";
+import {TimezoneService} from "../../../../service/timezone.service";
 
 @Component({
   selector: 'app-header',
