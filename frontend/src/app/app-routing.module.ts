@@ -7,6 +7,7 @@ import {ViewTravelComponent} from "./components/view-travel/view-travel.componen
 import {JoinPrivateTravelComponent} from "./components/join-private-travel/join-private-travel.component";
 import {CreateTripComponent} from "./components/create-trip/create-trip.component";
 import {NotFoundComponent} from "./components/not-found/not-found.component";
+import {AboutComponent} from "./components/about/about.component";
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreateTripComponent,
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
   },
   {
     path: 'notfound',

@@ -1,6 +1,7 @@
 <div class="header">
   <button (click)="homeButton()">Home</button>
   <button (click)="joinTravelButton()">Join Travel</button>
+  <button (click)="aboutUsButton()">About Us</button>
   <button *ngIf="loginButton" (click)="loginClick()">Login</button>
   <button *ngIf="!loginButton" (click)="accountClick()">Account</button>
   <div *ngIf="!loginButton" class="userDetails">

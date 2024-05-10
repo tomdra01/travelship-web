@@ -1,0 +1,48 @@
+.travelship-container {
+  font-family: Arial, sans-serif;
+  color: black;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+
+  margin-bottom: 18.5%; /* Margin so the footer fits at the bottom */
+}
+
+.text-content {
+  flex: 1;
+  padding-right: 50px;
+  margin-top: 1%;
+}
+
+.image-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.explore-image {
+  width: 100%;
+  max-width: 400px;
+}
+
+h1, h2 {
+  color: black;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-left: 3px solid black;
+}
+
+strong {
+  color: black;
+}

@@ -38,6 +38,11 @@ export class HeaderComponent implements OnInit{
   loginClick() {
     this.router.navigate(['login']);
   }
+
+  aboutUsButton() {
+    this.router.navigate(['about']);
+  }
+
   ngOnInit(): void {
     if (this.googleApi.getToken()) {
       this.loginButton = false;
