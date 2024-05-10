@@ -192,14 +192,10 @@ export class ViewTravelComponent implements OnInit {
   }
 
   onButtonClick(pin: any): void {
-    alert('Button on ' + pin.title + ' clicked!');
+    alert('Button on ' + pin.title + ' clicked!'+ pin.description + ' ' + pin.type);
   }
 
-  removePin(pinToRemove: any): void {
-    this.pins = this.pins.filter(pin => pin !== pinToRemove);
-  }
-
-  addPin() {
+  addPinClient() {
     this.websocketService.sendMessage({
       eventType: 'ClientWantsToAddPin',
       PinId: this.pins.length + 1,
@@ -207,6 +203,14 @@ export class ViewTravelComponent implements OnInit {
       Title: 'sample name',
       Description: 'sample',
       RoomId: this.tripId!,
+    });
+  }
+
+  removePinClient(pinId: number) {
+    this.websocketService.sendMessage({
+      eventType: 'ClientWantsToDeletePin',
+      PinId: pinId,
+      RoomId: this.tripId!
     });
   }
 

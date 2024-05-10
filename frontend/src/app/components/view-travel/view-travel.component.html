@@ -18,7 +18,7 @@
       {{ option }}
     </option>
   </select>
-  <button (click)="addPin()">Add Pin</button>
+  <button (click)="addPinClient()">Add Pin</button>
 
 </div>
 
@@ -29,16 +29,24 @@
        [style.left]="pin.x + 'px'"
        (mousedown)="onDragStart($event, pin)">
     <ng-container [ngSwitch]="pin.type">
+
+      <!-- Basic note Pin for writing -->
       <ng-container *ngSwitchCase="'NotePin'">
         <p> {{ pin.type }} ({{pin.id}}) </p>
         <textarea class="textArea" placeholder="Enter note here"> </textarea>
       </ng-container>
+
+      <!-- Hotel Pin for finding hotels -->
       <ng-container *ngSwitchCase="'HotelPin'">
         <p>Hotel Info: {{ pin.description }}</p>
       </ng-container>
+
+      <!-- Flight tickets Pin for finding flights -->
       <ng-container *ngSwitchCase="'FlightTicketPin'">
         <p>Flight Details: {{ pin.description }}</p>
       </ng-container>
+
+      <!-- Date Pin for deciding on the date -->
       <ng-container *ngSwitchCase="'TripDatePin'">
         <p>{{ pin.type }} ({{ pin.id }})</p>
         <div>
@@ -54,19 +62,20 @@
           <p>Calculated Average Date: {{ averageDate | date:'fullDate' }}</p>
         </div>
       </ng-container>
+
+      <!-- else -->
       <ng-container *ngSwitchDefault>
         <p>Unsupported pin type</p>
       </ng-container>
     </ng-container>
     <button class="button" (click)="onButtonClick(pin)">Click Me</button>
-    <span class="close" (click)="removePin(pin)">&times;</span>
+    <span class="close" (click)="removePinClient(pin.id)">&times;</span>
   </div>
 </div>
 
 
 <div class="chat-container"> Room Chat
   <div class="chat-messages">
-    <!-- Using Angular's trackBy function for better performance -->
     <div *ngFor="let message of messages; trackBy: trackById" [ngClass]="{'user-message': message.fromUser, 'other-message': !message.fromUser}" class="message-entry">
       <div class="message-content">
         <img *ngIf="message.flagUrl" [src]="message.flagUrl" alt="Country flag">
