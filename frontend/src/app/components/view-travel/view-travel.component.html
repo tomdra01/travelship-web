@@ -2,7 +2,7 @@
   <div *ngIf="tripInfo; else loading">
     <h1>Trip Details: {{ tripInfo.name }}</h1>
     <div><strong>Location:</strong> {{ tripInfo.location }}</div>
-    <div><strong>Date:</strong> {{ tripInfo.date | date }}</div> <!-- Using date pipe for formatting -->
+    <div><strong>Date:</strong> {{ tripInfo.date | date }}</div>
     <div><strong>Description:</strong> {{ tripInfo.description }}</div>
     <div><strong>Participants:</strong> {{ tripInfo.peopleJoined }}</div>
   </div>
@@ -12,18 +12,70 @@
 </div>
 
 <div class="controls">
-  <!-- Button to add a new pin -->
-  <button (click)="addNewObject()">Add New Object</button>
 
-  <!-- Button to remove the selected pin -->
-  <button (click)="removeSelectedObject()">Remove Selected Object</button>
+  <select [(ngModel)]="selectedOption">
+    <option *ngFor="let option of pinOptions" [value]="option">
+      {{ option }}
+    </option>
+  </select>
+  <button (click)="addPinClient()">Add Pin</button>
+
 </div>
 
-<canvas id="pinboard" width="800" height="600"></canvas>
+<div class="pinboard" #pinboard>
+  <div *ngFor="let pin of pins"
+       class="pin"
+       [style.top]="pin.y + 'px'"
+       [style.left]="pin.x + 'px'"
+       (mousedown)="onDragStart($event, pin)">
+    <ng-container [ngSwitch]="pin.type">
+
+      <!-- Basic note Pin for writing -->
+      <ng-container *ngSwitchCase="'NotePin'">
+        <p> {{ pin.type }} ({{pin.id}}) </p>
+        <textarea class="textArea" placeholder="Enter note here"> </textarea>
+      </ng-container>
+
+      <!-- Hotel Pin for finding hotels -->
+      <ng-container *ngSwitchCase="'HotelPin'">
+        <p>Hotel Info: {{ pin.description }}</p>
+      </ng-container>
+
+      <!-- Flight tickets Pin for finding flights -->
+      <ng-container *ngSwitchCase="'FlightTicketPin'">
+        <p>Flight Details: {{ pin.description }}</p>
+      </ng-container>
+
+      <!-- Date Pin for deciding on the date -->
+      <ng-container *ngSwitchCase="'TripDatePin'">
+        <p>{{ pin.type }} ({{ pin.id }})</p>
+        <div>
+          <label for="departureDate-{{ pin.id }}">Departure Date:</label>
+          <input type="date" id="departureDate-{{ pin.id }}" [(ngModel)]="dateSelection.departure">
+        </div>
+        <div>
+          <label for="arrivalDate-{{ pin.id }}">Arrival Date:</label>
+          <input type="date" id="arrivalDate-{{ pin.id }}" [(ngModel)]="dateSelection.arrival">
+        </div>
+        <button (click)="calculateAverageDate()">Calculate Average Date</button>
+        <div *ngIf="averageDate">
+          <p>Calculated Average Date: {{ averageDate | date:'fullDate' }}</p>
+        </div>
+      </ng-container>
+
+      <!-- else -->
+      <ng-container *ngSwitchDefault>
+        <p>Unsupported pin type</p>
+      </ng-container>
+    </ng-container>
+    <button class="button" (click)="onButtonClick(pin)">Click Me</button>
+    <span class="close" (click)="removePinClient(pin.id)">&times;</span>
+  </div>
+</div>
+
 
 <div class="chat-container"> Room Chat
   <div class="chat-messages">
-    <!-- Using Angular's trackBy function for better performance -->
     <div *ngFor="let message of messages; trackBy: trackById" [ngClass]="{'user-message': message.fromUser, 'other-message': !message.fromUser}" class="message-entry">
       <div class="message-content">
         <img *ngIf="message.flagUrl" [src]="message.flagUrl" alt="Country flag">

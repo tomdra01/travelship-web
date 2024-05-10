@@ -12,21 +12,17 @@ var services = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAss
 var app = builder.Build();
 var server = new WebSocketServer("ws://0.0.0.0:8181");
 
-var allSockets = new List<IWebSocketConnection>();
-
 server.Start(socket =>
 {
     socket.OnOpen = () =>
     {
         Console.WriteLine("Open!");
         StateService.AddConnection(socket); 
-        allSockets.Add(socket);
     };
     socket.OnClose = () =>
     {
         Console.WriteLine("Close!");
         StateService.RemoveConnection(socket);  
-        allSockets.Remove(socket);
     };
     socket.OnMessage = async message =>
     {
@@ -38,7 +34,7 @@ server.Start(socket =>
         catch (Exception e)
         {
             Console.WriteLine("Caught Exception at WebsocketApi/Program.cs: " + e.Message);
-            socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClient { errorMessage = "An error occurred: " + e.Message }));
+            socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClientDto { errorMessage = "An error occurred: " + e.Message }));
         }
 
     };

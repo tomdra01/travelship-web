@@ -12,7 +12,7 @@ public class ClientWantsToMovePin : BaseEventHandler<ClientWantsToMovePinDto>
     {
         if (StateService.Connections.TryGetValue(ws.ConnectionInfo.Id, out var metaData))
         {
-            var message = new ServerMovesPin()
+            var message = new ServerMovesPinDto()
             {
                 PinId = dto.PinId,
                 XPosition = dto.XPosition,
@@ -20,13 +20,14 @@ public class ClientWantsToMovePin : BaseEventHandler<ClientWantsToMovePinDto>
                 Username = metaData.Username
             };
             
+            
             var jsonMessage = JsonSerializer.Serialize(message);
             StateService.MovePin(dto.RoomId, jsonMessage);
         }
         else
         {
             Console.WriteLine($"No connection found for ID: {ws.ConnectionInfo.Id}");
-            ws.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClient {errorMessage = "Connection not found" }));
+            ws.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClientDto {errorMessage = "Connection not found" }));
         }
         return Task.CompletedTask;
     }

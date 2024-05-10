@@ -29,7 +29,7 @@ export class UserDetailsService {
         this.flagUrl = `https://flagsapi.com/${country.code}/shiny/32.png`;
       }
     } else {
-      this.username = 'GUEST' + Math.floor(Math.random() * 1000);
+      this.username = 'Guest' + Math.floor(Math.random() * 10000);
       this.picture = "/assets/user-icon.png";
     }
   }

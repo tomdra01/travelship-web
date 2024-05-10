@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Trip } from '../../../models/Trip';
+import { Trip } from '../models/Trip';
 import { TripService } from './TripService';
 
 @Injectable({

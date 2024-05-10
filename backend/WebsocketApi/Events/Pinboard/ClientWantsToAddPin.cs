@@ -12,26 +12,22 @@ public class ClientWantsToAddPin : BaseEventHandler<ClientWantsToAddPinDto>
     {
         if (StateService.Connections.TryGetValue(ws.ConnectionInfo.Id, out var metaData))
         {
-            var message = new ServerAddsPin
+            var message = new ServerAddsPinDto()
             {
                 PinId = dto.PinId,
                 Type = dto.Type,
-                Left = dto.Left,
-                Top = dto.Top,
-                Width = dto.Width,
-                Height = dto.Height,
                 Title = dto.Title,
                 Description = dto.Description,
                 Username = metaData.Username
             };
-
+            
             var jsonMessage = JsonSerializer.Serialize(message);
             StateService.AddPin(dto.RoomId, jsonMessage);
         }
         else
         {
             Console.WriteLine($"No connection found for ID: {ws.ConnectionInfo.Id}");
-            ws.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClient {errorMessage = "Connection not found" }));
+            ws.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClientDto {errorMessage = "Connection not found" }));
         }
         return Task.CompletedTask;
     }

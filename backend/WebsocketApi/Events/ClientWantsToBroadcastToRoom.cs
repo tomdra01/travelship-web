@@ -33,7 +33,6 @@ public class ClientWantsToBroadcastToRoom : BaseEventHandler<ClientWantsToBroadc
         else
         {
             Console.WriteLine($"No connection found for ID: {ws.ConnectionInfo.Id}");
-            // Handle the situation when the connection does not exist
         }
         return Task.CompletedTask;
     }

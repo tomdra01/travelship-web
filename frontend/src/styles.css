@@ -1,4 +1,5 @@
 body, html {
+  background-color: white;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -6,22 +7,30 @@ body, html {
 }
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.bgImage {
-  background-image: url("/assets/wave-background.svg");
-  background-size: cover; /* Ensures the image covers the div size */
-  background-repeat: no-repeat;
-  background-attachment: scroll; /* Change this to 'scroll' if you don't want it fixed against the viewport */
-  position: fixed; /* Keeps the background at a specific position on the screen */
-  top: 0; /* Aligns the top of the div to the top of the viewport */
-  left: 0; /* Aligns the left of the div to the left of the viewport */
-  height: 100vh; /* Limits the height to the viewport's height */
-  width: 100vw; /* Limits the width to the viewport's width */
-  z-index: -1; /* Places the background behind other content */
+.app {
+  position: relative;
+  z-index: 2;
 }
+
+
+.bgImage {
+  background-image: url("/assets/gradient-bg.svg");
+  background-size: cover;  /* Ensures the image covers the full area */
+  background-repeat: no-repeat;
+  background-attachment: fixed;  /* The background is fixed relative to the viewport */
+  position: fixed;  /* Fixes the position of the background */
+  top: 0;
+  left: 0;
+  width: 100vw;  /* Full viewport width */
+  height: 100vh;  /* Full viewport height */
+  z-index: 1;  /* Keeps the background behind all other content */
+}
+
 
 /* Targets the scrollbar itself */
 ::-webkit-scrollbar {

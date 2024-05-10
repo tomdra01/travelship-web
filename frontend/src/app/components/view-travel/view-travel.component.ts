@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { WebsocketService } from "../../service/websocket.service";
-import { TripDetailsService } from "../../service/trip-details.service";
-import { UserDetailsService } from "../../service/user-details.service";
+import { WebsocketService } from "service/websocket.service";
+import { TripDetailsService } from "service/trip-details.service";
+import { UserDetailsService } from "service/user-details.service";
 import {Trip} from "../../../../models/Trip";
 import { fabric } from 'fabric';
+import {DateSelection, Pin} from "../../../../models/Pin";
 
 @Component({
   selector: 'app-view-travel',
@@ -28,7 +29,25 @@ export class ViewTravelComponent implements OnInit {
   flagUrl: string | undefined;
   messageContent: string = '';
   messages: { text: string, username: string, fromUser: boolean, flagUrl?: string }[] = [];
-  private canvas!: fabric.Canvas;
+
+  pinOptions = ['NotePin', 'HotelPin', 'FlightTicketPin', 'TripDatePin'];
+  selectedOption = this.pinOptions[0];
+
+  pins: Pin[] = [];
+
+  dateSelection: DateSelection = {
+    arrival: '',
+    departure: ''
+  };
+  averageDate?: Date;
+
+
+  currentPin: any = null;
+  offsetX: number = 0;
+  offsetY: number = 0;
+  dragging: boolean = false;
+
+  @ViewChild('pinboard', {static: true}) pinboard!: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +55,8 @@ export class ViewTravelComponent implements OnInit {
     private websocketService: WebsocketService,
     private tripDetailsService: TripDetailsService,
     private userDetails: UserDetailsService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -46,7 +66,6 @@ export class ViewTravelComponent implements OnInit {
       }
     });
 
-    this.initializeFabric();
     this.setUserDetails();
     this.initWebSocket();
   }
@@ -75,7 +94,7 @@ export class ViewTravelComponent implements OnInit {
 
   private initWebSocket() {
     this.websocketService.initWebSocket(this.username!, this.tripId!, (data) => {
-      switch(data.eventType) {
+      switch (data.eventType) {
         case 'ServerBroadcastsMessageWithUsername':
           this.messages.push({
             text: data.message,
@@ -93,110 +112,27 @@ export class ViewTravelComponent implements OnInit {
         case 'ServerMovesPin':
           this.movePinFromServer(data.PinId, data.XPosition, data.YPosition);
           break;
-        case 'ServerScalesPin':
-          this.scalePinFromServer(data.PinId, data.ScaleX, data.ScaleY);
-          break;
       }
     });
   }
 
-  initializeFabric() {
-    this.canvas = new fabric.Canvas('pinboard', {
-      hoverCursor: 'pointer',
-      selection: true,
-      backgroundColor: '#f3f3f3'
-    });
-
-    // Event: Object Moving
-    this.canvas.on('object:moving', (e) => {
-      console.log('Object moving event');
-      let obj = e.target as CustomFabricObject;
-      if (obj && obj.id !== undefined) {
-        this.websocketService.sendMessage({
-          eventType: 'ClientWantsToMovePin',
-          pinId: obj.id,
-          xPosition: obj.left,
-          yPosition: obj.top,
-          roomId: this.tripId!
-        });
-      }
-    });
-
-    // Event: Object Resizing
-    this.canvas.on('object:scaling', (e) => {
-      console.log('Object scaling event');
-      let obj = e.target as CustomFabricObject;
-      if (obj && obj.id !== undefined) {
-        this.websocketService.sendMessage({
-          eventType: 'ClientWantsToScalePin',
-          pinId: obj.id,
-          scaleX: obj.scaleX,
-          scaleY: obj.scaleY,
-          roomId: this.tripId!
-        });
-      }
-    });
-
-    // Event: Object Rotating
-    this.canvas.on('object:rotating', (e) => {
-      let obj = e.target as CustomFabricObject;
-      if (obj && obj.id !== undefined) {
-        // Handle rotating event
-      }
+  addPinFromServer(data: any) {
+    this.pins.push({
+      id: data.PinId,
+      type: data.Type,
+      title: data.Title,
+      description: data.Description,
+      x: 50,
+      y: 50
     });
   }
 
-  addNewObject(): void {
-    // Dimensions for the rectangle
-    const rectWidth = 100;
-    const rectHeight = 100;
-
-    const uniqueId = Date.now();
-
-    // Calculating the center of the canvas
-    const centerX = (this.canvas.getWidth() / 2) - (rectWidth / 2);
-    const centerY = (this.canvas.getHeight() / 2) - (rectHeight / 2);
-
-    const rect = new fabric.Rect({
-      left: centerX,
-      top: centerY,
-      fill: 'black',
-      width: rectWidth,
-      height: rectHeight,
-      hasControls: true
-    }) as CustomFabricObject;
-
-    rect.id = uniqueId;
-    rect.title = "Black rectangle";
-    rect.description = "Just a rectangle";
-
-    this.websocketService.sendMessage({
-      eventType: 'ClientWantsToAddPin',
-      pinId: rect.id,
-      left: rect.left,
-      top: rect.top,
-      width: rect.width,
-      height: rect.height,
-      title: rect.title,
-      description: rect.description,
-      roomId: this.tripId!
-    });
+  removePinFromServer(pinId: number) {
+    this.pins = this.pins.filter(pin => pin.id !== pinId);
   }
 
-  removeSelectedObject(): void {
-    const activeObject = this.canvas.getActiveObject() as CustomFabricObject;
-    if (activeObject && activeObject.id) {
-      // Send delete message to server
-      this.websocketService.sendMessage({
-        eventType: 'ClientWantsToDeletePin',
-        pinId: activeObject.id,
-        roomId: this.tripId!
-      });
-
-      // Remove from canvas locally
-      this.canvas.remove(activeObject);
-      this.canvas.renderAll();
-    }
+  movePinFromServer(pinId: number, xPosition: number, yPosition: number) {
+    this.movePinUpdate(pinId, xPosition, yPosition);
   }
 
   sendMessage() {
@@ -211,78 +147,87 @@ export class ViewTravelComponent implements OnInit {
     }
   }
 
-  addPinFromServer(data: any) {
-    const pin = new fabric.Rect({
-      left: data.Left,
-      top: data.Top,
-      fill: data.color || 'blue',  // Default color if none provided
-      width: data.Width,
-      height: data.Height,
-      hasControls: true
-    }) as CustomFabricObject; // Asserting that this is a CustomFabricObject
-
-    // Now TypeScript knows `pin` includes CustomFabricObject properties
-    pin.id = data.PinId;
-    pin.title = data.Title;
-    pin.description = data.Description;
-
-    this.canvas.add(pin);
-    this.canvas.renderAll(); // Refresh the canvas to show the new pin
-  }
-
-  removePinFromServer(pinId: number): void {
-    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
-    if (obj) {
-      this.canvas.remove(obj);
-      this.canvas.renderAll();
-    }
-  }
-
-  movePinFromServer(pinId: number, xPosition: number, yPosition: number) {
-    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
-    if (obj) {
-      obj.set({ left: xPosition, top: yPosition });
-      this.canvas.requestRenderAll();
-    }
-  }
-
-  scalePinFromServer(pinId: number, scaleX: number, scaleY: number) {
-    const obj = this.canvas.getObjects().find(obj => (obj as CustomFabricObject).id === pinId) as CustomFabricObject | undefined;
-    if (obj) {
-      // Check if width and height are defined
-      if (typeof obj.width !== 'undefined' && typeof obj.height !== 'undefined') {
-        // Calculate new dimensions
-        const newWidth = obj.width * scaleX;
-        const newHeight = obj.height * scaleY;
-
-        // Update object dimensions
-        obj.set({
-          scaleX: scaleX,
-          scaleY: scaleY,
-          width: newWidth,
-          height: newHeight
-        });
-
-        // Optionally, you may want to update other properties like position
-        // if scaling from a different origin than top-left corner
-
-        // Request canvas render
-        this.canvas.requestRenderAll();
-      } else {
-        console.error(`Object with ID ${pinId} does not have defined width or height.`);
-      }
-    } else {
-      console.error(`Object with ID ${pinId} not found.`);
-    }
-  }
-
   trackById(index: number, message: any): any {
     return message.id;
   }
-}
 
-interface CustomFabricObject extends fabric.Object {
-  id?: number; // Optional custom property
-  title?: string; // Optional custom property
-  description?: string; // Optional custom property
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {
+    if (this.dragging) {
+      this.movePin(event);
+      this.websocketService.sendMessage({
+        eventType: 'ClientWantsToMovePin',
+        pinId: this.currentPin.id,
+        xPosition: this.currentPin.x,
+        yPosition: this.currentPin.y,
+        roomId: this.tripId!
+      });
+    }
+  }
+
+  @HostListener('document:mouseup', ['$event'])
+  onMouseUp(event: MouseEvent): void {
+    if (this.dragging) {
+      this.dragging = false;
+    }
+  }
+
+  onDragStart(event: MouseEvent, pin: any): void {
+    this.dragging = true;
+    this.currentPin = pin;
+    this.offsetX = event.clientX - pin.x;
+    this.offsetY = event.clientY - pin.y;
+  }
+
+  movePin(event: MouseEvent): void {
+    let newX = event.clientX - this.offsetX;
+    let newY = event.clientY - this.offsetY;
+
+    const pinboardRect = this.pinboard.nativeElement.getBoundingClientRect();
+    const maxX = pinboardRect.width - 200;  // Assuming pin width is 200px
+    const maxY = pinboardRect.height - 100; // Assuming pin height is 100px
+
+    this.currentPin.x = Math.max(0, Math.min(newX, maxX));
+    this.currentPin.y = Math.max(0, Math.min(newY, maxY));
+  }
+
+  onButtonClick(pin: any): void {
+    alert('Button on ' + pin.title + ' clicked!'+ pin.description + ' ' + pin.type);
+  }
+
+  addPinClient() {
+    this.websocketService.sendMessage({
+      eventType: 'ClientWantsToAddPin',
+      PinId: this.pins.length + 1,
+      Type: this.selectedOption,
+      Title: 'sample name',
+      Description: 'sample',
+      RoomId: this.tripId!,
+    });
+  }
+
+  removePinClient(pinId: number) {
+    this.websocketService.sendMessage({
+      eventType: 'ClientWantsToDeletePin',
+      PinId: pinId,
+      RoomId: this.tripId!
+    });
+  }
+
+  private movePinUpdate(pinId: number, xPosition: number, yPosition: number) {
+    const pin = this.pins.find(pin => pin.id === pinId);
+    if (pin) {
+      pin.x = xPosition;
+      pin.y = yPosition;
+    }
+  }
+
+  calculateAverageDate(): void {
+    if (this.dateSelection.arrival && this.dateSelection.departure) {
+      const arrivalDate = new Date(this.dateSelection.arrival);
+      const departureDate = new Date(this.dateSelection.departure);
+      const averageTime = (arrivalDate.getTime() + departureDate.getTime()) / 2;
+      this.averageDate = new Date(averageTime);
+    }
+  }
 }
