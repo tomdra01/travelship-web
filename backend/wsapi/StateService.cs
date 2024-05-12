@@ -72,9 +72,10 @@ public static class StateService
         }
     }
     
-    public static void AddPin(int roomId, string jsonMessage)
+    public static void AddPin(int tripId, string jsonMessage)
     {
-        if (Rooms.TryGetValue(roomId, out var guids))
+        Console.WriteLine("Adding pin to trip: " + tripId +" with message: " + jsonMessage);
+        if (Rooms.TryGetValue(tripId, out var guids))
         {
             foreach (var guid in guids)
             {
@@ -86,9 +87,9 @@ public static class StateService
         }
     }
     
-    public static void DeletePin(int roomId, string jsonMessage)
+    public static void DeletePin(int tripId, string jsonMessage)
     {
-        if (Rooms.TryGetValue(roomId, out var guids))
+        if (Rooms.TryGetValue(tripId, out var guids))
         {
             foreach (var guid in guids)
             {
@@ -100,9 +101,9 @@ public static class StateService
         }
     }
     
-    public static void MovePin(int roomId, string jsonMessage)
+    public static void MovePin(int tripId, string jsonMessage)
     {
-        if (Rooms.TryGetValue(roomId, out var guids))
+        if (Rooms.TryGetValue(tripId, out var guids))
         {
             foreach (var guid in guids)
             {

@@ -7,4 +7,9 @@
         <RootNamespace>Utilities</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Npgsql" Version="8.0.3" />
+      <PackageReference Include="Npgsql.DependencyInjection" Version="8.0.3" />
+    </ItemGroup>
+
 </Project>
