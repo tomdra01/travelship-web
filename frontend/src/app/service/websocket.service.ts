@@ -14,7 +14,7 @@ export class WebsocketService {
     this.ws.onopen = () => {
       console.log("WebSocket connection established.");
       this.clientSetUsername(username);
-      this.clientEnterRoom(tripId);
+      this.clientWantsToEnterTrip(tripId);
     };
 
     this.ws.onmessage = (event) => {
@@ -40,10 +40,10 @@ export class WebsocketService {
     console.log("Username set to: " + username);
   }
 
-  private clientEnterRoom(roomId: number) {
+  private clientWantsToEnterTrip(tripId: number) {
     const object = {
-      eventType: "ClientWantsToEnterRoom",
-      roomId: roomId
+      eventType: "ClientWantsToEnterTrip",
+      tripId: tripId
     };
     this.ws.send(JSON.stringify(object));
   }

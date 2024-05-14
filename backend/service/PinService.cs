@@ -12,6 +12,18 @@ public class PinService : IPinService
     {
         _pinRepository = pinRepository ?? throw new ArgumentNullException(nameof(pinRepository), "PinRepository is null");
     }
+    
+    public async Task<IEnumerable<Pin>> GetPinsByTripId(long tripId)
+    {
+        try
+        {
+            return await _pinRepository.GetPinsByTripId(tripId);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"An error occurred while retrieving pins for trip ID {tripId}: {ex.Message}", ex);
+        }
+    }
 
     public async Task<Pin> AddPin(Pin pin)
     {

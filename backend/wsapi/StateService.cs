@@ -31,16 +31,18 @@ public static class StateService
         return Connections.Remove(ws.ConnectionInfo.Id);
     }
 
-    public static bool AddToRoom(IWebSocketConnection ws, int room)
+    public static bool AddToTrip(IWebSocketConnection ws, int tripId)
     {
-        if (!Rooms.ContainsKey(room))
-            Rooms.Add(room, new HashSet<Guid>());
-        return Rooms[room].Add(ws.ConnectionInfo.Id);
+        Console.WriteLine("You are trying to join room: " + tripId + " with id: " + ws.ConnectionInfo.Id + " and username: " + Connections[ws.ConnectionInfo.Id].Username);
+        if (!Rooms.ContainsKey(tripId))
+            Rooms.Add(tripId, new HashSet<Guid>());
+        return Rooms[tripId].Add(ws.ConnectionInfo.Id);
     }
     
-    public static bool RemoveFromRoom(IWebSocketConnection ws, int room)
+    public static bool RemoveFromTrip(IWebSocketConnection ws, int tripId)
     {
-        if (Rooms.TryGetValue(room, out var guids))
+        Console.WriteLine("You are trying to leave room: " + tripId + " with id: " + ws.ConnectionInfo.Id + " and username: " + Connections[ws.ConnectionInfo.Id].Username);
+        if (Rooms.TryGetValue(tripId, out var guids))
             return guids.Remove(ws.ConnectionInfo.Id);
         return false;
     }

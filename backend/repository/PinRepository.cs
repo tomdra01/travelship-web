@@ -1,21 +1,43 @@
 using Dapper;
 using Npgsql;
 using Repository.Models;
+using System.Threading.Tasks;
 
 namespace Repository;
 
 public class PinRepository
 {
-    private readonly string _connectionString;
+    private readonly NpgsqlConnection _connection;
 
     public PinRepository(string connectionString)
     {
-        _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+        _connection = new NpgsqlConnection(connectionString ?? throw new ArgumentNullException(nameof(connectionString)));
     }
 
-    private NpgsqlConnection CreateConnection()
+    private async Task EnsureConnectionOpenAsync()
     {
-        return new NpgsqlConnection(_connectionString);
+        if (_connection.State != System.Data.ConnectionState.Open)
+        {
+            await _connection.OpenAsync();
+        }
+    }
+
+    private async Task EnsureConnectionClosedAsync()
+    {
+        if (_connection.State != System.Data.ConnectionState.Closed)
+        {
+            await _connection.CloseAsync();
+        }
+    }
+    
+    public async Task<IEnumerable<Pin>> GetPinsByTripId(long tripId)
+    {
+        const string sql = "SELECT * FROM Production.Pins WHERE TripId = @TripId;";
+            
+        await EnsureConnectionOpenAsync();
+        var pins = await _connection.QueryAsync<Pin>(sql, new { TripId = tripId });
+        await EnsureConnectionClosedAsync();
+        return pins;
     }
 
     public async Task<Pin> AddPin(Pin pin)
@@ -23,24 +45,21 @@ public class PinRepository
         const string sql = @"
 INSERT INTO Production.Pins (PinId, Type, Title, Description, XPosition, YPosition, TripId)
 VALUES (@PinId, @Type, @Title, @Description, @XPosition, @YPosition, @TripId) RETURNING *;";
-
-        using (var conn = CreateConnection())
-        {
-            await conn.OpenAsync();
-            return await conn.QuerySingleAsync<Pin>(sql, pin);
-        }
+        
+        await EnsureConnectionOpenAsync();
+        var addedPin = await _connection.QuerySingleAsync<Pin>(sql, pin);
+        await EnsureConnectionClosedAsync();
+        return addedPin;
     }
 
     public async Task<bool> RemovePin(long pinId)
     {
         const string sql = "DELETE FROM Production.Pins WHERE PinId = @PinId;";
-
-        using (var conn = CreateConnection())
-        {
-            await conn.OpenAsync();
-            var affectedRows = await conn.ExecuteAsync(sql, new { PinId = pinId });
-            return affectedRows >= 1; 
-        }
+        
+        await EnsureConnectionOpenAsync();
+        var affectedRows = await _connection.ExecuteAsync(sql, new { PinId = pinId });
+        await EnsureConnectionClosedAsync();
+        return affectedRows >= 1;
     }
 
     public async Task<Pin> MovePin(long pinId, int newX, int newY)
@@ -50,11 +69,10 @@ UPDATE Production.Pins
 SET XPosition = @NewX, YPosition = @NewY
 WHERE PinId = @PinId
 RETURNING *;";
-
-        using (var conn = CreateConnection())
-        {
-            await conn.OpenAsync();
-            return await conn.QuerySingleOrDefaultAsync<Pin>(sql, new { PinId = pinId, NewX = newX, NewY = newY });
-        }
+        
+        await EnsureConnectionOpenAsync();
+        var movedPin = await _connection.QuerySingleOrDefaultAsync<Pin>(sql, new { PinId = pinId, NewX = newX, NewY = newY });
+        await EnsureConnectionClosedAsync();
+        return movedPin;
     }
 }

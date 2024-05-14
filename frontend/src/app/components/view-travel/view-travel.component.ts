@@ -111,8 +111,23 @@ export class ViewTravelComponent implements OnInit {
         case 'ServerMovesPin':
           this.movePinServer(data.PinId, data.XPosition, data.YPosition);
           break;
+        case 'ServerAddsClientToTrip':
+          this.serverAddsClientToTrip(data);
+          break;
       }
     });
+  }
+
+  private serverAddsClientToTrip(data: any) {
+    if (data.Pins && data.Pins.length > 0) {
+      console.log('Received pins:');
+      data.Pins.forEach((pin: any) => {
+        console.log(`PinId: ${pin.PinId}, Type: ${pin.Type}, Title: ${pin.Title}, Description: ${pin.Description}, XPosition: ${pin.XPosition}, YPosition: ${pin.YPosition}, TripId: ${pin.TripId}`);
+        this.addPinServer(pin); // Calling addPinServer for each pin
+      });
+    } else {
+      console.log('No pins received from the server or pins are empty.');
+    }
   }
 
   addPinClient() {
