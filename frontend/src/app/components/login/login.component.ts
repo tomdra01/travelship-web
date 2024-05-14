@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {Router} from "@angular/router";
-import {GoogleApiService, UserInfo} from "../../../../service/google-api.service";
+import {GoogleApiService, UserInfo} from "../../service/google-api.service";
 
 @Component({
   selector: 'app-login',

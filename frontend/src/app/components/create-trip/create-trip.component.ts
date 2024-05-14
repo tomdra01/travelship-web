@@ -1,39 +1,67 @@
-import { Component } from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {Router} from "@angular/router";
-import {TripService} from "../../../../service/TripService";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { TripService } from "../../service/TripService";
+import { RestCountriesService } from "../../service/rest-countries.service";
+import { debounceTime, distinctUntilChanged, Observable, of, switchMap } from "rxjs";
+import {UnsplashService} from "../../service/unsplash.service";
 
 @Component({
   selector: 'app-create-trip',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule,
-    FormsModule
-  ],
   templateUrl: './create-trip.component.html',
-  styleUrl: './create-trip.component.css'
+  styleUrls: ['./create-trip.component.css']  // Corrected styleUrl to styleUrls
 })
-export class CreateTripComponent {
+export class CreateTripComponent implements OnInit {
+  tripForm: FormGroup;
+  filteredCountries: Observable<string[]> = of([]);
+  locationControl = new FormControl('', Validators.required);
+  imageUrl: string | null | undefined;
 
-  constructor(private tripService: TripService, private router: Router) {}
+  constructor(
+    private tripService: TripService,
+    private router: Router,
+    private unsplashService: UnsplashService,
+    private restCountriesService: RestCountriesService
+  ) {
+    this.tripForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      location: this.locationControl,
+      date: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      code: new FormControl('')
+    });
+  }
 
-  tripForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    location: new FormControl('', Validators.required),
-    date: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
-    code: new FormControl('')
-  });
+  ngOnInit() {
+    this.filteredCountries = this.locationControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(term => term ? this.restCountriesService.searchCountries(term) : of([]))
+    );
 
-  onSubmit() {
-    if (this.tripForm.valid) {
-      const formValue = {...this.tripForm.value};
+    this.loadImage();
+  }
 
-      if (formValue.code === '') {
-        formValue.code = null;
+  loadImage() {
+    this.unsplashService.getRandomPhoto().subscribe({
+      next: (url) => {
+        if (url) {
+          console.log('Image URL received:', url);
+          this.imageUrl = url;
+        } else {
+          console.log('No URL received, possibly due to an error.');
+        }
+      },
+      error: (error) => {
+        console.error('Failed to load image from Unsplash', error);
       }
+    });
+  }
+
+  onSubmit(): void {
+    if (this.tripForm.valid) {
+      const formValue = { ...this.tripForm.value };
+      formValue.code = formValue.code === '' ? null : formValue.code;
 
       this.tripService.createTrip(formValue).subscribe({
         next: (trip) => {

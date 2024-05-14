@@ -2,9 +2,9 @@ import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/c
 import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { WebsocketService } from "service/websocket.service";
-import { TripDetailsService } from "service/trip-details.service";
-import { UserDetailsService } from "service/user-details.service";
+import { WebsocketService } from "src/app/service/websocket.service";
+import { TripDetailsService } from "src/app/service/trip-details.service";
+import { UserDetailsService } from "src/app/service/user-details.service";
 import {Trip} from "../../../../models/Trip";
 import {DateSelection, Pin} from "../../../../models/Pin";
 import { v4 as uuidv4 } from 'uuid';

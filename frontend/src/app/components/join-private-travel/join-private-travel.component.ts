@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
-import {TripService} from "../../../../service/TripService";
+import {TripService} from "../../service/TripService";
 
 @Component({
   selector: 'app-join-private-travel',

@@ -1,8 +1,7 @@
-using System.Text;
 using dotenv.net;
 using Infrastructure.interfaces;
-using Service;
 using Repository;
+using Service;
 using Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +13,9 @@ var dbConString = FormatConnectionString.Format(Configuration.DbCon);
 builder.Services.AddSingleton<TripRepository>(provider =>
     new TripRepository(dbConString));
 builder.Services.AddSingleton<ITripService, TripService>();
+
+// Add HttpClientFactory to the service collection
+builder.Services.AddHttpClient();
 
 builder.Services.AddOptions();
 builder.Services.AddMemoryCache();
@@ -31,7 +33,6 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder.WithOrigins("http://localhost:4200", "http://localhost:3000", "http://localhost:5181", "http://localhost:8181")
-            //builder.WithOrigins("deployed url here")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -49,7 +50,6 @@ var policyCollection = new HeaderPolicyCollection()
     .AddDefaultSecurityHeaders()
     .AddContentSecurityPolicy(builder =>
     {
-        //builder.AddDefaultSrc().Self().From("deployed url here");
         builder.AddDefaultSrc().Self().From("http://localhost:4200, http://localhost:3000");
     });
 app.UseSecurityHeaders(policyCollection);
