@@ -7,14 +7,33 @@
 }
 
 .card {
-  background-color: #f0f0f0;
+  position: relative;
+  overflow: hidden;
   border: 2px solid #000;
-  padding: 20px;
   transition: transform 0.3s ease-in-out;
+  background: rgba(255, 255, 255, 0.85); /* Transparent white */
+}
+
+.card-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(240, 240, 240, 0.96); /* Light gray with transparency */
+  filter: blur(10px);
+  z-index: 1;
+}
+
+.card-content {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  background: rgba(255, 255, 255); /* Slightly transparent background for content */
 }
 
 .card:hover {
-  transform: scale(1.05);
+  transform: scale(1.015);
   cursor: pointer;
 }
 
@@ -33,14 +52,14 @@
   border: 2px solid #000;
 }
 
-.title1{
+.title1 {
   font-size: 8rem;
   font-weight: bold;
   color: #000000;
   margin-left: 3%;
 }
 
-.title2{
+.title2 {
   font-size: 3rem;
   font-weight: bold;
   color: #000000;
@@ -54,7 +73,7 @@
   margin-left: 3%;
 }
 
-.spaceDivider{
+.spaceDivider {
   margin-top: 5%;
   margin-bottom: 5%;
 }

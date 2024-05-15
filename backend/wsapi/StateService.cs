@@ -33,7 +33,7 @@ public static class StateService
 
     public static bool AddToTrip(IWebSocketConnection ws, int tripId)
     {
-        Console.WriteLine("You are trying to join room: " + tripId + " with id: " + ws.ConnectionInfo.Id + " and username: " + Connections[ws.ConnectionInfo.Id].Username);
+        Console.WriteLine("You are trying to join trip room: " + tripId + " with id: " + ws.ConnectionInfo.Id + " and username: " + Connections[ws.ConnectionInfo.Id].Username);
         if (!Rooms.ContainsKey(tripId))
             Rooms.Add(tripId, new HashSet<Guid>());
         return Rooms[tripId].Add(ws.ConnectionInfo.Id);

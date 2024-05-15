@@ -192,7 +192,7 @@ export class ViewTravelComponent implements OnInit {
     if (this.messageContent.trim()) {
       const message = {
         eventType: "ClientWantsToBroadcastToRoom",
-        TripId: this.tripId!,
+        roomId: this.tripId!,
         message: this.messageContent
       };
       this.websocketService.sendMessage(message);
@@ -226,10 +226,6 @@ export class ViewTravelComponent implements OnInit {
     this.currentPin = pin;
     this.offsetX = event.clientX - pin.x;
     this.offsetY = event.clientY - pin.y;
-  }
-
-  onButtonClick(pin: any): void {
-    alert('Button on ' + pin.title + ' clicked!'+ pin.description + ' ' + pin.type);
   }
 
   calculateAverageDate(): void {

@@ -1,8 +1,23 @@
+/* Flex container for the entire content */
+.content-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
 /* Styles for form container */
 .form-container {
   display: flex;
   flex-direction: column;
+  width: 70%; /* Take up 70% of the container width */
+}
+
+/* Styles for right container (plane image and random image) */
+.right-container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  width: 30%; /* Take up 30% of the container width */
 }
 
 /* Styles for form group */
@@ -10,11 +25,25 @@
   margin-bottom: 20px;
 }
 
-/* Styles for input fields */
+/* Styles for input fields with specific widths */
+.form-group.small input[type="text"],
+.form-group.small input[type="date"] {
+  width: 50%;
+}
+
+.form-group.medium input[type="text"],
+.form-group.medium input[type="date"] {
+  width: 75%;
+}
+
+.form-group.large textarea {
+  width: 100%;
+}
+
+/* General styles for input fields */
 input[type="text"],
 input[type="date"],
 textarea {
-  width: 100%;
   padding: 10px;
   border: none;
   background-color: rgba(255, 255, 255, 0.3); /* Soft light white background */
@@ -35,29 +64,19 @@ label {
   font-weight: bold;
 }
 
-/* Styles for buttons */
-.button {
-  padding: 10px 20px;
-  background-color: #3746ac;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #293b82; /* Darker shade on hover */
-}
-
-/* Styles for image */
-.image {
-  background-image: url('src/assets/plane.svg');
+/* Styles for plane image */
+.plane-image {
+  background-image: url('/assets/plane.svg');
   background-size: cover;
+  width: 100%; /* Adjust width as necessary */
+  height: 200px; /* Adjust height as necessary */
+  margin-bottom: 20px;
 }
 
+/* Styles for random image */
 .image-container {
-  width: 100%;        /* Adjust width as necessary */
-  height: 400px;      /* Adjust height as necessary */
+  width: 100%; /* Adjust width as necessary */
+  height: 200px; /* Adjust height as necessary */
   background-size: cover;
   background-position: bottom;
 }
-
