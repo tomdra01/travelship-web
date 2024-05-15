@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {environment} from "../../../environment/Environment";
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ export class WebsocketService {
   private ws: WebSocket;
 
   constructor() {
-    this.ws = new WebSocket('ws://localhost:8181');
+    this.ws = new WebSocket(environment.websocketUrl);
   }
 
   initWebSocket(username: string, tripId: number, onMessageCallback: (data: any) => void) {

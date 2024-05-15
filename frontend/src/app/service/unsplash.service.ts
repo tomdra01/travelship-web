@@ -8,7 +8,7 @@ import {environment} from "../../../environment/Environment";
   providedIn: 'root'
 })
 export class UnsplashService {
-    private baseUrl = `${environment.baseUrl}/api/unsplash/random`;
+    private baseUrl = `${environment.httpUrl}/api/unsplash/random`;
 
     constructor(private http: HttpClient) {}
 
