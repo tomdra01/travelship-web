@@ -36,7 +36,7 @@ public class ClientWantsToEnterTrip : BaseEventHandler<ClientWantsToEnterTripDto
 
             var response = new ServerAddsClientToTrip
             {
-                message = "You have been added to room " + dto.TripId,
+                message = "You have been added to trip " + dto.TripId,
                 Pins = pins
             };
 
@@ -46,7 +46,7 @@ public class ClientWantsToEnterTrip : BaseEventHandler<ClientWantsToEnterTripDto
         {
             var errorResponse = new ServerAddsClientToTrip
             {
-                message = "Failed to add you to room " + dto.TripId
+                message = "Failed to add you to trip " + dto.TripId
             };
 
             ws.Send(JsonSerializer.Serialize(errorResponse));

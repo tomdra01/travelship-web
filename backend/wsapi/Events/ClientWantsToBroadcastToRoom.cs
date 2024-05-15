@@ -6,7 +6,7 @@ namespace WebsocketApi.Events;
 
 public class ClientWantsToBroadcastToRoomDto : BaseDto
 {
-    public int roomId { get; set; }
+    public int tripId { get; set; }
     public string message { get; set; }
 }
 
@@ -28,7 +28,7 @@ public class ClientWantsToBroadcastToRoom : BaseEventHandler<ClientWantsToBroadc
                 message = dto.message,
                 username = metaData.Username
             };
-            StateService.BroadcastToRoom(dto.roomId, JsonSerializer.Serialize(message));
+            StateService.BroadcastToRoom(dto.tripId, JsonSerializer.Serialize(message));
         }
         else
         {

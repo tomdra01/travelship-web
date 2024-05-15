@@ -192,7 +192,7 @@ export class ViewTravelComponent implements OnInit {
     if (this.messageContent.trim()) {
       const message = {
         eventType: "ClientWantsToBroadcastToRoom",
-        TripId: this.tripId!,
+        roomId: this.tripId!,
         message: this.messageContent
       };
       this.websocketService.sendMessage(message);

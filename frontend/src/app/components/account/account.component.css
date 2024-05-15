@@ -27,20 +27,8 @@
   color: #555; /* Optional: style email differently if needed */
 }
 
-.button {
-  margin-left: auto; /* Pushes the button to the right of the flex container */
-  margin-right: 2%;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: black;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.button:hover {
-  transform: scale(1.12);
-  transition: transform 0.4s ease;
+button{
+  margin-left: 48%;
 }
 
 .spaceDivider {
