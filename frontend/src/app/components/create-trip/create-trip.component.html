@@ -2,22 +2,22 @@
 <div class="spaceDivider"></div>
 <div class="content-container"> <!-- Flex container -->
   <form (ngSubmit)="onSubmit()" [formGroup]="tripForm" class="form-container">
-    <div class="form-group">
+    <div class="form-group small">
       <label for="name">Name</label>
       <input type="text" id="name" name="name" formControlName="name" placeholder="Enter your name" required>
     </div>
 
-    <div class="form-group">
+    <div class="form-group medium">
       <label for="date">Date</label>
       <input type="date" id="date" name="date" formControlName="date" placeholder="Select a date" required>
     </div>
 
-    <div class="form-group">
+    <div class="form-group large">
       <label for="description">Description</label>
       <textarea id="description" name="description" formControlName="description" rows="4" placeholder="Enter a description" required></textarea>
     </div>
 
-    <div class="form-group">
+    <div class="form-group medium">
       <label for="location">Location</label>
       <input type="text" id="location" name="location" [formControl]="locationControl" [matAutocomplete]="auto" placeholder="Enter a location">
       <mat-autocomplete #auto="matAutocomplete">
@@ -27,7 +27,7 @@
       </mat-autocomplete>
     </div>
 
-    <div class="form-group">
+    <div class="form-group small">
       <label for="code">Code (optional)</label>
       <input type="text" id="code" name="code" formControlName="code" placeholder="Enter a code">
     </div>
@@ -37,8 +37,10 @@
     </div>
   </form>
 
-  <div class="image"></div>
-  <div *ngIf="imageUrl" class="image-container" [style.background-image]="'url(' + imageUrl + ')'">
-    <!-- This div should display the image -->
+  <div class="right-container">
+    <div class="plane-image"></div>
+    <div *ngIf="imageUrl" class="image-container" [style.background-image]="'url(' + imageUrl + ')'">
+      <!-- This div should display the image -->
+    </div>
   </div>
 </div>

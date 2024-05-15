@@ -228,10 +228,6 @@ export class ViewTravelComponent implements OnInit {
     this.offsetY = event.clientY - pin.y;
   }
 
-  onButtonClick(pin: any): void {
-    alert('Button on ' + pin.title + ' clicked!'+ pin.description + ' ' + pin.type);
-  }
-
   calculateAverageDate(): void {
     if (this.dateSelection.arrival && this.dateSelection.departure) {
       const arrivalDate = new Date(this.dateSelection.arrival);
