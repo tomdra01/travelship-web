@@ -1,11 +1,24 @@
 using System.Reflection;
 using System.Text.Json;
+using dotenv.net;
 using Fleck;
+using Infrastructure.interfaces;
 using lib;
+using Repository;
+using Service;
+using Utilities;
 using WebsocketApi;
 using WebsocketApi.DTOs.Server;
 
 var builder = WebApplication.CreateBuilder(args);
+
+DotEnv.Load();
+
+var dbConString = FormatConnectionString.Format(Configuration.DbCon);
+
+builder.Services.AddSingleton<PinRepository>(provider => new PinRepository(dbConString));
+builder.Services.AddSingleton<IPinService, PinService>();
+
 
 var services = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
 
@@ -33,7 +46,7 @@ server.Start(socket =>
         }
         catch (Exception e)
         {
-            Console.WriteLine("Caught Exception at WebsocketApi/Program.cs: " + e.Message);
+            Console.WriteLine("Caught Exception at wsapi/Program.cs: " + e.Message);
             socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClientDto { errorMessage = "An error occurred: " + e.Message }));
         }
 

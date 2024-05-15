@@ -1,4 +1,4 @@
-﻿using Service;
+﻿using Infrastructure.interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
 

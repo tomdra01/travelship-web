@@ -1,64 +1,52 @@
 ﻿using Dapper;
 using Npgsql;
 using Repository.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Repository;
 
 public class TripRepository
 {
-    private readonly string _connectionString;
+    private readonly NpgsqlConnection _connection;
 
     public TripRepository(string connectionString)
     {
-        _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
-    }
-
-    private NpgsqlConnection CreateConnection()
-    {
-        return new NpgsqlConnection(_connectionString);
+        _connection = new NpgsqlConnection(connectionString ?? throw new ArgumentNullException(nameof(connectionString)));
     }
 
     public async Task<IEnumerable<Trip>> GetAllTrips()
     {
         const string sql = "SELECT * FROM Production.Trips;";
-        using (var conn = CreateConnection())
-        {
-            await conn.OpenAsync();
-            return await conn.QueryAsync<Trip>(sql);
-        }
+        await _connection.OpenAsync();
+        var trips = await _connection.QueryAsync<Trip>(sql);
+        await _connection.CloseAsync();
+        return trips;
     }
-    
+
     public async Task<IEnumerable<Trip>> GetPublicTrips()
     {
         const string sql = "SELECT * FROM Production.Trips WHERE code IS NULL OR code = '';";
-        using (var connection = new NpgsqlConnection(_connectionString))
-        {
-            await connection.OpenAsync();
-            return await connection.QueryAsync<Trip>(sql);
-        }
+        await _connection.OpenAsync();
+        var trips = await _connection.QueryAsync<Trip>(sql);
+        await _connection.CloseAsync();
+        return trips;
     }
 
     public async Task<Trip> GetTripById(int tripId)
     {
         const string sql = "SELECT * FROM Production.Trips WHERE id = @TripId;";
-        using (var conn = CreateConnection())
-        {
-            await conn.OpenAsync();
-            return await conn.QuerySingleOrDefaultAsync<Trip>(sql, new { TripId = tripId });
-        }
+        await _connection.OpenAsync();
+        var trip = await _connection.QuerySingleOrDefaultAsync<Trip>(sql, new { TripId = tripId });
+        await _connection.CloseAsync();
+        return trip;
     }
-    
+
     public async Task<Trip> GetTripByCode(string code)
     {
         const string sql = "SELECT * FROM Production.Trips WHERE code = @Code;";
-        using (var connection = new NpgsqlConnection(_connectionString))
-        {
-            await connection.OpenAsync();
-            return await connection.QuerySingleOrDefaultAsync<Trip>(sql, new { Code = code });
-        }
+        await _connection.OpenAsync();
+        var trip = await _connection.QuerySingleOrDefaultAsync<Trip>(sql, new { Code = code });
+        await _connection.CloseAsync();
+        return trip;
     }
 
     public async Task<Trip> CreateTrip(Trip trip)
@@ -66,12 +54,10 @@ public class TripRepository
         const string sql = @"
 INSERT INTO Production.Trips (Name, Location, Date, Description, PeopleJoined, Code)
 VALUES (@Name, @Location, @Date, @Description, @PeopleJoined, @Code) RETURNING *;";
-
-        using (var conn = CreateConnection())
-        {
-            await conn.OpenAsync();
-            return await conn.QuerySingleAsync<Trip>(sql, trip);
-        }
+        await _connection.OpenAsync();
+        var createdTrip = await _connection.QuerySingleAsync<Trip>(sql, trip);
+        await _connection.CloseAsync();
+        return createdTrip;
     }
 
     public async Task<Trip> UpdateTrip(Trip trip)
@@ -81,21 +67,18 @@ UPDATE Production.Trips
 SET Name = @Name, Location = @Location, Date = @Date, Description = @Description, PeopleJoined = @PeopleJoined, Code = @Code
 WHERE id = @ID
 RETURNING *;";
-
-        using (var conn = CreateConnection())
-        {
-            await conn.OpenAsync();
-            return await conn.QuerySingleOrDefaultAsync<Trip>(sql, trip);
-        }
+        await _connection.OpenAsync();
+        var updatedTrip = await _connection.QuerySingleOrDefaultAsync<Trip>(sql, trip);
+        await _connection.CloseAsync();
+        return updatedTrip;
     }
 
     public async Task<bool> DeleteTrip(int tripId)
     {
         const string sql = "DELETE FROM Production.Trips WHERE id = @TripId;";
-        using (var conn = CreateConnection())
-        {
-            await conn.OpenAsync();
-            return await conn.ExecuteAsync(sql, new { TripId = tripId }) > 0;
-        }
+        await _connection.OpenAsync();
+        var result = await _connection.ExecuteAsync(sql, new { TripId = tripId }) > 0;
+        await _connection.CloseAsync();
+        return result;
     }
 }

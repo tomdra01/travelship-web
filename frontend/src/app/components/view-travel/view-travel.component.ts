@@ -2,12 +2,12 @@ import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/c
 import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { WebsocketService } from "service/websocket.service";
-import { TripDetailsService } from "service/trip-details.service";
-import { UserDetailsService } from "service/user-details.service";
+import { WebsocketService } from "src/app/service/websocket.service";
+import { TripDetailsService } from "src/app/service/trip-details.service";
+import { UserDetailsService } from "src/app/service/user-details.service";
 import {Trip} from "../../../../models/Trip";
-import { fabric } from 'fabric';
 import {DateSelection, Pin} from "../../../../models/Pin";
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-view-travel',
@@ -40,7 +40,6 @@ export class ViewTravelComponent implements OnInit {
     departure: ''
   };
   averageDate?: Date;
-
 
   currentPin: any = null;
   offsetX: number = 0;
@@ -104,42 +103,96 @@ export class ViewTravelComponent implements OnInit {
           });
           break;
         case 'ServerAddsPin':
-          this.addPinFromServer(data);
+          this.addPinServer(data);
           break;
         case 'ServerDeletesPin':
-          this.removePinFromServer(data.PinId);
+          this.removePinServer(data.PinId);
           break;
         case 'ServerMovesPin':
-          this.movePinFromServer(data.PinId, data.XPosition, data.YPosition);
+          this.movePinServer(data.PinId, data.XPosition, data.YPosition);
+          break;
+        case 'ServerAddsClientToTrip':
+          this.serverAddsClientToTrip(data);
           break;
       }
     });
   }
 
-  addPinFromServer(data: any) {
+  private serverAddsClientToTrip(data: any) {
+    if (data.Pins && data.Pins.length > 0) {
+      console.log('Received pins:');
+      data.Pins.forEach((pin: any) => {
+        console.log(`PinId: ${pin.PinId}, Type: ${pin.Type}, Title: ${pin.Title}, Description: ${pin.Description}, XPosition: ${pin.XPosition}, YPosition: ${pin.YPosition}, TripId: ${pin.TripId}`);
+        this.addPinServer(pin); // Calling addPinServer for each pin
+      });
+    } else {
+      console.log('No pins received from the server or pins are empty.');
+    }
+  }
+
+  addPinClient() {
+    const uniqueId = Date.now() * 1000 + Math.floor(Math.random() * 1000);
+
+    this.websocketService.sendMessage({
+      eventType: 'ClientWantsToAddPin',
+      PinId: uniqueId,
+      Type: this.selectedOption,
+      Title: 'sample name',
+      Description: 'sample',
+      XPosition: 50,
+      YPosition: 50,
+      TripId: this.tripId!,
+    });
+  }
+
+  removePinClient(pinId: number) {
+    this.websocketService.sendMessage({
+      eventType: 'ClientWantsToDeletePin',
+      PinId: pinId,
+      TripId: this.tripId!
+    });
+  }
+
+  movePinClient(event: MouseEvent): void {
+    let newX = event.clientX - this.offsetX;
+    let newY = event.clientY - this.offsetY;
+
+    const pinboardRect = this.pinboard.nativeElement.getBoundingClientRect();
+    const maxX = pinboardRect.width - 200;  // Assuming pin width is 200px
+    const maxY = pinboardRect.height - 100; // Assuming pin height is 100px
+
+    this.currentPin.x = Math.max(0, Math.min(newX, maxX));
+    this.currentPin.y = Math.max(0, Math.min(newY, maxY));
+  }
+
+  addPinServer(data: any) {
     this.pins.push({
       id: data.PinId,
       type: data.Type,
       title: data.Title,
       description: data.Description,
-      x: 50,
-      y: 50
+      x: data.XPosition,
+      y: data.YPosition,
     });
   }
 
-  removePinFromServer(pinId: number) {
+  removePinServer(pinId: number) {
     this.pins = this.pins.filter(pin => pin.id !== pinId);
   }
 
-  movePinFromServer(pinId: number, xPosition: number, yPosition: number) {
-    this.movePinUpdate(pinId, xPosition, yPosition);
+  movePinServer(pinId: number, xPosition: number, yPosition: number) {
+    const pin = this.pins.find(pin => pin.id === pinId);
+    if (pin) {
+      pin.x = xPosition;
+      pin.y = yPosition;
+    }
   }
 
   sendMessage() {
     if (this.messageContent.trim()) {
       const message = {
         eventType: "ClientWantsToBroadcastToRoom",
-        roomId: this.tripId!,
+        TripId: this.tripId!,
         message: this.messageContent
       };
       this.websocketService.sendMessage(message);
@@ -147,20 +200,16 @@ export class ViewTravelComponent implements OnInit {
     }
   }
 
-  trackById(index: number, message: any): any {
-    return message.id;
-  }
-
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (this.dragging) {
-      this.movePin(event);
+      this.movePinClient(event);
       this.websocketService.sendMessage({
         eventType: 'ClientWantsToMovePin',
-        pinId: this.currentPin.id,
-        xPosition: this.currentPin.x,
-        yPosition: this.currentPin.y,
-        roomId: this.tripId!
+        PinId: this.currentPin.id,
+        XPosition: this.currentPin.x,
+        YPosition: this.currentPin.y,
+        TripId: this.tripId!
       });
     }
   }
@@ -179,47 +228,8 @@ export class ViewTravelComponent implements OnInit {
     this.offsetY = event.clientY - pin.y;
   }
 
-  movePin(event: MouseEvent): void {
-    let newX = event.clientX - this.offsetX;
-    let newY = event.clientY - this.offsetY;
-
-    const pinboardRect = this.pinboard.nativeElement.getBoundingClientRect();
-    const maxX = pinboardRect.width - 200;  // Assuming pin width is 200px
-    const maxY = pinboardRect.height - 100; // Assuming pin height is 100px
-
-    this.currentPin.x = Math.max(0, Math.min(newX, maxX));
-    this.currentPin.y = Math.max(0, Math.min(newY, maxY));
-  }
-
   onButtonClick(pin: any): void {
     alert('Button on ' + pin.title + ' clicked!'+ pin.description + ' ' + pin.type);
-  }
-
-  addPinClient() {
-    this.websocketService.sendMessage({
-      eventType: 'ClientWantsToAddPin',
-      PinId: this.pins.length + 1,
-      Type: this.selectedOption,
-      Title: 'sample name',
-      Description: 'sample',
-      RoomId: this.tripId!,
-    });
-  }
-
-  removePinClient(pinId: number) {
-    this.websocketService.sendMessage({
-      eventType: 'ClientWantsToDeletePin',
-      PinId: pinId,
-      RoomId: this.tripId!
-    });
-  }
-
-  private movePinUpdate(pinId: number, xPosition: number, yPosition: number) {
-    const pin = this.pins.find(pin => pin.id === pinId);
-    if (pin) {
-      pin.x = xPosition;
-      pin.y = yPosition;
-    }
   }
 
   calculateAverageDate(): void {
@@ -229,5 +239,9 @@ export class ViewTravelComponent implements OnInit {
       const averageTime = (arrivalDate.getTime() + departureDate.getTime()) / 2;
       this.averageDate = new Date(averageTime);
     }
+  }
+
+  trackById(index: number, message: any): any {
+    return message.id;
   }
 }

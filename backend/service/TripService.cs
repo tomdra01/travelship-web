@@ -1,4 +1,5 @@
-﻿using Repository;
+﻿using Infrastructure.interfaces;
+using Repository;
 using Repository.Models;
 
 namespace Service;

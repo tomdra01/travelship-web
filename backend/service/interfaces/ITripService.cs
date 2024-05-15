@@ -1,6 +1,6 @@
 ﻿using Repository.Models;
 
-namespace Service;
+namespace Infrastructure.interfaces;
 
 public interface ITripService
 {

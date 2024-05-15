@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {GoogleApiService} from "../../../../service/google-api.service";
+import {GoogleApiService} from "../../service/google-api.service";
 import {Router} from "@angular/router";
 import {NgIf} from "@angular/common";
 

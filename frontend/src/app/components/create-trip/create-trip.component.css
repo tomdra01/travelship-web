@@ -1,86 +1,63 @@
-.title1 {
-  font-size: 8rem;
-  font-weight: bold;
-  color: #000000;
-  margin-left: 3%;
-}
-
-.title2 {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #000000;
-  margin-left: 3%;
-}
-
-.spaceDivider {
-  margin-top: 4%;
-  margin-bottom: 4%;
-}
-
-.buttonContainer {
+/* Styles for form container */
+.form-container {
   display: flex;
-  justify-content: center;
-  margin-bottom: 12%;
-  margin-top: 10%;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* Styles for form group */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Styles for input fields */
+input[type="text"],
+input[type="date"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.3); /* Soft light white background */
+  border-bottom: 2px solid transparent; /* Initially transparent border */
+  transition: border-bottom-color 0.3s; /* Smooth transition for border color */
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:focus {
+  outline: none;
+  border-bottom-color: #3746ac; /* Border color on focus */
+}
+
+/* Styles for labels */
+label {
+  color: #3746ac; /* Label color */
+  font-weight: bold;
+}
+
+/* Styles for buttons */
 .button {
-  background-color: #000;
-  color: #fff;
-  border: 2px solid transparent;
   padding: 10px 20px;
+  background-color: #3746ac;
+  color: white;
+  border: none;
   cursor: pointer;
-  margin-left: 0.8%;
-  margin-right: 0.8%;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .button:hover {
-  background-color: #0088ff;
-  color: #000;
-  border: 2px solid #000;
+  background-color: #293b82; /* Darker shade on hover */
 }
 
+/* Styles for image */
 .image {
-  width: 40%;
-  height: 40vh;
-  background-image: url("/assets/travel1.svg");
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: -1;
+  background-image: url('src/assets/plane.svg');
+  background-size: cover;
 }
 
-.content-container {
-  display: flex;
-  align-items: flex-start; /* Align items at the start of the flex container */
-  justify-content: space-between; /* Spreads the children across the container */
-  width: 100%; /* Full width to ensure the container expands */
+.image-container {
+  width: 100%;        /* Adjust width as necessary */
+  height: 400px;      /* Adjust height as necessary */
+  background-size: cover;
+  background-position: bottom;
 }
 
-.form-container {
-  flex-grow: 1; /* Allows the form to grow and take necessary space */
-  margin-right: 20px; /* Adds margin between the form and the image */
-}
-
-.text-container {
-  margin-right: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin: 1% 0;
-}
-
-.form-control {
-  width: 45%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-left: 3%;
-}
-
-.form-group div {
-  color: red;
-  font-size: 0.8rem;
-  margin-left: 3%;
-}
