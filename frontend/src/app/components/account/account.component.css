@@ -34,3 +34,10 @@ button{
 .spaceDivider {
   margin-bottom: 35%;
 }
+
+.languageTitle {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
