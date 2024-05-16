@@ -6,5 +6,23 @@
   "ABOUT_FEATURE_2": "Deltag i eksisterende rejser: Find rejser, der matcher dine mål.",
   "ABOUT_FEATURE_3": "Interaktiv opslagstavle: Planlæg rejseplaner, tjek flyvninger, book hoteller og fastsæt datoer sammen.",
   "ABOUT_FEATURE_4": "Problemfri integration: Håndter rejse logistik med lethed.",
-  "ABOUT_COMMUNITY_DESC": "Travelship er mere end en app; det er et fællesskab klar til at udforske verden. Start din rejse i dag!"
+  "ABOUT_COMMUNITY_DESC": "Travelship er mere end en app; det er et fællesskab klar til at udforske verden. Start din rejse i dag!",
+
+  "JOIN_PUBLIC_TRIPS": "Deltag i offentlige ture",
+  "TRIP_NAME": "Navn",
+  "TRIP_DESCRIPTION": "Beskrivelse",
+  "TRIP_LOCATION": "Sted",
+  "PEOPLE_JOINED": "Tilmeldte personer",
+  "START_DATE": "Startdato",
+  "OPEN": "Åbn",
+
+  "HEADER_HOME": "Hjem",
+  "HEADER_JOIN_TRAVEL": "Deltag i rejse",
+  "HEADER_ABOUT_US": "Om os",
+  "HEADER_LOGIN": "Log ind",
+  "HEADER_ACCOUNT": "Konto",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "Se offentlige ture",
+  "CONTENT_JOIN_PRIVATE_TRIP": "Deltag i en privat tur",
+  "CONTENT_PLAN_TRIP": "Planlæg en tur"
 }

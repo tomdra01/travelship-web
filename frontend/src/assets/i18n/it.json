@@ -6,5 +6,23 @@
   "ABOUT_FEATURE_2": "Unisciti a viaggi esistenti: Trova viaggi che corrispondono ai tuoi obiettivi.",
   "ABOUT_FEATURE_3": "Bacheca interattiva: Pianifica itinerari, controlla i voli, prenota alberghi e stabilisci date insieme.",
   "ABOUT_FEATURE_4": "Integrazione senza problemi: Gestisci la logistica di viaggio con facilità.",
-  "ABOUT_COMMUNITY_DESC": "Travelship è più di un'app; è una comunità pronta ad esplorare il mondo. Inizia il tuo viaggio oggi!"
+  "ABOUT_COMMUNITY_DESC": "Travelship è più di un'app; è una comunità pronta ad esplorare il mondo. Inizia il tuo viaggio oggi!",
+
+  "JOIN_PUBLIC_TRIPS": "Unisciti ai viaggi pubblici",
+  "TRIP_NAME": "Nome",
+  "TRIP_DESCRIPTION": "Descrizione",
+  "TRIP_LOCATION": "Posizione",
+  "PEOPLE_JOINED": "Persone iscritte",
+  "START_DATE": "Data di inizio",
+  "OPEN": "Apri",
+
+  "HEADER_HOME": "Home",
+  "HEADER_JOIN_TRAVEL": "Unisciti al viaggio",
+  "HEADER_ABOUT_US": "Chi siamo",
+  "HEADER_LOGIN": "Accedi",
+  "HEADER_ACCOUNT": "Account",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "Visualizza viaggi pubblici",
+  "CONTENT_JOIN_PRIVATE_TRIP": "Unisciti a un viaggio privato",
+  "CONTENT_PLAN_TRIP": "Pianifica un viaggio"
 }

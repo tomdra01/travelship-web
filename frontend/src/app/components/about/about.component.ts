@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
+import {LanguageService} from "../../service/language.service";
 
 @Component({
   selector: 'app-about',
@@ -11,12 +12,8 @@ import {TranslateModule, TranslateService} from "@ngx-translate/core";
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
-  constructor(private translate: TranslateService) {
-    this.initializeLanguage();
+  constructor(private languageService: LanguageService) {
+    this.languageService.initializeLanguage();
   }
 
-  private initializeLanguage() {
-    const language = sessionStorage.getItem('lang') || 'en';
-    this.translate.use(language);
-  }
 }

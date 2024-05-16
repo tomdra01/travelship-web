@@ -3,21 +3,24 @@ import {CommonModule} from "@angular/common";
 import {HeropageComponent} from "../heropage/heropage.component";
 import {Router} from "@angular/router";
 import {TripService} from "../../service/TripService";
+import {TranslateModule} from "@ngx-translate/core";
+import {LanguageService} from "../../service/language.service";
 
 @Component({
   selector: 'app-main-view',
   standalone: true,
-  imports: [CommonModule, HeropageComponent],
+  imports: [CommonModule, HeropageComponent, TranslateModule],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.css'
 })
 export class MainViewComponent implements OnInit {
   trips: any[] = [];
 
-  constructor(private tripService: TripService, private router: Router) {}
+  constructor(private tripService: TripService, private router: Router, private languageService: LanguageService) {}
 
   ngOnInit(): void {
     this.loadTrips();
+    this.languageService.initializeLanguage();
   }
 
   loadTrips(): void {

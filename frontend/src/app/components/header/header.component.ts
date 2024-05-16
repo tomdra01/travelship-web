@@ -2,6 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {GoogleApiService} from "../../service/google-api.service";
 import {Router} from "@angular/router";
 import {TimezoneService} from "../../service/timezone.service";
+import {LanguageService} from "../../service/language.service";
 
 @Component({
   selector: 'app-header',
@@ -19,9 +20,10 @@ export class HeaderComponent implements OnInit{
   constructor(
     private readonly googleApi: GoogleApiService,
     private timezoneService: TimezoneService,
-    private router: Router
+    private router: Router,
+    private languageService: LanguageService
   ) {
-  }
+    this.languageService.initializeLanguage(); }
 
   accountClick() {
     this.router.navigate(['account']);
