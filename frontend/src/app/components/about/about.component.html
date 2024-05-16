@@ -1,17 +1,17 @@
 <div class="travelship-container">
   <div class="text-content">
-    <h1>About Travelship</h1>
-    <p>Connect and Collaborate on Your Next Adventure!</p>
+    <h1 [innerHTML]="'ABOUT_TITLE' | translate">About Travelship</h1>
+    <p [innerHTML]="'ABOUT_DESC' | translate">Connect and Collaborate on Your Next Adventure!</p>
 
-    <h2>Features:</h2>
+    <h2 [innerHTML]="'FEATURES_TITLE' | translate">Features:</h2>
     <ul>
-      <li>Create Your Own Trip: Public or private travel plans.</li>
-      <li>Join Existing Trips: Find journeys that match your goals.</li>
-      <li>Interactive Pinboard: Plan itineraries, check flights, book hotels, and set dates together.</li>
-      <li>Seamless Integration: Manage travel logistics with ease.</li>
+      <li [innerHTML]="'FEATURE_1' | translate">Create Your Own Trip: Public or private travel plans.</li>
+      <li [innerHTML]="'FEATURE_2' | translate">Join Existing Trips: Find journeys that match your goals.</li>
+      <li [innerHTML]="'FEATURE_3' | translate">Interactive Pinboard: Plan itineraries, check flights, book hotels, and set dates together.</li>
+      <li [innerHTML]="'FEATURE_4' | translate">Seamless Integration: Manage travel logistics with ease.</li>
     </ul>
 
-    <p>Travelship is more than an app; it's a community ready to explore the world. Start your journey today!</p>
+    <p [innerHTML]="'COMMUNITY_DESC' | translate">Travelship is more than an app; it's a community ready to explore the world. Start your journey today!</p>
   </div>
   <div class="image-content">
     <img class="image" src="/assets/campfire.svg">
