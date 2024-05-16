@@ -6,5 +6,23 @@
   "ABOUT_FEATURE_2": "Přidejte se k existujícím výletům: Najděte cesty, které odpovídají vašim cílům.",
   "ABOUT_FEATURE_3": "Interaktivní nástěnka: Plánujte itineráře, kontrolujte lety, rezervujte hotely a určujte společná data.",
   "ABOUT_FEATURE_4": "Bezproblémová integrace: Správa cestovní logistiky s lehkostí.",
-  "ABOUT_COMMUNITY_DESC": "Travelship je více než aplikace; je to komunita připravená prozkoumat svět. Zahajte svou cestu dnes!"
+  "ABOUT_COMMUNITY_DESC": "Travelship je více než aplikace; je to komunita připravená prozkoumat svět. Zahajte svou cestu dnes!",
+
+  "JOIN_PUBLIC_TRIPS": "Připojte se k veřejným výletům",
+  "TRIP_NAME": "Název",
+  "TRIP_DESCRIPTION": "Popis",
+  "TRIP_LOCATION": "Místo",
+  "PEOPLE_JOINED": "Připojení lidé",
+  "START_DATE": "Datum začátku",
+  "OPEN": "Otevřít",
+
+  "HEADER_HOME": "Domů",
+  "HEADER_JOIN_TRAVEL": "Připojit se k cestě",
+  "HEADER_ABOUT_US": "O nás",
+  "HEADER_LOGIN": "Přihlásit se",
+  "HEADER_ACCOUNT": "Účet",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "Zobrazit veřejné výlety",
+  "CONTENT_JOIN_PRIVATE_TRIP": "Připojit se k soukromému výletu",
+  "CONTENT_PLAN_TRIP": "Naplánovat výlet"
 }

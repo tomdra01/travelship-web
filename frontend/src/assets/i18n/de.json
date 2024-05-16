@@ -6,5 +6,23 @@
   "ABOUT_FEATURE_2": "Bestehenden Reisen beitreten: Finden Sie Reisen, die Ihren Zielen entsprechen.",
   "ABOUT_FEATURE_3": "Interaktives Pinboard: Reiserouten planen, Flüge überprüfen, Hotels buchen und Termine gemeinsam festlegen.",
   "ABOUT_FEATURE_4": "Nahtlose Integration: Reiselogistik leicht gemacht.",
-  "ABOUT_COMMUNITY_DESC": "Travelship ist mehr als eine App; es ist eine Gemeinschaft, die bereit ist, die Welt zu erkunden. Beginnen Sie heute Ihre Reise!"
+  "ABOUT_COMMUNITY_DESC": "Travelship ist mehr als eine App; es ist eine Gemeinschaft, die bereit ist, die Welt zu erkunden. Beginnen Sie heute Ihre Reise!",
+
+  "JOIN_PUBLIC_TRIPS": "Öffentlichen Reisen beitreten",
+  "TRIP_NAME": "Name",
+  "TRIP_DESCRIPTION": "Beschreibung",
+  "TRIP_LOCATION": "Ort",
+  "PEOPLE_JOINED": "Teilnehmer",
+  "START_DATE": "Startdatum",
+  "OPEN": "Öffnen",
+
+  "HEADER_HOME": "Heim",
+  "HEADER_JOIN_TRAVEL": "Reise beitreten",
+  "HEADER_ABOUT_US": "Über uns",
+  "HEADER_LOGIN": "Anmelden",
+  "HEADER_ACCOUNT": "Konto",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "Öffentliche Reisen ansehen",
+  "CONTENT_JOIN_PRIVATE_TRIP": "An einer privaten Reise teilnehmen",
+  "CONTENT_PLAN_TRIP": "Eine Reise planen"
 }
