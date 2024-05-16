@@ -41,7 +41,6 @@ server.Start(socket =>
     {
         try
         {
-            // Invoke the event handler
             await app.InvokeClientEventHandler(services, socket, message);
         }
         catch (Exception e)

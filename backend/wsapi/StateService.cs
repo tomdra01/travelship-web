@@ -1,6 +1,5 @@
 ﻿using Fleck;
 
-
 namespace WebsocketApi;
 
 public class WsWithMetaData
@@ -17,8 +16,8 @@ public class WsWithMetaData
 public static class StateService
 {
     public static Dictionary<Guid, WsWithMetaData> Connections = new();
-    public static Dictionary<int, HashSet<Guid>> Rooms = new();
-    public static Dictionary<int, Queue<string>> RoomMessages = new();
+    public static Dictionary<int, HashSet<Guid>> Trips = new();
+    public static Dictionary<int, Queue<string>> TripMessages = new();
 
 
     public static bool AddConnection(IWebSocketConnection ws)
@@ -33,36 +32,34 @@ public static class StateService
 
     public static bool AddToTrip(IWebSocketConnection ws, int tripId)
     {
-        Console.WriteLine("You are trying to join trip room: " + tripId + " with id: " + ws.ConnectionInfo.Id + " and username: " + Connections[ws.ConnectionInfo.Id].Username);
-        if (!Rooms.ContainsKey(tripId))
-            Rooms.Add(tripId, new HashSet<Guid>());
-        return Rooms[tripId].Add(ws.ConnectionInfo.Id);
+        if (!Trips.ContainsKey(tripId))
+            Trips.Add(tripId, new HashSet<Guid>());
+        return Trips[tripId].Add(ws.ConnectionInfo.Id);
     }
     
     public static bool RemoveFromTrip(IWebSocketConnection ws, int tripId)
     {
-        Console.WriteLine("You are trying to leave room: " + tripId + " with id: " + ws.ConnectionInfo.Id + " and username: " + Connections[ws.ConnectionInfo.Id].Username);
-        if (Rooms.TryGetValue(tripId, out var guids))
+        if (Trips.TryGetValue(tripId, out var guids))
             return guids.Remove(ws.ConnectionInfo.Id);
         return false;
     }
     
     
-    public static void BroadcastToRoom(int room, string message)
+    public static void BroadcastToTrip(int trip, string message)
     {
-        if (!RoomMessages.ContainsKey(room))
+        if (!TripMessages.ContainsKey(trip))
         {
-            RoomMessages.Add(room, new Queue<string>());
+            TripMessages.Add(trip, new Queue<string>());
         }
 
-        var messagesQueue = RoomMessages[room];
+        var messagesQueue = TripMessages[trip];
         if (messagesQueue.Count >= 15)
         {
-            messagesQueue.Dequeue(); // Remove the oldest message if we have 15 messages already
+            messagesQueue.Dequeue();
         }
         messagesQueue.Enqueue(message); 
 
-        if (Rooms.TryGetValue(room, out var guids))
+        if (Trips.TryGetValue(trip, out var guids))
         {
             foreach (var guid in guids)
             {
@@ -76,8 +73,7 @@ public static class StateService
     
     public static void AddPin(int tripId, string jsonMessage)
     {
-        Console.WriteLine("Adding pin to trip: " + tripId +" with message: " + jsonMessage);
-        if (Rooms.TryGetValue(tripId, out var guids))
+        if (Trips.TryGetValue(tripId, out var guids))
         {
             foreach (var guid in guids)
             {
@@ -91,7 +87,7 @@ public static class StateService
     
     public static void DeletePin(int tripId, string jsonMessage)
     {
-        if (Rooms.TryGetValue(tripId, out var guids))
+        if (Trips.TryGetValue(tripId, out var guids))
         {
             foreach (var guid in guids)
             {
@@ -105,7 +101,7 @@ public static class StateService
     
     public static void MovePin(int tripId, string jsonMessage)
     {
-        if (Rooms.TryGetValue(tripId, out var guids))
+        if (Trips.TryGetValue(tripId, out var guids))
         {
             foreach (var guid in guids)
             {

@@ -1,28 +1,20 @@
 ﻿using System.Text.Json;
 using Fleck;
 using lib;
+using WebsocketApi.DTOs.Client;
+using WebsocketApi.DTOs.Server;
 
 namespace WebsocketApi.Events;
-
-public class ClientWantsToLeaveTripDto : BaseDto
-{
-    public int roomId { get; set; }
-}
 
 public class ClientWantsToLeaveTrip : BaseEventHandler<ClientWantsToLeaveTripDto>
 {
     public override Task Handle(ClientWantsToLeaveTripDto dto, IWebSocketConnection ws)
     {
-        var isSuccess = StateService.RemoveFromTrip(ws, dto.roomId);
+        var isSuccess = StateService.RemoveFromTrip(ws, dto.tripId);
         ws.Send(JsonSerializer.Serialize(new ServerRemovesClientFromTrip
         {
-            message = "You have been removed from room " + dto.roomId
+            message = "You have been removed from trip " + dto.tripId
         }));
         return Task.CompletedTask;
     }
-}
-
-public class ServerRemovesClientFromTrip : BaseDto
-{
-    public string message { get; set; }
 }
