@@ -12,15 +12,11 @@ import {TranslateModule, TranslateService} from "@ngx-translate/core";
 })
 export class AboutComponent {
   constructor(private translate: TranslateService) {
-    // Set the default language to English
-    this.translate.setDefaultLang('en');
-
-    // Optionally set the initial language based on user preference or browser settings
-    this.translate.use('en');
+    this.initializeLanguage();
   }
 
-  // Function to switch languages
-  switchLanguage(lang: string) {
-    this.translate.use(lang);
+  private initializeLanguage() {
+    const language = sessionStorage.getItem('lang') || 'en';
+    this.translate.use(language);
   }
 }

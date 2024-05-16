@@ -2,6 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {GoogleApiService} from "../../service/google-api.service";
 import {Router} from "@angular/router";
 import {NgIf} from "@angular/common";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-account',
@@ -17,7 +18,7 @@ export class AccountComponent implements OnInit{
 
   userInfo?: { name: any; picture: any; email: any; sub: any }
 
-  constructor(private readonly googleApi: GoogleApiService, private router: Router) {
+  constructor(private readonly googleApi: GoogleApiService, private router: Router, private translate: TranslateService) {
   }
 
   clickLogOut() {
@@ -28,6 +29,8 @@ export class AccountComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.initializeLanguage();
+
     if (this.googleApi.getToken()) {
       const profile = this.googleApi.getProfile();
       if (profile) {
@@ -39,6 +42,20 @@ export class AccountComponent implements OnInit{
         };
       }
     }
+  }
+
+  initializeLanguage() {
+    const language = sessionStorage.getItem('lang'); // Get language from sessionStorage
+    const defaultLang = 'en'; // Default to English if nothing in sessionStorage
+    this.translate.use(language || defaultLang);
+  }
+
+
+  changeLanguage(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedLang = selectElement.value;
+    this.translate.use(selectedLang); // Change the language
+    sessionStorage.setItem('lang', selectedLang); // Save selected language to sessionStorage
   }
 
 }
