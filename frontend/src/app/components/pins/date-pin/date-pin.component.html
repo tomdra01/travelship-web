@@ -1,0 +1,12 @@
+<div class="pin" [style.top]="pin.y + 'px'" [style.left]="pin.x + 'px'" (mousedown)="onDragStart($event)">
+  <p>{{ pin.type }} ({{ pin.id }})</p>
+  <div>
+    <label for="departureDate-{{ pin.id }}">Departure Date:</label>
+    <input type="date" id="departureDate-{{ pin.id }}" [(ngModel)]="pin.departureDate">
+  </div>
+  <div>
+    <label for="arrivalDate-{{ pin.id }}">Arrival Date:</label>
+    <input type="date" id="arrivalDate-{{ pin.id }}" [(ngModel)]="pin.arrivalDate">
+  </div>
+  <span class="close" (click)="removePin()">&times;</span>
+</div>

@@ -78,22 +78,40 @@ button:hover {
   transform: scale(1.075);
 }
 
-/* Tekst styling */
 .title1 {
-  font-size: 10.5vw; /* Brug vw for skalerbarhed */
+  font-size: 10.5vw;
   font-weight: bold;
   color: whitesmoke;
   margin-left: 3%;
 }
 
 .title2 {
-  font-size: 3vw; /* Brug vw for skalerbarhed */
+  font-size: 3vw;
   font-weight: bold;
   color: #000000;
   margin-left: 3%;
 }
 
-/* Mediespørgsmål for responsiv design */
+.pin {
+  user-select: none; /* Prevent text selection */
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.close {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
 @media (max-width: 1200px) {
   .title1 {
     font-size: 8vw;

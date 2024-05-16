@@ -8,6 +8,10 @@ import { UserDetailsService } from "src/app/service/user-details.service";
 import {Trip} from "../../../../models/Trip";
 import {DateSelection, Pin} from "../../../../models/Pin";
 import { v4 as uuidv4 } from 'uuid';
+import {NotePinComponent} from "../pins/note-pin/note-pin.component";
+import {HotelPinComponent} from "../pins/hotel-pin/hotel-pin.component";
+import {DatePinComponent} from "../pins/date-pin/date-pin.component";
+import {FlightPinComponent} from "../pins/flight-pin/flight-pin.component";
 
 @Component({
   selector: 'app-view-travel',
@@ -16,7 +20,11 @@ import { v4 as uuidv4 } from 'uuid';
     DatePipe,
     FormsModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NotePinComponent,
+    HotelPinComponent,
+    DatePinComponent,
+    FlightPinComponent
   ],
   templateUrl: './view-travel.component.html',
   styleUrl: './view-travel.component.css'
@@ -34,12 +42,6 @@ export class ViewTravelComponent implements OnInit {
   selectedOption = this.pinOptions[0];
 
   pins: Pin[] = [];
-
-  dateSelection: DateSelection = {
-    arrival: '',
-    departure: ''
-  };
-  averageDate?: Date;
 
   currentPin: any = null;
   offsetX: number = 0;
@@ -192,7 +194,7 @@ export class ViewTravelComponent implements OnInit {
     if (this.messageContent.trim()) {
       const message = {
         eventType: "ClientWantsToBroadcastToRoom",
-        roomId: this.tripId!,
+        tripId: this.tripId!,
         message: this.messageContent
       };
       this.websocketService.sendMessage(message);
@@ -221,20 +223,12 @@ export class ViewTravelComponent implements OnInit {
     }
   }
 
-  onDragStart(event: MouseEvent, pin: any): void {
+  onDragStart(eventData: { event: MouseEvent, pin: any }): void {
+    const event = eventData.event;
     this.dragging = true;
-    this.currentPin = pin;
-    this.offsetX = event.clientX - pin.x;
-    this.offsetY = event.clientY - pin.y;
-  }
-
-  calculateAverageDate(): void {
-    if (this.dateSelection.arrival && this.dateSelection.departure) {
-      const arrivalDate = new Date(this.dateSelection.arrival);
-      const departureDate = new Date(this.dateSelection.departure);
-      const averageTime = (arrivalDate.getTime() + departureDate.getTime()) / 2;
-      this.averageDate = new Date(averageTime);
-    }
+    this.currentPin = eventData.pin;
+    this.offsetX = event.clientX - eventData.pin.x;
+    this.offsetY = event.clientY - eventData.pin.y;
   }
 
   trackById(index: number, message: any): any {

@@ -1,0 +1,5 @@
+<div class="pin" [style.top]="pin.y + 'px'" [style.left]="pin.x + 'px'" (mousedown)="onDragStart($event)">
+  <p>Hotel Info: {{ pin.description }}</p>
+  <div>hotelpin</div>
+  <span class="close" (click)="removePin()">&times;</span>
+</div>
