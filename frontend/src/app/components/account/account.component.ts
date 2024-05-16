@@ -3,12 +3,14 @@ import {GoogleApiService} from "../../service/google-api.service";
 import {Router} from "@angular/router";
 import {NgIf} from "@angular/common";
 import {TranslateService} from "@ngx-translate/core";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-account',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    FormsModule
   ],
   templateUrl: './account.component.html',
   styleUrl: './account.component.css'
@@ -17,6 +19,8 @@ export class AccountComponent implements OnInit{
   private authService = inject(GoogleApiService);
 
   userInfo?: { name: any; picture: any; email: any; sub: any }
+
+  selectedLanguage: string = 'en';
 
   constructor(private readonly googleApi: GoogleApiService, private router: Router, private translate: TranslateService) {
   }
@@ -45,9 +49,9 @@ export class AccountComponent implements OnInit{
   }
 
   initializeLanguage() {
-    const language = sessionStorage.getItem('lang'); // Get language from sessionStorage
-    const defaultLang = 'en'; // Default to English if nothing in sessionStorage
-    this.translate.use(language || defaultLang);
+    const language = sessionStorage.getItem('lang') || 'en'; // Default to English if null
+    this.selectedLanguage = language; // Now always a string, never null
+    this.translate.use(this.selectedLanguage);
   }
 
 

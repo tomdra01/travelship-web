@@ -8,8 +8,8 @@
   <button class="button" (click)="clickLogOut()">Log Out</button>
 </div>
 <div class="account-container">
-  <div class="languageTitle ">Language</div>
-  <select (change)="changeLanguage($event)">
+  <div class="languageTitle">Language</div>
+  <select [(ngModel)]="selectedLanguage" (change)="changeLanguage($event)">
     <option value="en">English</option>
     <option value="cs">Čeština</option>
     <option value="da">Dansk</option>
