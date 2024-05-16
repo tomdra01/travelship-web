@@ -1,12 +1,8 @@
 ﻿using Fleck;
 using lib;
+using WebsocketApi.DTOs.Client;
 
 namespace WebsocketApi.Events;
-
-public class ClientWantsToSetUsernameDto : BaseDto
-{
-    public string Username { get; set; }
-}
 
 public class ClientWantsToSetUsername : BaseEventHandler<ClientWantsToSetUsernameDto>
 {

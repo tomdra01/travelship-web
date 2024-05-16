@@ -1,25 +1,21 @@
 ﻿using System.Text.Json;
 using Fleck;
 using lib;
+using WebsocketApi.DTOs.Client;
+using WebsocketApi.DTOs.Server;
 
 namespace WebsocketApi.Events;
 
-public class ClientWantsToBroadcastToRoomDto : BaseDto
-{
-    public int tripId { get; set; }
-    public string message { get; set; }
-}
-
-public class ClientWantsToBroadcastToRoom : BaseEventHandler<ClientWantsToBroadcastToRoomDto>
+public class ClientWantsToBroadcastToTrip : BaseEventHandler<ClientWantsToBroadcastToTripDto>
 {
     private readonly IConfiguration _configuration;
 
-    public ClientWantsToBroadcastToRoom(IConfiguration configuration)
+    public ClientWantsToBroadcastToTrip(IConfiguration configuration)
     {
         _configuration = configuration;
     }
     
-    public override Task Handle(ClientWantsToBroadcastToRoomDto dto, IWebSocketConnection ws)
+    public override Task Handle(ClientWantsToBroadcastToTripDto dto, IWebSocketConnection ws)
     {
         if (StateService.Connections.TryGetValue(ws.ConnectionInfo.Id, out var metaData))
         {
@@ -28,7 +24,7 @@ public class ClientWantsToBroadcastToRoom : BaseEventHandler<ClientWantsToBroadc
                 message = dto.message,
                 username = metaData.Username
             };
-            StateService.BroadcastToRoom(dto.tripId, JsonSerializer.Serialize(message));
+            StateService.BroadcastToTrip(dto.tripId, JsonSerializer.Serialize(message));
         }
         else
         {
@@ -36,10 +32,4 @@ public class ClientWantsToBroadcastToRoom : BaseEventHandler<ClientWantsToBroadc
         }
         return Task.CompletedTask;
     }
-}
-
-public class ServerBroadcastsMessageWithUsername : BaseDto
-{
-    public string message { get; set; }
-    public string username { get; set; }
 }

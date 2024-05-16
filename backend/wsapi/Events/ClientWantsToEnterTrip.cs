@@ -2,14 +2,10 @@
 using Fleck;
 using Infrastructure.interfaces;
 using lib;
-using Repository.Models;
+using WebsocketApi.DTOs.Client;
+using WebsocketApi.DTOs.Server;
 
 namespace WebsocketApi.Events;
-
-public class ClientWantsToEnterTripDto : BaseDto
-{
-    public int TripId { get; set; }
-}
 
 public class ClientWantsToEnterTrip : BaseEventHandler<ClientWantsToEnterTripDto>
 {
@@ -27,13 +23,7 @@ public class ClientWantsToEnterTrip : BaseEventHandler<ClientWantsToEnterTripDto
         if (isSuccess)
         {
             var pins = await _pinService.GetPinsByTripId(dto.TripId);
-
-            // Print each pin's details to the console
-            foreach (var pin in pins)
-            {
-                Console.WriteLine($"PinId: {pin.PinId}, Type: {pin.Type}, Title: {pin.Title}, Description: {pin.Description}, XPosition: {pin.XPosition}, YPosition: {pin.YPosition}, TripId: {pin.TripId}");
-            }
-
+            
             var response = new ServerAddsClientToTrip
             {
                 message = "You have been added to trip " + dto.TripId,
@@ -52,10 +42,4 @@ public class ClientWantsToEnterTrip : BaseEventHandler<ClientWantsToEnterTripDto
             ws.Send(JsonSerializer.Serialize(errorResponse));
         }
     }
-}
-
-public class ServerAddsClientToTrip : BaseDto
-{
-    public string message { get; set; }
-    public IEnumerable<Pin> Pins { get; set; }
 }
