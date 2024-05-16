@@ -8,11 +8,11 @@
 }
 
 .logo {
-  margin-left: 1%;
   width: auto;
-  height: 50px;
+  height: 20px;
+  margin-left: 0.3%;
+  margin-right: 0.3%;
 }
-
 
 .profilePic {
   width: 30px;
@@ -53,8 +53,12 @@
     flex-direction: column;
     align-items: center;
     margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 10px;
+    margin-right: 2%;
+    margin-top: 1.33%;
+  }
+
+  .userName {
+    display: none;
   }
 
   .userDetails div {
@@ -65,13 +69,12 @@
     width: 25px;
     height: 15px;
     margin-left: 0;
-    margin-bottom: 5px;
   }
 }
 
 @media (min-width: 601px) and (max-width: 1024px) {
   .logo {
-    height: 45px;
+    height: 25px;
   }
 
   button {
@@ -101,7 +104,7 @@
   }
 
   .logo {
-    height: 50px;
+    height: 30px;
   }
 
   button {
