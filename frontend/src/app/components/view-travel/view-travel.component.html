@@ -23,53 +23,12 @@
 </div>
 
 <div class="pinboard" #pinboard>
-  <div *ngFor="let pin of pins"
-       class="pin"
-       [style.top]="pin.y + 'px'"
-       [style.left]="pin.x + 'px'"
-       (mousedown)="onDragStart($event, pin)">
-    <ng-container [ngSwitch]="pin.type">
-
-      <!-- Basic note Pin for writing -->
-      <ng-container *ngSwitchCase="'NotePin'">
-        <p> {{ pin.type }} ({{pin.id}}) </p>
-        <textarea class="textArea" placeholder="Enter note here"> </textarea>
-      </ng-container>
-
-      <!-- Hotel Pin for finding hotels -->
-      <ng-container *ngSwitchCase="'HotelPin'">
-        <p>Hotel Info: {{ pin.description }}</p>
-      </ng-container>
-
-      <!-- Flight tickets Pin for finding flights -->
-      <ng-container *ngSwitchCase="'FlightTicketPin'">
-        <p>Flight Details: {{ pin.description }}</p>
-      </ng-container>
-
-      <!-- Date Pin for deciding on the date -->
-      <ng-container *ngSwitchCase="'TripDatePin'">
-        <p>{{ pin.type }} ({{ pin.id }})</p>
-        <div>
-          <label for="departureDate-{{ pin.id }}">Departure Date:</label>
-          <input type="date" id="departureDate-{{ pin.id }}" [(ngModel)]="dateSelection.departure">
-        </div>
-        <div>
-          <label for="arrivalDate-{{ pin.id }}">Arrival Date:</label>
-          <input type="date" id="arrivalDate-{{ pin.id }}" [(ngModel)]="dateSelection.arrival">
-        </div>
-        <button (click)="calculateAverageDate()">Calculate Average Date</button>
-        <div *ngIf="averageDate">
-          <p>Calculated Average Date: {{ averageDate | date:'fullDate' }}</p>
-        </div>
-      </ng-container>
-
-      <!-- else -->
-      <ng-container *ngSwitchDefault>
-        <p>Unsupported pin type</p>
-      </ng-container>
-    </ng-container>
-    <span class="close" (click)="removePinClient(pin.id)">&times;</span>
-  </div>
+  <ng-container *ngFor="let pin of pins">
+    <app-note-pin *ngIf="pin.type === 'NotePin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-note-pin>
+    <app-hotel-pin *ngIf="pin.type === 'HotelPin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-hotel-pin>
+    <app-flight-pin *ngIf="pin.type === 'FlightTicketPin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-flight-pin>
+    <app-date-pin *ngIf="pin.type === 'TripDatePin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-date-pin>
+  </ng-container>
 </div>
 
 
