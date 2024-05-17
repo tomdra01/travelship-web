@@ -1,6 +1,16 @@
 <div class="pin" [style.top]="pin.y + 'px'" [style.left]="pin.x + 'px'" (mousedown)="onDragStart($event)">
   <p>Flight Details: {{ pin.description }}</p>
-  <input type="text" [(ngModel)]="fromCity" placeholder="Enter Your City">
-  <button (click)="calculateTicket()">CalculateTicket</button>
+
+  <div *ngIf="!showFlights">
+    <input type="text" [(ngModel)]="fromCity" placeholder="Enter From City">
+    <button (click)="calculateTicket()">Calculate Ticket</button>
+  </div>
+
+  <div *ngIf="showFlights">
+    <button (click)="viewAllFlights()">View all flights</button>
+    <div *ngFor="let flight of flightData">
+      <p>Date: {{ flight.day }}, Group: {{ flight.group }}, Price: {{ flight.price | currency }}</p>
+    </div>
+  </div>
   <span class="close" (click)="removePin()">&times;</span>
 </div>
