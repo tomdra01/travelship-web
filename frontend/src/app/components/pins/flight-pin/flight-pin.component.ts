@@ -3,6 +3,7 @@ import {FlightService} from "../../../service/flight.service";
 import {FormsModule} from "@angular/forms";
 import {FlightData} from "../../../../../models/Flight";
 import {CommonModule, CurrencyPipe} from "@angular/common";
+import {WebsocketService} from "../../../service/websocket.service";
 
 @Component({
   selector: 'app-flight-pin',
@@ -17,7 +18,7 @@ import {CommonModule, CurrencyPipe} from "@angular/common";
 })
 export class FlightPinComponent {
 
-  constructor(private flightService: FlightService) { }
+  constructor(private websocketService: WebsocketService, private flightService: FlightService) { }
 
   @Input() pin: any;
   @Input() tripInfo: any;
@@ -36,6 +37,15 @@ export class FlightPinComponent {
 
   removePin(): void {
     this.pinRemoved.emit(this.pin.id);
+  }
+
+  sendPinEdit(flightData: FlightData[]): void {
+    this.websocketService.sendMessage({
+      eventType: 'ClientWantsToEditPinContent',
+      PinId: this.pin.id,
+      Description: JSON.stringify(flightData),
+      TripId: this.tripInfo.id,
+    });
   }
 
   formatDate(dateString: string): string {
@@ -60,6 +70,7 @@ export class FlightPinComponent {
           console.log('Flight data:', response);
           this.flightData = response.data.sort((a, b) => a.price - b.price).slice(0, 3); // Store the three cheapest flights
           this.showFlights = true;
+          this.sendPinEdit(this.flightData);
         },
         (error) => {
           console.error('Error:', error);
@@ -73,6 +84,6 @@ export class FlightPinComponent {
 
 
   viewAllFlights() {
-    alert('This feature is not implemented yet.');
+    alert(this.flightData.sort((a, b) => a.price - b.price).map((flight) => `${flight.day} - $${flight.price}`).join('\n'));
   }
 }
