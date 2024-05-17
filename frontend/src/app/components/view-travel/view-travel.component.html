@@ -26,7 +26,7 @@
   <ng-container *ngFor="let pin of pins">
     <app-note-pin *ngIf="pin.type === 'NotePin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-note-pin>
     <app-hotel-pin *ngIf="pin.type === 'HotelPin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-hotel-pin>
-    <app-flight-pin *ngIf="pin.type === 'FlightTicketPin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-flight-pin>
+    <app-flight-pin *ngIf="pin.type === 'FlightTicketPin'" [pin]="pin" [tripInfo]="tripInfo" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-flight-pin>
     <app-date-pin *ngIf="pin.type === 'TripDatePin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-date-pin>
   </ng-container>
 </div>
