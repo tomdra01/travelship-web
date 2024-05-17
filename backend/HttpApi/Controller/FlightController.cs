@@ -18,37 +18,79 @@ namespace HttpApi.Controller
             _httpClient = httpClientFactory.CreateClient();
         }
 
-        private async Task<string> GetAccessToken()
+        [HttpGet("sky-id")]
+        public async Task<IActionResult> GetCitySkyId([FromQuery] string city)
         {
-            var clientId = "38TYzANOG6WG2OAlZEvThHFFafAr7ASh"; //api key
-            var clientSecret = "gZI2fl3ral62ZnSb"; // api secret
-            var requestBody = new StringContent($"grant_type=client_credentials&client_id={clientId}&client_secret={clientSecret}", Encoding.UTF8, "application/x-www-form-urlencoded");
+            if (string.IsNullOrEmpty(city))
+            {
+                return BadRequest(new { error = "City parameter is required." });
+            }
 
-            var response = await _httpClient.PostAsync("https://test.api.amadeus.com/v1/security/oauth2/token", requestBody);
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"https://sky-scanner3.p.rapidapi.com/flights/auto-complete?query={city}"),
+                Headers =
+                {
+                    { "X-RapidAPI-Key", Utilities.Configuration.RapidApiKey },
+                    { "X-RapidAPI-Host", "sky-scanner3.p.rapidapi.com" },
+                },
+            };
+
+            var response = await _httpClient.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var token = JObject.Parse(responseContent)["access_token"].ToString();
-                return token;
+                var jsonResponse = JObject.Parse(responseContent);
+                var skyId = jsonResponse["data"]?.First?["navigation"]?["relevantFlightParams"]?["skyId"]?.ToString();
+
+                if (!string.IsNullOrEmpty(skyId))
+                {
+                    return Ok(new { skyId });
+                }
+
+                return NotFound(new { error = "Sky ID not found for the provided city." });
             }
 
-            throw new HttpRequestException($"Failed to retrieve access token: {response.StatusCode}");
+            var errorResponse = await response.Content.ReadAsStringAsync();
+            var errorDetails = JObject.Parse(errorResponse);
+
+            return StatusCode((int)response.StatusCode, new 
+            {
+                error = "Failed to retrieve the Sky ID",
+                details = errorDetails
+            });
         }
 
-        [HttpGet("destinations")]
-        public async Task<IActionResult> GetDestinations([FromQuery] string origin, [FromQuery] int maxPrice = 200)
+        [HttpGet("cheapest-one-way")]
+        public async Task<IActionResult> GetCheapestOneWayFlight([FromQuery] string fromCity, [FromQuery] string toCity, [FromQuery] string departDate)
         {
-            if (string.IsNullOrEmpty(origin))
+            if (string.IsNullOrEmpty(fromCity) || string.IsNullOrEmpty(toCity) || string.IsNullOrEmpty(departDate))
             {
-                return BadRequest(new { error = "Origin parameter is required." });
+                return BadRequest(new { error = "fromCity, toCity, and departDate parameters are required." });
             }
 
-            var token = await GetAccessToken();
-            var requestUrl = $"https://test.api.amadeus.com/v1/shopping/flight-destinations?origin={origin}&maxPrice={maxPrice}";
+            string fromSkyId = await FetchCitySkyId(fromCity);
+            string toSkyId = await FetchCitySkyId(toCity);
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var response = await _httpClient.GetAsync(requestUrl);
+            if (string.IsNullOrEmpty(fromSkyId) || string.IsNullOrEmpty(toSkyId))
+            {
+                return BadRequest(new { error = "Could not retrieve Sky IDs for the provided cities." });
+            }
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"https://sky-scanner3.p.rapidapi.com/flights/cheapest-one-way?fromEntityId={fromSkyId}&toEntityId={toSkyId}&departDate={departDate}"),
+                Headers =
+                {
+                    { "X-RapidAPI-Key", Utilities.Configuration.RapidApiKey },
+                    { "X-RapidAPI-Host", "sky-scanner3.p.rapidapi.com" },
+                },
+            };
+
+            var response = await _httpClient.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -61,11 +103,36 @@ namespace HttpApi.Controller
 
             return StatusCode((int)response.StatusCode, new 
             {
-                error = "Failed to retrieve destinations",
+                error = "Failed to retrieve the cheapest one-way flight",
                 details = errorDetails
             });
         }
-        
-        
+
+        private async Task<string> FetchCitySkyId(string city)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"https://sky-scanner3.p.rapidapi.com/flights/auto-complete?query={city}"),
+                Headers =
+                {
+                    { "X-RapidAPI-Key", Utilities.Configuration.RapidApiKey },
+                    { "X-RapidAPI-Host", "sky-scanner3.p.rapidapi.com" },
+                },
+            };
+
+            var response = await _httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JObject.Parse(responseContent);
+                var skyId = jsonResponse["data"]?.First?["navigation"]?["relevantFlightParams"]?["skyId"]?.ToString();
+
+                return skyId ?? string.Empty;
+            }
+
+            return string.Empty;
+        }
     }
 }
