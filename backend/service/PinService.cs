@@ -65,4 +65,16 @@ public class PinService : IPinService
             throw new Exception($"An error occurred while moving the pin: {ex.Message}", ex);
         }
     }
+
+    public Task<Pin> EditPin(long pinId, string newDescription)
+    {
+        try
+        {
+            return _pinRepository.EditPin(pinId, newDescription);
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"An error occurred while editing the pin: {e.Message}", e);
+        }
+    }
 }

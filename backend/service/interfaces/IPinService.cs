@@ -9,4 +9,5 @@ public interface IPinService
     Task<Pin> AddPin(Pin pin);
     Task<bool> DeletePin(long pinId);
     Task<Pin>MovePin(long pinId, int newX, int newY);
+    Task<Pin> EditPin(long pinId, string newDescription);
 }
