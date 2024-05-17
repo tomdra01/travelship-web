@@ -112,4 +112,18 @@ public static class StateService
             }
         }
     }
+    
+    public static void EditPin(int tripId, string jsonMessage)
+    {
+        if (Trips.TryGetValue(tripId, out var guids))
+        {
+            foreach (var guid in guids)
+            {
+                if (Connections.TryGetValue(guid, out var ws))
+                {
+                    ws.Connection.Send(jsonMessage);
+                }
+            }
+        }
+    }
 }

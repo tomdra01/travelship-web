@@ -35,6 +35,11 @@ export class AccountComponent implements OnInit{
   ngOnInit(): void {
     this.initializeLanguage();
 
+    if (!this.googleApi.getToken()) {
+      this.router.navigate(['notfound']);
+      return;
+    }
+
     if (this.googleApi.getToken()) {
       const profile = this.googleApi.getProfile();
       if (profile) {

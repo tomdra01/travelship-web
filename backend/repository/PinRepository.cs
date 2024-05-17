@@ -75,4 +75,18 @@ RETURNING *;";
         await EnsureConnectionClosedAsync();
         return movedPin;
     }
+    
+    public async Task<Pin> EditPin(long pinId, string newDescription)
+    {
+        const string sql = @"
+UPDATE Production.Pins
+SET Description = @NewDescription 
+WHERE PinId = @PinId
+RETURNING *;";
+        
+        await EnsureConnectionOpenAsync();
+        var movedPin = await _connection.QuerySingleOrDefaultAsync<Pin>(sql, new { PinId = pinId, NewDescription = newDescription });
+        await EnsureConnectionClosedAsync();
+        return movedPin;
+    }
 }

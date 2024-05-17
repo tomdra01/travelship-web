@@ -138,7 +138,7 @@ export class ViewTravelComponent implements OnInit {
       PinId: uniqueId,
       Type: this.selectedOption,
       Title: 'sample name',
-      Description: 'sample',
+      Description: '',
       XPosition: 50,
       YPosition: 50,
       TripId: this.tripId!,
