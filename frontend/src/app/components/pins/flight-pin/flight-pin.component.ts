@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FlightService} from "../../../service/flight.service";
 import {FormsModule} from "@angular/forms";
 import {FlightData} from "../../../../../models/Flight";
@@ -16,7 +16,7 @@ import {WebsocketService} from "../../../service/websocket.service";
   templateUrl: './flight-pin.component.html',
   styleUrl: './flight-pin.component.css'
 })
-export class FlightPinComponent {
+export class FlightPinComponent implements OnInit{
 
   constructor(private websocketService: WebsocketService, private flightService: FlightService) { }
 
@@ -29,6 +29,15 @@ export class FlightPinComponent {
   fromCity: string = '';
   flightData: FlightData[] = [];
   showFlights: boolean = false;
+
+  ngOnInit() {
+    if (!this.pin.description || this.pin.description.trim() === '') {
+      this.showFlights = false;
+    } else {
+      this.flightData = JSON.parse(this.pin.description);
+      this.showFlights = true;
+    }
+  }
 
 
   onDragStart(event: MouseEvent): void {
@@ -65,7 +74,7 @@ export class FlightPinComponent {
         return;
       }
 
-      this.flightService.getCheapestOneWayFlight(this.fromCity, this.tripInfo.location, "2024-07-07").subscribe(
+      this.flightService.getCheapestOneWayFlight(this.fromCity, this.tripInfo.location, formattedDate).subscribe(
         (response) => {
           console.log('Flight data:', response);
           this.flightData = response.data.sort((a, b) => a.price - b.price).slice(0, 3); // Store the three cheapest flights
