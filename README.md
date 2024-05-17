@@ -34,7 +34,9 @@ Ensure that your PostgreSQL database is up and running.
 1. Create a .env file in the HttpApi directory.
 2. It has to contain the DB_CON variable
     ```bash
-    DB_CON="your Database connection string"
+    DB_CON=your db connection string
+    UNSPLASH_KEY=your unsplash key
+    RAPIDAPI_KEY=api key from https://rapidapi.com/ntd119/api/sky-scanner3 
 
 ##### HttpApi
 1. Navigate to the HttpApi directory:
@@ -47,7 +49,7 @@ Ensure that your PostgreSQL database is up and running.
 ##### WebsocketApi
 1. Navigate to the WebsocketApi directory:
    ```bash
-   cd ../WebsocketApi
+   cd backend/wsapi
 2. Run the Websocket API:
    ```bash
    dotnet run
