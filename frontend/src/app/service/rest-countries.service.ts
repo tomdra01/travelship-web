@@ -7,19 +7,29 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RestCountriesService {
-  private apiUrl = 'https://restcountries.com/v3.1/name'; // Base URL for the REST Countries API
+  private apiUrl = 'http://api.geonames.org/searchJSON';
+  private username = 'travelship';
 
   constructor(private http: HttpClient) {}
 
-  searchCountries(query: string): Observable<string[]> {
+  searchCities(query: string): Observable<string[]> {
     if (!query.trim()) {
+      // if not search term, return empty city array.
       return of([]);
     }
-    return this.http.get<any[]>(`${this.apiUrl}/${query}?fields=name`).pipe(
-      map(countries => countries.map(country => country.name.common)),
+    const url = `${this.apiUrl}?q=${query}&maxRows=10&cities=cities15000&username=${this.username}`;
+    return this.http.get<any>(url).pipe(
+      map(response => {
+        if (response && response.geonames) {
+          return response.geonames.map((city: any) => city.name);
+        } else {
+          console.error('Invalid response format', response);
+          return [];
+        }
+      }),
       catchError(error => {
-        console.error('Failed to fetch countries:', error);
-        return of([]);
+        console.error('Failed to fetch cities:', error);
+        return of([]); // Return an empty array on error
       })
     );
   }

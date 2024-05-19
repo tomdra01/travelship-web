@@ -21,7 +21,7 @@
       <label for="location">{{ 'CREATE_LOCATION' | translate }}</label>
       <input type="text" id="location" name="location" [formControl]="locationControl" [matAutocomplete]="auto" placeholder="Enter a location">
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+        <mat-option *ngFor="let country of filteredCities | async" [value]="country">
           {{ country }}
         </mat-option>
       </mat-autocomplete>
