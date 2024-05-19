@@ -1,0 +1,44 @@
+{
+  "ABOUT_TITLE": "Acerca de Travelship",
+  "ABOUT_DESC": "¡Conéctate y colabora en tu próxima aventura!",
+  "ABOUT_FEATURES_TITLE": "Características:",
+  "ABOUT_FEATURE_1": "Crea tu propio viaje: Planes de viaje públicos o privados.",
+  "ABOUT_FEATURE_2": "Únete a viajes existentes: Encuentra viajes que coincidan con tus objetivos.",
+  "ABOUT_FEATURE_3": "Tablero interactivo: Planifica itinerarios, verifica vuelos, reserva hoteles y establece fechas juntos.",
+  "ABOUT_FEATURE_4": "Integración sin problemas: Gestiona la logística del viaje con facilidad.",
+  "ABOUT_COMMUNITY_DESC": "Travelship es más que una aplicación; es una comunidad lista para explorar el mundo. ¡Empieza tu viaje hoy!",
+
+  "JOIN_PUBLIC_TRIPS": "Únete a viajes públicos",
+  "TRIP_NAME": "Nombre",
+  "TRIP_DESCRIPTION": "Descripción",
+  "TRIP_LOCATION": "Ubicación",
+  "PEOPLE_JOINED": "Personas que se han unido",
+  "START_DATE": "Fecha de inicio",
+  "OPEN": "Abrir",
+
+  "HEADER_HOME": "Inicio",
+  "HEADER_JOIN_TRAVEL": "Unirse al viaje",
+  "HEADER_ABOUT_US": "Sobre nosotros",
+  "HEADER_LOGIN": "Iniciar sesión",
+  "HEADER_ACCOUNT": "Cuenta",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "Ver viajes públicos",
+  "CONTENT_JOIN_PRIVATE_TRIP": "Unirse a un viaje privado",
+  "CONTENT_PLAN_TRIP": "Planear un viaje",
+
+  "TRIPINFO_LOCATION": "Ubicación",
+  "TRIPINFO_DATE": "Fecha",
+  "TRIPINFO_DESCRIPTION": "Descripción",
+  "TRIPINFO_PARTICIPANTS": "Participantes",
+  "LOADING_TRIP_DETAILS": "Cargando detalles del viaje...",
+  "ADD_PIN": "Agregar Pin",
+  "CHAT_SEND": "Enviar",
+
+  "CREATE_TITLE": "Crear viaje",
+  "CREATE_NAME": "Nombre",
+  "CREATE_DATE": "Fecha",
+  "CREATE_DESCRIPTION": "Descripción",
+  "CREATE_LOCATION": "Ubicación",
+  "CREATE_CODE": "Código (opcional)",
+  "CREATE_SUBMIT": "Enviar"
+}

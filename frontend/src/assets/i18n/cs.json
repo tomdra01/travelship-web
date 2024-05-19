@@ -32,5 +32,13 @@
   "TRIPINFO_PARTICIPANTS": "Účastníci",
   "LOADING_TRIP_DETAILS": "Načítání podrobností o výletu...",
   "ADD_PIN": "Přidat špendlík",
-  "CHAT_SEND": "Odeslat"
+  "CHAT_SEND": "Odeslat",
+
+  "CREATE_TITLE": "Vytvořit výlet",
+  "CREATE_NAME": "Název",
+  "CREATE_DATE": "Datum",
+  "CREATE_DESCRIPTION": "Popis",
+  "CREATE_LOCATION": "Umístění",
+  "CREATE_CODE": "Kód (volitelné)",
+  "CREATE_SUBMIT": "Odeslat"
 }

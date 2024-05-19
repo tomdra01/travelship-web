@@ -32,5 +32,13 @@
   "TRIPINFO_PARTICIPANTS": "Partecipanti",
   "LOADING_TRIP_DETAILS": "Caricamento dettagli del viaggio...",
   "ADD_PIN": "Aggiungi Pin",
-  "SEND": "Invia"
+  "SEND": "Invia",
+
+  "CREATE_TITLE": "Crea viaggio",
+  "CREATE_NAME": "Nome",
+  "CREATE_DATE": "Data",
+  "CREATE_DESCRIPTION": "Descrizione",
+  "CREATE_LOCATION": "Posizione",
+  "CREATE_CODE": "Codice (opzionale)",
+  "CREATE_SUBMIT": "Invia"
 }

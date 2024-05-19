@@ -1,0 +1,44 @@
+{
+  "ABOUT_TITLE": "关于Travelship",
+  "ABOUT_DESC": "连接并协作进行您的下一个冒险！",
+  "ABOUT_FEATURES_TITLE": "功能：",
+  "ABOUT_FEATURE_1": "创建您自己的旅行：公开或私人旅行计划。",
+  "ABOUT_FEATURE_2": "加入现有旅行：找到符合您目标的旅行。",
+  "ABOUT_FEATURE_3": "互动留言板：一起计划行程，查看航班，预订酒店和设定日期。",
+  "ABOUT_FEATURE_4": "无缝整合：轻松管理旅行物流。",
+  "ABOUT_COMMUNITY_DESC": "Travelship不仅仅是一个应用程序，它是一个准备探索世界的社区。今天开始您的旅程！",
+
+  "JOIN_PUBLIC_TRIPS": "加入公开旅行",
+  "TRIP_NAME": "名称",
+  "TRIP_DESCRIPTION": "描述",
+  "TRIP_LOCATION": "位置",
+  "PEOPLE_JOINED": "已加入人数",
+  "START_DATE": "开始日期",
+  "OPEN": "打开",
+
+  "HEADER_HOME": "首页",
+  "HEADER_JOIN_TRAVEL": "加入旅行",
+  "HEADER_ABOUT_US": "关于我们",
+  "HEADER_LOGIN": "登录",
+  "HEADER_ACCOUNT": "账户",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "查看公开旅行",
+  "CONTENT_JOIN_PRIVATE_TRIP": "加入私人旅行",
+  "CONTENT_PLAN_TRIP": "计划旅行",
+
+  "TRIPINFO_LOCATION": "位置",
+  "TRIPINFO_DATE": "日期",
+  "TRIPINFO_DESCRIPTION": "描述",
+  "TRIPINFO_PARTICIPANTS": "参与者",
+  "LOADING_TRIP_DETAILS": "加载旅行详细信息...",
+  "ADD_PIN": "添加图钉",
+  "CHAT_SEND": "发送",
+
+  "CREATE_TITLE": "创建旅行",
+  "CREATE_NAME": "名称",
+  "CREATE_DATE": "日期",
+  "CREATE_DESCRIPTION": "描述",
+  "CREATE_LOCATION": "位置",
+  "CREATE_CODE": "代码（可选）",
+  "CREATE_SUBMIT": "提交"
+}

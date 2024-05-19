@@ -32,5 +32,13 @@
   "TRIPINFO_PARTICIPANTS": "Participants",
   "LOADING_TRIP_DETAILS": "Loading trip details...",
   "ADD_PIN": "Add Pin",
-  "CHAT_SEND": "Send"
+  "CHAT_SEND": "Send",
+
+  "CREATE_TITLE": "Create Trip",
+  "CREATE_NAME": "Name",
+  "CREATE_DATE": "Date",
+  "CREATE_DESCRIPTION": "Description",
+  "CREATE_LOCATION": "Location",
+  "CREATE_CODE": "Code (optional)",
+  "CREATE_SUBMIT": "Submit"
 }

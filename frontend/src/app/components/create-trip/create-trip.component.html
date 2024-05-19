@@ -1,24 +1,24 @@
-<div class="title2">Add a Trip</div>
+<div class="title2">{{ 'CREATE_TITLE' | translate }}</div>
 <div class="spaceDivider"></div>
 <div class="content-container"> <!-- Flex container -->
   <form (ngSubmit)="onSubmit()" [formGroup]="tripForm" class="form-container">
     <div class="form-group small">
-      <label for="name">Name</label>
+      <label for="name">{{ 'CREATE_NAME' | translate }}</label>
       <input type="text" id="name" name="name" formControlName="name" placeholder="Enter your name" required>
     </div>
 
     <div class="form-group medium">
-      <label for="date">Date</label>
+      <label for="date">{{ 'CREATE_DATE' | translate }}</label>
       <input type="date" id="date" name="date" formControlName="date" placeholder="Select a date" required>
     </div>
 
     <div class="form-group large">
-      <label for="description">Description</label>
+      <label for="description">{{ 'CREATE_DESCRIPTION' | translate }}</label>
       <textarea id="description" name="description" formControlName="description" rows="4" placeholder="Enter a description" required></textarea>
     </div>
 
     <div class="form-group medium">
-      <label for="location">Location</label>
+      <label for="location">{{ 'CREATE_LOCATION' | translate }}</label>
       <input type="text" id="location" name="location" [formControl]="locationControl" [matAutocomplete]="auto" placeholder="Enter a location">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
@@ -28,12 +28,12 @@
     </div>
 
     <div class="form-group small">
-      <label for="code">Code (optional)</label>
+      <label for="code">{{ 'CREATE_CODE' | translate }}</label>
       <input type="text" id="code" name="code" formControlName="code" placeholder="Enter a code">
     </div>
 
     <div class="buttonContainer">
-      <button type="submit" class="button" [disabled]="!tripForm.valid">Submit</button>
+      <button type="submit" class="button" [disabled]="!tripForm.valid">{{ 'CREATE_SUBMIT' | translate }}</button>
     </div>
   </form>
 
