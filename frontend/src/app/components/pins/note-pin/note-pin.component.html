@@ -1,5 +1,5 @@
 <div class="pin" [style.top]="pin.y + 'px'" [style.left]="pin.x + 'px'" (mousedown)="onDragStart($event)">
   <p>{{ pin.type }} ({{pin.id}})</p>
-  <textarea class="textArea" placeholder="Enter note here"></textarea>
+  <textarea (input)="onContentChange($event)">{{ pin.description }}</textarea>
   <span class="close" (click)="removePin()">&times;</span>
 </div>

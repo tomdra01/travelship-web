@@ -24,5 +24,21 @@
 
   "CONTENT_VIEW_PUBLIC_TRIPS": "Visualizza viaggi pubblici",
   "CONTENT_JOIN_PRIVATE_TRIP": "Unisciti a un viaggio privato",
-  "CONTENT_PLAN_TRIP": "Pianifica un viaggio"
+  "CONTENT_PLAN_TRIP": "Pianifica un viaggio",
+
+  "TRIPINFO_LOCATION": "Posizione",
+  "TRIPINFO_DATE": "Data",
+  "TRIPINFO_DESCRIPTION": "Descrizione",
+  "TRIPINFO_PARTICIPANTS": "Partecipanti",
+  "LOADING_TRIP_DETAILS": "Caricamento dettagli del viaggio...",
+  "ADD_PIN": "Aggiungi Pin",
+  "SEND": "Invia",
+
+  "CREATE_TITLE": "Crea viaggio",
+  "CREATE_NAME": "Nome",
+  "CREATE_DATE": "Data",
+  "CREATE_DESCRIPTION": "Descrizione",
+  "CREATE_LOCATION": "Posizione",
+  "CREATE_CODE": "Codice (opzionale)",
+  "CREATE_SUBMIT": "Invia"
 }

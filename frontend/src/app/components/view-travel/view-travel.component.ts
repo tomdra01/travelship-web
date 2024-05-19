@@ -16,6 +16,8 @@ import {Pin} from "../../../../models/Pin";
 import {WebsocketService} from "../../service/websocket.service";
 import {UserDetailsService} from "../../service/user-details.service";
 import {TripDetailsService} from "../../service/trip-details.service";
+import {LanguageService} from "../../service/language.service";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-view-travel',
@@ -29,6 +31,7 @@ import {TripDetailsService} from "../../service/trip-details.service";
     HotelPinComponent,
     DatePinComponent,
     FlightPinComponent,
+    TranslateModule,
   ],
   templateUrl: './view-travel.component.html',
   styleUrls: ['./view-travel.component.css'],
@@ -58,8 +61,11 @@ export class ViewTravelComponent implements OnInit {
       private router: Router,
       private websocketService: WebsocketService,
       private tripDetailsService: TripDetailsService,
-      private userDetailsService: UserDetailsService
-  ) {}
+      private userDetailsService: UserDetailsService,
+      private languageService: LanguageService)
+  {
+    this.languageService.initializeLanguage();
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

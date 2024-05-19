@@ -24,5 +24,21 @@
 
   "CONTENT_VIEW_PUBLIC_TRIPS": "Öffentliche Reisen ansehen",
   "CONTENT_JOIN_PRIVATE_TRIP": "An einer privaten Reise teilnehmen",
-  "CONTENT_PLAN_TRIP": "Eine Reise planen"
+  "CONTENT_PLAN_TRIP": "Eine Reise planen",
+
+  "TRIPINFO_LOCATION": "Ort",
+  "TRIPINFO_DATE": "Datum",
+  "TRIPINFO_DESCRIPTION": "Beschreibung",
+  "TRIPINFO_PARTICIPANTS": "Teilnehmer",
+  "LOADING_TRIP_DETAILS": "Reisedetails werden geladen...",
+  "ADD_PIN": "Pin hinzufügen",
+  "CHAT_SEND": "Senden",
+
+  "CREATE_TITLE": "Reise erstellen",
+  "CREATE_NAME": "Name",
+  "CREATE_DATE": "Datum",
+  "CREATE_DESCRIPTION": "Beschreibung",
+  "CREATE_LOCATION": "Ort",
+  "CREATE_CODE": "Code (optional)",
+  "CREATE_SUBMIT": "Einreichen"
 }

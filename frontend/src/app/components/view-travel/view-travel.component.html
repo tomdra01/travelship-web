@@ -1,30 +1,30 @@
-<div class="trip-info">
-  <div *ngIf="tripInfo; else loading">
-    <h1>Trip Details: {{ tripInfo.name }}</h1>
-    <div><strong>Location:</strong> {{ tripInfo.location }}</div>
-    <div><strong>Date:</strong> {{ tripInfo.date | date }}</div>
-    <div><strong>Description:</strong> {{ tripInfo.description }}</div>
-    <div><strong>Participants:</strong> {{ tripInfo.peopleJoined }}</div>
+<div class="trip-container">
+  <div class="trip-info">
+    <div *ngIf="tripInfo; else loading">
+      <h1>{{ tripInfo.name }}</h1>
+      <div><strong>{{ 'TRIPINFO_LOCATION' | translate }}:</strong> {{ tripInfo.location }}</div>
+      <div><strong>{{ 'TRIPINFO_DATE' | translate }}:</strong> {{ tripInfo.date | date }}</div>
+      <div><strong>{{ 'TRIPINFO_DESCRIPTION' | translate }}:</strong> {{ tripInfo.description }}</div>
+      <div><strong>{{ 'TRIPINFO_PARTICIPANTS' | translate }}:</strong> {{ tripInfo.peopleJoined }}</div>
+    </div>
+    <ng-template #loading>
+      <p>{{ 'LOADING_TRIP_DETAILS' | translate }}</p>
+    </ng-template>
   </div>
-  <ng-template #loading>
-    <p>Loading trip details...</p>
-  </ng-template>
-</div>
 
-<div class="controls">
-
-  <select [(ngModel)]="selectedOption">
-    <option *ngFor="let option of pinOptions" [value]="option">
-      {{ option }}
-    </option>
-  </select>
-  <button (click)="addPinClient()">Add Pin</button>
-
+  <div class="controls">
+    <select [(ngModel)]="selectedOption">
+      <option *ngFor="let option of pinOptions" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+    <button (click)="addPinClient()">{{ 'ADD_PIN' | translate }}</button>
+  </div>
 </div>
 
 <div class="pinboard" #pinboard>
   <ng-container *ngFor="let pin of pins">
-    <app-note-pin *ngIf="pin.type === 'NotePin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-note-pin>
+    <app-note-pin *ngIf="pin.type === 'NotePin'" [pin]="pin" [tripInfo]="tripInfo" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-note-pin>
     <app-hotel-pin *ngIf="pin.type === 'HotelPin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-hotel-pin>
     <app-flight-pin *ngIf="pin.type === 'FlightTicketPin'" [pin]="pin" [tripInfo]="tripInfo" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-flight-pin>
     <app-date-pin *ngIf="pin.type === 'TripDatePin'" [pin]="pin" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-date-pin>
@@ -32,7 +32,7 @@
 </div>
 
 
-<div class="chat-container"> Room Chat
+<div class="chat-container">
   <div class="chat-messages">
     <div *ngFor="let message of messages; trackBy: trackById" [ngClass]="{'user-message': message.fromUser, 'other-message': !message.fromUser}" class="message-entry">
       <div class="message-content">
@@ -42,8 +42,7 @@
       </div>
     </div>
   </div>
-  <input type="text" [(ngModel)]="messageContent" placeholder="Type your message..." class="chat-input">
-  <button (click)="sendMessage()" class="chat-send-button">Send</button>
-</div>
+  <input type="text" [(ngModel)]="messageContent" placeholder="..." class="chat-input">
+  <button (click)="sendMessage()" class="chat-Button">{{ 'CHAT_SEND' | translate }}</button></div>
 
 <button class="button">Join Trip</button>

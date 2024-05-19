@@ -24,5 +24,21 @@
 
   "CONTENT_VIEW_PUBLIC_TRIPS": "View Public Trips",
   "CONTENT_JOIN_PRIVATE_TRIP": "Join a Private Trip",
-  "CONTENT_PLAN_TRIP": "Plan a Trip"
+  "CONTENT_PLAN_TRIP": "Plan a Trip",
+
+  "TRIPINFO_LOCATION": "Location",
+  "TRIPINFO_DATE": "Date",
+  "TRIPINFO_DESCRIPTION": "Description",
+  "TRIPINFO_PARTICIPANTS": "Participants",
+  "LOADING_TRIP_DETAILS": "Loading trip details...",
+  "ADD_PIN": "Add Pin",
+  "CHAT_SEND": "Send",
+
+  "CREATE_TITLE": "Create Trip",
+  "CREATE_NAME": "Name",
+  "CREATE_DATE": "Date",
+  "CREATE_DESCRIPTION": "Description",
+  "CREATE_LOCATION": "Location",
+  "CREATE_CODE": "Code (optional)",
+  "CREATE_SUBMIT": "Submit"
 }

@@ -26,7 +26,8 @@ export class MainViewComponent implements OnInit {
   loadTrips(): void {
     this.tripService.getPublicTrips().subscribe({
       next: (data: any[]) => {
-        this.trips = data;  // Set the trips data with response from the server
+        // Sort the trips by ID in descending order
+        this.trips = data.sort((a, b) => b.id - a.id);
       },
       error: (error: any) => {
         console.error('Failed to load trips:', error);

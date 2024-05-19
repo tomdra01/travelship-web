@@ -5,6 +5,7 @@ import { TripService } from "../../service/TripService";
 import { RestCountriesService } from "../../service/rest-countries.service";
 import { debounceTime, distinctUntilChanged, Observable, of, switchMap } from "rxjs";
 import {UnsplashService} from "../../service/unsplash.service";
+import {LanguageService} from "../../service/language.service";
 
 @Component({
   selector: 'app-create-trip',
@@ -21,7 +22,8 @@ export class CreateTripComponent implements OnInit {
     private tripService: TripService,
     private router: Router,
     private unsplashService: UnsplashService,
-    private restCountriesService: RestCountriesService
+    private restCountriesService: RestCountriesService,
+    private languageService: LanguageService
   ) {
     this.tripForm = new FormGroup({
       name: new FormControl('', Validators.required),
@@ -30,6 +32,8 @@ export class CreateTripComponent implements OnInit {
       description: new FormControl('', Validators.required),
       code: new FormControl('')
     });
+
+    this.languageService.initializeLanguage();
   }
 
   ngOnInit() {
