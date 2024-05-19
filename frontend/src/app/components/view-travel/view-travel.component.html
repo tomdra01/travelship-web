@@ -1,14 +1,14 @@
 <div class="trip-container">
   <div class="trip-info">
     <div *ngIf="tripInfo; else loading">
-      <h1>Trip Details: {{ tripInfo.name }}</h1>
-      <div><strong>Location:</strong> {{ tripInfo.location }}</div>
-      <div><strong>Date:</strong> {{ tripInfo.date | date }}</div>
-      <div><strong>Description:</strong> {{ tripInfo.description }}</div>
-      <div><strong>Participants:</strong> {{ tripInfo.peopleJoined }}</div>
+      <h1>{{ tripInfo.name }}</h1>
+      <div><strong>{{ 'TRIPINFO_LOCATION' | translate }}:</strong> {{ tripInfo.location }}</div>
+      <div><strong>{{ 'TRIPINFO_DATE' | translate }}:</strong> {{ tripInfo.date | date }}</div>
+      <div><strong>{{ 'TRIPINFO_DESCRIPTION' | translate }}:</strong> {{ tripInfo.description }}</div>
+      <div><strong>{{ 'TRIPINFO_PARTICIPANTS' | translate }}:</strong> {{ tripInfo.peopleJoined }}</div>
     </div>
     <ng-template #loading>
-      <p>Loading trip details...</p>
+      <p>{{ 'LOADING_TRIP_DETAILS' | translate }}</p>
     </ng-template>
   </div>
 
@@ -18,7 +18,7 @@
         {{ option }}
       </option>
     </select>
-    <button (click)="addPinClient()">Add Pin</button>
+    <button (click)="addPinClient()">{{ 'ADD_PIN' | translate }}</button>
   </div>
 </div>
 
@@ -43,7 +43,6 @@
     </div>
   </div>
   <input type="text" [(ngModel)]="messageContent" placeholder="Type your message..." class="chat-input">
-  <button (click)="sendMessage()" class="chat-Button">Send</button>
-</div>
+  <button (click)="sendMessage()" class="chat-Button">{{ 'CHAT_SEND' | translate }}</button></div>
 
 <button class="button">Join Trip</button>

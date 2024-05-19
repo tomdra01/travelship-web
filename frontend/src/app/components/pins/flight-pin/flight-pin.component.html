@@ -7,11 +7,5 @@
     <button (click)="calculateTicket()">Calculate Ticket</button>
   </div>
 
-  <div *ngIf="showFlights">
-    <button (click)="viewAllFlights()">View all flights</button>
-    <div *ngFor="let flight of flightData">
-      <p>Date: {{ flight.day }}, Group: {{ flight.group }}, Price: {{ flight.price | currency }}</p>
-    </div>
-  </div>
   <span class="close" (click)="removePin()">&times;</span>
 </div>

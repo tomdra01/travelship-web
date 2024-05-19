@@ -24,5 +24,13 @@
 
   "CONTENT_VIEW_PUBLIC_TRIPS": "Se offentlige ture",
   "CONTENT_JOIN_PRIVATE_TRIP": "Deltag i en privat tur",
-  "CONTENT_PLAN_TRIP": "Planlæg en tur"
+  "CONTENT_PLAN_TRIP": "Planlæg en tur",
+
+  "TRIPINFO_LOCATION": "Placering",
+  "TRIPINFO_DATE": "Dato",
+  "TRIPINFO_DESCRIPTION": "Beskrivelse",
+  "TRIPINFO_PARTICIPANTS": "Deltagere",
+  "LOADING_TRIP_DETAILS": "Indlæser rejseoplysninger...",
+  "ADD_PIN": "Tilføj Pin",
+  "CHAT_SEND": "Send"
 }

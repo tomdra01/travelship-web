@@ -24,5 +24,13 @@
 
   "CONTENT_VIEW_PUBLIC_TRIPS": "Zobrazit veřejné výlety",
   "CONTENT_JOIN_PRIVATE_TRIP": "Připojit se k soukromému výletu",
-  "CONTENT_PLAN_TRIP": "Naplánovat výlet"
+  "CONTENT_PLAN_TRIP": "Naplánovat výlet",
+
+  "TRIPINFO_LOCATION": "Umístění",
+  "TRIPINFO_DATE": "Datum",
+  "TRIPINFO_DESCRIPTION": "Popis",
+  "TRIPINFO_PARTICIPANTS": "Účastníci",
+  "LOADING_TRIP_DETAILS": "Načítání podrobností o výletu...",
+  "ADD_PIN": "Přidat špendlík",
+  "CHAT_SEND": "Odeslat"
 }
