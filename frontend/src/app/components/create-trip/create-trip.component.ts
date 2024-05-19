@@ -14,7 +14,7 @@ import {LanguageService} from "../../service/language.service";
 })
 export class CreateTripComponent implements OnInit {
   tripForm: FormGroup;
-  filteredCountries: Observable<string[]> = of([]);
+  filteredCities: Observable<string[]> = of([]);
   locationControl = new FormControl('', Validators.required);
   imageUrl: string | null | undefined;
 
@@ -37,10 +37,10 @@ export class CreateTripComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filteredCountries = this.locationControl.valueChanges.pipe(
+    this.filteredCities = this.locationControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(term => term ? this.restCountriesService.searchCountries(term) : of([]))
+      switchMap(term => term ? this.restCountriesService.searchCities(term) : of([]))
     );
 
     this.loadImage();
