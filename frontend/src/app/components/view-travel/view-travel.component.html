@@ -32,7 +32,7 @@
 </div>
 
 
-<div class="chat-container"> Room Chat
+<div class="chat-container">
   <div class="chat-messages">
     <div *ngFor="let message of messages; trackBy: trackById" [ngClass]="{'user-message': message.fromUser, 'other-message': !message.fromUser}" class="message-entry">
       <div class="message-content">
@@ -42,7 +42,7 @@
       </div>
     </div>
   </div>
-  <input type="text" [(ngModel)]="messageContent" placeholder="Type your message..." class="chat-input">
+  <input type="text" [(ngModel)]="messageContent" placeholder="..." class="chat-input">
   <button (click)="sendMessage()" class="chat-Button">{{ 'CHAT_SEND' | translate }}</button></div>
 
 <button class="button">Join Trip</button>

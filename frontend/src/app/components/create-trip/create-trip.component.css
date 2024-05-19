@@ -1,58 +1,59 @@
-/* Flex container for the entire content */
+.title
+{
+  margin-top: 3%;
+  color: #3746ac;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
 .content-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-/* Styles for form container */
 .form-container {
   display: flex;
   flex-direction: column;
-  width: 70%; /* Take up 70% of the container width */
+  width: 70%;
 }
 
-/* Styles for right container (plane image and random image) */
 .right-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%; /* Take up 30% of the container width */
+  width: 30%;
 }
 
-/* Styles for form group */
 .form-group {
   margin-bottom: 20px;
 }
 
-/* Styles for input fields with specific widths */
-.form-group.small input[type="text"],
-.form-group.small input[type="date"] {
-  width: 50%;
-}
-
-.form-group.medium input[type="text"],
-.form-group.medium input[type="date"] {
+.form-group.small input,
+.form-group.medium input {
   width: 75%;
+  margin-left: 2%;
+  margin-right: 5%;
 }
 
 .form-group.large textarea {
-  width: 100%;
+  width: 75%;
+  resize: none;
 }
 
-/* General styles for input fields */
-input[type="text"],
-input[type="date"],
+input,
 textarea {
   padding: 10px;
   border: none;
-  background-color: rgba(255, 255, 255, 0.3); /* Soft light white background */
-  border-bottom: 2px solid transparent; /* Initially transparent border */
-  transition: border-bottom-color 0.3s; /* Smooth transition for border color */
+  background-color: rgba(255, 255, 255, 0.3);
+  border-bottom: 2px solid transparent;
+  transition: border-bottom-color 0.3s;
+
+  margin-left: 2%;
+  margin-right: 5%;
 }
 
-input[type="text"]:focus,
-input[type="date"]:focus,
+input:focus,
 textarea:focus {
   outline: none;
   border-bottom-color: #3746ac; /* Border color on focus */
@@ -64,7 +65,6 @@ label {
   font-weight: bold;
 }
 
-/* Styles for plane image */
 .plane-image {
   background-image: url('/assets/plane.svg');
   background-size: cover;
