@@ -43,7 +43,7 @@ public class CrudTripTest
         var httpResponse = await httpClient.PostAsJsonAsync("/api/trips", trip);
         httpResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
-        createdTrip = await httpResponse.Content.ReadFromJsonAsync<Trip>();
+        createdTrip = await httpResponse.Content.ReadFromJsonAsync<Trip>(); 
         Console.WriteLine("Trip created and verified successfully.");
     }
 
