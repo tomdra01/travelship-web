@@ -2,6 +2,10 @@ name: Setup
 
 on:
   workflow_call:
+    permissions:
+      contents: read
+      packages: read
+      id-token: write
 
 jobs:
   setup:
@@ -44,4 +48,3 @@ jobs:
         run: |
           $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
           [System.Environment]::SetEnvironmentVariable('PATH', $env:PATH, [System.EnvironmentVariableTarget]::Process)
-

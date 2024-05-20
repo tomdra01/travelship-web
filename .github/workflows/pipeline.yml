@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: read
       packages: read
-      id-token: write  # If any job requires GitHub tokens for authentication
+      id-token: write
 
   static-code-analysis:
     needs: setup
