@@ -2,10 +2,12 @@ name: Setup
 
 on:
   workflow_call:
-    permissions:
-      contents: read
-      packages: read
-      id-token: write
+    inputs:
+      workflow: CI/CD Pipeline
+      permissions:
+        contents: read
+        packages: read
+        id-token: write
 
 jobs:
   setup:
