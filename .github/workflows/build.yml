@@ -39,6 +39,11 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Add SonarQube scanner to PATH
+        shell: powershell
+        run: |
+          $env:PATH += ";$PWD\.sonar\scanner"
+          [System.Environment]::SetEnvironmentVariable('PATH', $env:PATH, [System.EnvironmentVariableTarget]::Process)
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -46,6 +51,6 @@ jobs:
         shell: powershell
         working-directory: ./backend  # Set the working directory to backend
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"VahPheephoopou2" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
+          dotnet-sonarscanner begin /k:"VahPheephoopou2" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
           dotnet build
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
