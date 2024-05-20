@@ -6,7 +6,6 @@ on:
       - main
       - develop
 
-
 jobs:
   build:
     name: Build
@@ -40,8 +39,10 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: Build and analyze
-        env:
         shell: powershell
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"VahPheephoopou2" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
           dotnet build
