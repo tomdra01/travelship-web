@@ -2,12 +2,6 @@ name: Static Code Analysis
 
 on:
   workflow_call:
-    inputs:
-      workflow: CI/CD Pipeline
-      permissions:
-        contents: read
-        packages: read
-        id-token: write
 
 jobs:
   static-code-analysis:
