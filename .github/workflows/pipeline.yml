@@ -9,7 +9,16 @@ on:
 jobs:
   setup:
     uses: ./.github/workflows/setup.yml
+    permissions:
+      actions: read
+      contents: read
+      packages: read
+      id-token: write
+      
 
   static-code-analysis:
     needs: setup
     uses: ./.github/workflows/static-code-analysis.yml
+    permissions:
+      actions: read
+      contents: read
