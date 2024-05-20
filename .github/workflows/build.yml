@@ -37,12 +37,11 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Add SonarQube scanner to PATH
+          dotnet tool install --global dotnet-sonarscanner
+      - name: Add .dotnet tools to PATH
         shell: powershell
         run: |
-          $env:PATH += ";$PWD\.sonar\scanner"
+          $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
           [System.Environment]::SetEnvironmentVariable('PATH', $env:PATH, [System.EnvironmentVariableTarget]::Process)
       - name: Build and analyze
         env:
