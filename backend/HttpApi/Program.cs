@@ -14,7 +14,7 @@ builder.Services.AddSingleton<TripRepository>(provider =>
     new TripRepository(dbConString));
 builder.Services.AddSingleton<ITripService, TripService>();
 
-// Add HttpClientFactory to the service collection
+
 builder.Services.AddHttpClient();
 
 builder.Services.AddOptions();

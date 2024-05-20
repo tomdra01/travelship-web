@@ -1,7 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
 using ApiTests.Models;
-using Dapper;
 using FluentAssertions;
 
 namespace ApiTests;
@@ -44,7 +43,7 @@ public class CrudTripTest
         var httpResponse = await httpClient.PostAsJsonAsync("/api/trips", trip);
         httpResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
-        createdTrip = await httpResponse.Content.ReadFromJsonAsync<Trip>(); // Assign the created trip to the shared object
+        createdTrip = await httpResponse.Content.ReadFromJsonAsync<Trip>();
         Console.WriteLine("Trip created and verified successfully.");
     }
 
@@ -104,11 +103,9 @@ public class CrudTripTest
         httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         Console.WriteLine("Trip deleted successfully.");
 
-        // Verify deletion
         var checkDeleteResponse = await httpClient.GetAsync($"/api/trips/{createdTrip.ID}");
         if (checkDeleteResponse.StatusCode == HttpStatusCode.InternalServerError)
         {
-            // Log or handle the internal server error
             var errorResponse = await checkDeleteResponse.Content.ReadAsStringAsync();
             Console.WriteLine($"Internal server error when checking deletion: {errorResponse}");
             Assert.Fail("Expected NotFound after deletion, got InternalServerError.");

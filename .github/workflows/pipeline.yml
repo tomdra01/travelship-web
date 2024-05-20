@@ -1,0 +1,15 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  setup:
+    uses: ./.github/workflows/setup.yml
+
+  static-code-analysis:
+    needs: setup
+    uses: ./.github/workflows/static-code-analysis.yml

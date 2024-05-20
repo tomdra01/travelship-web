@@ -1,7 +1,6 @@
 using Dapper;
 using Npgsql;
 using Repository.Models;
-using System.Threading.Tasks;
 
 namespace Repository;
 
