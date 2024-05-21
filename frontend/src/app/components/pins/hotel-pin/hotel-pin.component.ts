@@ -9,6 +9,8 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class HotelPinComponent {
   @Input() pin: any;
+  @Input() tripInfo: any;
+
   @Output() pinRemoved = new EventEmitter<number>();
   @Output() dragStarted = new EventEmitter<any>();
 

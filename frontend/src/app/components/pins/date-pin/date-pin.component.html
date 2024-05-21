@@ -1,12 +1,17 @@
 <div class="pin" [style.top]="pin.y + 'px'" [style.left]="pin.x + 'px'" (mousedown)="onDragStart($event)">
-  <p>{{ pin.type }} ({{ pin.id }})</p>
   <div>
-    <label for="departureDate-{{ pin.id }}">Departure Date:</label>
+    <label for="departureDate-{{ pin.id }}">Trip Start:</label>
     <input type="date" id="departureDate-{{ pin.id }}" [(ngModel)]="pin.departureDate">
   </div>
   <div>
-    <label for="arrivalDate-{{ pin.id }}">Arrival Date:</label>
+    <label for="arrivalDate-{{ pin.id }}">Trip End:</label>
     <input type="date" id="arrivalDate-{{ pin.id }}" [(ngModel)]="pin.arrivalDate">
+  </div>
+  <button (click)="addDates()">Add Dates</button>
+  <div *ngIf="pin.earliestDate">
+    <p>Earliest Date: {{ pin.earliestDate }}</p>
+    <p>Latest Date: {{ pin.latestDate }}</p>
+    <p>Average Date: {{ pin.averageDate }}</p>
   </div>
   <span class="close" (click)="removePin()">&times;</span>
 </div>
