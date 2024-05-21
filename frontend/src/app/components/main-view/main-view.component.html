@@ -6,7 +6,6 @@
     <h2>{{ trip.name }}</h2>
     <p>{{ trip.description }}</p>
     <p><strong>{{ 'TRIP_LOCATION' | translate }}:</strong> {{ trip.location }}</p>
-    <p><strong>{{ 'PEOPLE_JOINED' | translate }}:</strong> {{ trip.peopleJoined }}</p>
     <p><strong>{{ 'START_DATE' | translate }}:</strong> {{ trip.date }}</p>
     <button class="open-btn" (click)="clickOpenTrip(trip.id)">{{ 'OPEN' | translate }}</button>
   </div>

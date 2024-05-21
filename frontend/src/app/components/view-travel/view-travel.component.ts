@@ -87,6 +87,10 @@ export class ViewTravelComponent implements OnInit {
           this.router.navigate(['notfound']);
         }
       },
+      error: (error: any) => {
+        console.error('Error loading trip details:', error);
+        this.router.navigate(['notfound']);
+      },
     });
   }
 

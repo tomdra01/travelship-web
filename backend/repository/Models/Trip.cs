@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 public class Trip
 {   
     [Key]
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     [Required(ErrorMessage = "Name is required.")]
     [StringLength(255, ErrorMessage = "Name cannot exceed 255 characters.")]
@@ -22,9 +22,6 @@ public class Trip
 
     [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
     public string? Description { get; set; }
-
-    [Range(0, int.MaxValue, ErrorMessage = "Number of people joined must be a non-negative number.")]
-    public int PeopleJoined { get; set; }
     
     [StringLength(6, ErrorMessage = "Code cannot exceed 6 characters.")]
     [RegularExpression("^[A-Z]*$", ErrorMessage = "Code must consist of uppercase letters only.")]
