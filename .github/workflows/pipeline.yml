@@ -86,6 +86,8 @@ jobs:
           dotnet build --no-restore
 
       - name: Start Web API
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
         run: |
           cd backend && cd HttpApi
           dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
