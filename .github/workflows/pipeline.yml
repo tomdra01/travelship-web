@@ -88,6 +88,8 @@ jobs:
       - name: Start Web API
         env:
           DB_CON: ${{ secrets.DB_CON }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend && cd HttpApi
           dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
@@ -97,8 +99,6 @@ jobs:
         run: |
           cd backend && cd test
           dotnet test --no-build
-        env:
-          DB_CON: ${{ secrets.DB_CON }}
 
       - name: Shutdown Web API
         if: always()
