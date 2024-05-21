@@ -78,8 +78,8 @@ jobs:
       - name: Restore dependencies
         run: |
           echo "Current directory: $(pwd)"
-          cd backend && cd httpapi
-          echo "Current directory after cd to backend/httpapi: $(pwd)"
+          cd backend
+          echo "Current directory after cd to backend: $(pwd)"
           dotnet restore
 
       - name: Build the test project
