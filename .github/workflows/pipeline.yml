@@ -57,6 +57,7 @@ jobs:
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
+    working-directory: ./backend
     
     steps:
       - name: Checkout code
