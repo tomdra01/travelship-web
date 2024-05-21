@@ -78,7 +78,7 @@ jobs:
       - name: Restore dependencies
         run: |
           echo "Current directory: $(pwd)"
-          cd backend/httpapi
+          cd backend && cd httpapi
           echo "Current directory after cd to backend/httpapi: $(pwd)"
           dotnet restore
 
