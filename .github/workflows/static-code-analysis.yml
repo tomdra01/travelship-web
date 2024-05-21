@@ -7,7 +7,7 @@ jobs:
   static-code-analysis:
     runs-on: windows-latest
     steps:
-      - name: Build and analyze
+      - name: Run SonarQube analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
