@@ -1,0 +1,13 @@
+<div class="chat-container">
+  <div class="chat-messages">
+    <div *ngFor="let message of messages; trackBy: trackById" [ngClass]="{'user-message': message.fromUser, 'other-message': !message.fromUser}" class="message-entry">
+      <div class="message-content">
+        <img *ngIf="message.flagUrl" [src]="message.flagUrl" alt="Country flag">
+        <strong>{{ message.username }}:</strong>
+        <span class="message-text">{{ message.text }}</span>
+      </div>
+    </div>
+  </div>
+  <input type="text" [(ngModel)]="messageContent" placeholder="..." class="chat-input">
+  <button (click)="sendMessage()" class="chat-button">{{ 'CHAT_SEND' | translate }}</button>
+</div>

@@ -18,6 +18,7 @@ import {UserDetailsService} from "../../service/user-details.service";
 import {TripDetailsService} from "../../service/trip-details.service";
 import {LanguageService} from "../../service/language.service";
 import {TranslateModule} from "@ngx-translate/core";
+import {ChatComponent} from "../chat/chat.component";
 
 @Component({
   selector: 'app-view-travel',
@@ -32,6 +33,7 @@ import {TranslateModule} from "@ngx-translate/core";
     DatePinComponent,
     FlightPinComponent,
     TranslateModule,
+    ChatComponent
   ],
   templateUrl: './view-travel.component.html',
   styleUrls: ['./view-travel.component.css'],
@@ -39,15 +41,10 @@ import {TranslateModule} from "@ngx-translate/core";
 export class ViewTravelComponent implements OnInit {
   tripId: number | undefined;
   tripInfo: any;
-  messageContent: string = '';
-  messages: {
-    text: string;
-    username: string;
-    fromUser: boolean;
-    flagUrl?: string;
-  }[] = [];
+
   pinOptions = ['NotePin', 'HotelPin', 'FlightTicketPin', 'TripDatePin'];
   selectedOption = this.pinOptions[0];
+
   pins: Pin[] = [];
   currentPin: any = null;
   offsetX: number = 0;
@@ -115,14 +112,6 @@ export class ViewTravelComponent implements OnInit {
 
   private handleWebSocketEvent(data: any) {
     switch (data.eventType) {
-      case 'ServerBroadcastsMessageWithUsername':
-        this.messages.push({
-          text: data.message,
-          username: data.username,
-          fromUser: data.username === this.userDetailsService.username,
-          flagUrl: data.username === this.userDetailsService.username ? this.userDetailsService.flagUrl : undefined,
-        });
-        break;
       case 'ServerAddsPin':
         this.addPinServer(data);
         break;
@@ -212,18 +201,6 @@ export class ViewTravelComponent implements OnInit {
     }
   }
 
-  sendMessage() {
-    if (this.messageContent.trim()) {
-      const message = {
-        eventType: 'ClientWantsToBroadcastToTrip',
-        tripId: this.tripId!,
-        message: this.messageContent,
-      };
-      this.websocketService.sendMessage(message);
-      this.messageContent = '';
-    }
-  }
-
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (this.dragging) {
@@ -251,9 +228,5 @@ export class ViewTravelComponent implements OnInit {
     this.currentPin = eventData.pin;
     this.offsetX = event.clientX - eventData.pin.x;
     this.offsetY = event.clientY - eventData.pin.y;
-  }
-
-  trackById(index: number, message: any): any {
-    return message.id;
   }
 }
