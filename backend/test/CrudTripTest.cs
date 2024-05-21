@@ -27,8 +27,8 @@ public class CrudTripTest
     
     private static readonly HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Helper.ApiBaseUrl) };
 
-    [TestCase("Ski Adventure", "Switzerland", "2024-02-10", "A thrilling ski trip full of adventure and fun. Join us for a memorable experience in the snow-capped mountains of Switzerland. Perfect for families and individuals alike looking to escape the mundane.", 15, null), Order(1)]
-    public async Task TripCanBeSuccessfullyCreatedFromHttpRequest(string name, string location, string date, string description, int peopleJoined, string code)
+    [TestCase("Ski Adventure", "Switzerland", "2024-02-10", "A thrilling ski trip full of adventure and fun. Join us for a memorable experience in the snow-capped mountains of Switzerland. Perfect for families and individuals alike looking to escape the mundane.",  null), Order(1)]
+    public async Task TripCanBeSuccessfullyCreatedFromHttpRequest(string name, string location, string date, string description, string code)
     {
         var trip = new Trip
         {
@@ -36,7 +36,6 @@ public class CrudTripTest
             Location = location,
             Date = DateTime.Parse(date),
             Description = description,
-            PeopleJoined = peopleJoined,
             Code = code
         };
 

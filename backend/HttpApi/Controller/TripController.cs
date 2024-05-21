@@ -59,7 +59,7 @@ public class TripsController : ControllerBase
         try
         {
             var createdTrip = await _service.CreateTrip(trip);
-            return CreatedAtAction(nameof(GetTripById), new { id = createdTrip.ID }, createdTrip);
+            return CreatedAtAction(nameof(GetTripById), new { id = createdTrip.Id }, createdTrip);
         }
         catch (Exception ex)
         {
@@ -71,7 +71,7 @@ public class TripsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<Trip>> UpdateTrip(int id, [FromBody] Trip trip)
     {
-        if (id != trip.ID)
+        if (id != trip.Id)
         {
             return BadRequest("ID mismatch");
         }

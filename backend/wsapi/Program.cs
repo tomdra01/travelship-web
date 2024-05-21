@@ -29,12 +29,12 @@ server.Start(socket =>
 {
     socket.OnOpen = () =>
     {
-        Console.WriteLine("Open!");
+        Console.WriteLine("Open socket! ID: " + socket.ConnectionInfo.Id + " IP: " + socket.ConnectionInfo.ClientIpAddress );
         StateService.AddConnection(socket); 
     };
     socket.OnClose = () =>
     {
-        Console.WriteLine("Close!");
+        Console.WriteLine("Close socket! ID: " + socket.ConnectionInfo.Id + " IP: " + socket.ConnectionInfo.ClientIpAddress );
         StateService.RemoveConnection(socket);  
     };
     socket.OnMessage = async message =>

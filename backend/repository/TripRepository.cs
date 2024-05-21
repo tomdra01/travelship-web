@@ -52,8 +52,8 @@ public class TripRepository
     public async Task<Trip> CreateTrip(Trip trip)
     {
         const string sql = @"
-INSERT INTO Production.Trips (Name, Location, Date, Description, PeopleJoined, Code)
-VALUES (@Name, @Location, @Date, @Description, @PeopleJoined, @Code) RETURNING *;";
+INSERT INTO Production.Trips (Name, Location, Date, Description, Code)
+VALUES (@Name, @Location, @Date, @Description, @Code) RETURNING *;";
         await _connection.OpenAsync();
         var createdTrip = await _connection.QuerySingleAsync<Trip>(sql, trip);
         await _connection.CloseAsync();
@@ -64,7 +64,7 @@ VALUES (@Name, @Location, @Date, @Description, @PeopleJoined, @Code) RETURNING *
     {
         const string sql = @"
 UPDATE Production.Trips
-SET Name = @Name, Location = @Location, Date = @Date, Description = @Description, PeopleJoined = @PeopleJoined, Code = @Code
+SET Name = @Name, Location = @Location, Date = @Date, Description = @Description, Code = @Code
 WHERE id = @ID
 RETURNING *;";
         await _connection.OpenAsync();

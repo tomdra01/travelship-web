@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FlightService} from "../../../service/flight.service";
-import {FormsModule} from "@angular/forms";
-import {FlightData} from "../../../../../models/Flight";
-import {CommonModule, CurrencyPipe} from "@angular/common";
-import {WebsocketService} from "../../../service/websocket.service";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FlightService } from "../../../service/flight.service";
+import { FormsModule } from "@angular/forms";
+import { FlightData } from "../../../../../models/Flight";
+import { CommonModule, CurrencyPipe } from "@angular/common";
+import { WebsocketService } from "../../../service/websocket.service";
 
 @Component({
   selector: 'app-flight-pin',
@@ -14,31 +14,34 @@ import {WebsocketService} from "../../../service/websocket.service";
     CommonModule
   ],
   templateUrl: './flight-pin.component.html',
-  styleUrl: './flight-pin.component.css'
+  styleUrls: ['./flight-pin.component.css']
 })
-export class FlightPinComponent implements OnInit{
-
-  constructor(private websocketService: WebsocketService, private flightService: FlightService) { }
+export class FlightPinComponent implements OnInit {
 
   @Input() pin: any;
   @Input() tripInfo: any;
-
   @Output() pinRemoved = new EventEmitter<number>();
   @Output() dragStarted = new EventEmitter<any>();
 
   fromCity: string = '';
-  flightData: FlightData[] = [];
+  flightData: { day: string; group: string; price: number; }[] = [];
   showFlights: boolean = false;
+
+  constructor(private websocketService: WebsocketService, private flightService: FlightService) { }
 
   ngOnInit() {
     if (!this.pin.description || this.pin.description.trim() === '') {
       this.showFlights = false;
     } else {
-      this.flightData = JSON.parse(this.pin.description);
-      this.showFlights = true;
+      try {
+        this.flightData = JSON.parse(this.pin.description);
+        this.showFlights = true;
+      } catch (error) {
+        console.error('Failed to parse flight data JSON:', error);
+        this.showFlights = false;
+      }
     }
   }
-
 
   onDragStart(event: MouseEvent): void {
     this.dragStarted.emit({ event, pin: this.pin });
@@ -48,7 +51,7 @@ export class FlightPinComponent implements OnInit{
     this.pinRemoved.emit(this.pin.id);
   }
 
-  sendPinEdit(flightData: FlightData[]): void {
+  sendPinEdit(flightData: { day: string; group: string; price: number; }[]): void {
     this.websocketService.sendMessage({
       eventType: 'ClientWantsToEditPinContent',
       PinId: this.pin.id,
@@ -77,7 +80,7 @@ export class FlightPinComponent implements OnInit{
       this.flightService.getCheapestOneWayFlight(this.fromCity, this.tripInfo.location, formattedDate).subscribe(
         (response) => {
           console.log('Flight data:', response);
-          this.flightData = response.data.sort((a, b) => a.price - b.price).slice(0, 3); // Store the three cheapest flights
+          this.flightData = response.data.sort((a, b) => a.price - b.price).slice(0, 5); // Get the 5 cheapest flights
           this.showFlights = true;
           this.sendPinEdit(this.flightData);
         },
@@ -89,10 +92,5 @@ export class FlightPinComponent implements OnInit{
     } else {
       console.error('No trip info provided');
     }
-  }
-
-
-  viewAllFlights() {
-    alert(this.flightData.sort((a, b) => a.price - b.price).map((flight) => `${flight.day} - $${flight.price}`).join('\n'));
   }
 }
