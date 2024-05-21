@@ -76,29 +76,38 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        working-directory: ./backend/httpapi
         run: |
+          echo "Current directory: $(pwd)"
+          cd backend/httpapi
+          echo "Current directory after cd to backend/httpapi: $(pwd)"
           dotnet restore
 
       - name: Build the test project
-        working-directory: ./backend/test
         run: |
+          echo "Current directory: $(pwd)"
+          cd backend/test
+          echo "Current directory after cd to backend/test: $(pwd)"
           dotnet build --no-restore
 
       - name: Start Web API
-        working-directory: ./backend/httpapi
         run: |
+          echo "Current directory: $(pwd)"
+          cd backend/httpapi
+          echo "Current directory after cd to backend/httpapi: $(pwd)"
           dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
           sleep 30
 
       - name: Run API tests
-        working-directory: ./backend/test
         run: |
-          sleep 60
+          echo "Current directory: $(pwd)"
+          cd backend/test
+          echo "Current directory after cd to backend/test: $(pwd)"
           dotnet test --no-build --filter FullyQualifiedName~test.api
         env:
           DB_CON: ${{ secrets.DB_CON }}
 
       - name: Shutdown Web API
         if: always()
-        run: kill $API_PID
+        run: |
+          echo "Killing process with API_PID: $API_PID"
+          kill $API_PID
