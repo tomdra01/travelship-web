@@ -57,7 +57,6 @@ jobs:
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
-    working-directory: ./backend
     
     steps:
       - name: Checkout code
@@ -77,24 +76,24 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
+        working-directory: ./backend/httpapi
         run: |
-          cd httpapi
-          dotnet restore httpapi.csproj
+          dotnet restore
 
       - name: Build the test project
+        working-directory: ./backend/test
         run: |
-          cd test
-          dotnet build --no-restore test.csproj
+          dotnet build --no-restore
 
       - name: Start Web API
+        working-directory: ./backend/httpapi
         run: |
-          cd httpapi
-          sleep 30
           dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
+          sleep 30
 
       - name: Run API tests
+        working-directory: ./backend/test
         run: |
-          cd test
           sleep 60
           dotnet test --no-build --filter FullyQualifiedName~test.api
         env:
