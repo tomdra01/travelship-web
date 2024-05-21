@@ -80,28 +80,32 @@ jobs:
           echo "Current directory: $(pwd)"
           cd backend
           echo "Current directory after cd to backend: $(pwd)"
+          ls -la
           dotnet restore
 
       - name: Build the test project
         run: |
           echo "Current directory: $(pwd)"
-          cd backend/test
-          echo "Current directory after cd to backend/test: $(pwd)"
+          cd test
+          echo "Current directory after cd to test: $(pwd)"
+          ls -la
           dotnet build --no-restore
 
       - name: Start Web API
         run: |
           echo "Current directory: $(pwd)"
-          cd backend/httpapi
-          echo "Current directory after cd to backend/httpapi: $(pwd)"
+          cd ../httpapi
+          echo "Current directory after cd to httpapi: $(pwd)"
+          ls -la
           dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
           sleep 30
 
       - name: Run API tests
         run: |
           echo "Current directory: $(pwd)"
-          cd backend/test
-          echo "Current directory after cd to backend/test: $(pwd)"
+          cd ../test
+          echo "Current directory after cd to test: $(pwd)"
+          ls -la
           dotnet test --no-build --filter FullyQualifiedName~test.api
         env:
           DB_CON: ${{ secrets.DB_CON }}
