@@ -11,8 +11,8 @@ on:
       - develop
 
 jobs:
-  setup-and-static-analysis:
-    uses: ./.github/workflows/static-analysis.yml
+  static-code-analysis:
+    uses: ./.github/workflows/static-code-analysis.yml
     permissions:
       contents: read
       packages: read
@@ -26,3 +26,4 @@ jobs:
       repository-projects: read
       statuses: read
       security-events: read
+      id-token: read
