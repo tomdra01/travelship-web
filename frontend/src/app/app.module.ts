@@ -7,7 +7,6 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {OAuthModule} from "angular-oauth2-oidc";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HeaderComponent} from "./components/header/header.component";
-import {FooterComponent} from "./components/footer/footer.component";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -25,7 +24,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
     CreateTripComponent,
   ],
   imports: [
