@@ -85,9 +85,9 @@ jobs:
         run: cd backend && cd httpapi && sleep 30 && dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
 
       - name: Run API tests
-        run: cd backend && cd test && sleep 60 && dotnet test --no-build --filter FullyQualifiedName~test.api
+        run: cd backend && cd test && sleep 60 && dotnet test --no-build
         env:
-          pgconn: ${{ secrets.PGCONN }}
+          DB_CON: ${{ secrets.DB_CON }}
 
       - name: Shutdown Web API
         if: always()
