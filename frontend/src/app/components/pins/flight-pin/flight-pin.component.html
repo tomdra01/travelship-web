@@ -3,17 +3,18 @@
   <span class="close" (click)="removePin()">&times;</span>
 
   <div *ngIf="!showFlights">
+    <p>{{ 'FLIGHT_FROM' | translate }}</p>
     <input type="text" [(ngModel)]="fromCity" placeholder="Enter From City">
-    <button (click)="calculateTicket()">Calculate Ticket</button>
+    <button (click)="calculateTicket()">{{ 'FLIGHT_CALCULATE' | translate }}</button>
   </div>
 
   <div *ngIf="showFlights">
     <table>
       <thead>
       <tr>
-        <th>Day</th>
-        <th>Group</th>
-        <th>Price</th>
+        <th>{{ 'FLIGHT_DAY' | translate }}</th>
+        <th>{{ 'FLIGHT_GROUP' | translate }}</th>
+        <th>{{ 'FLIGHT_PRICE' | translate }}</th>
       </tr>
       </thead>
       <tbody>

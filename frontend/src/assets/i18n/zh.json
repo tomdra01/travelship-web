@@ -40,5 +40,11 @@
   "CREATE_DESCRIPTION": "描述",
   "CREATE_LOCATION": "位置",
   "CREATE_CODE": "代码（可选）",
-  "CREATE_SUBMIT": "提交"
+  "CREATE_SUBMIT": "提交",
+
+  "FLIGHT_FROM": "从...飞",
+  "FLIGHT_CALCULATE": "计算",
+  "FLIGHT_DAY": "天",
+  "FLIGHT_GROUP": "组",
+  "FLIGHT_PRICE": "价格"
 }

@@ -40,5 +40,11 @@
   "CREATE_DESCRIPTION": "Beskrivelse",
   "CREATE_LOCATION": "Placering",
   "CREATE_CODE": "Kode (valgfrit)",
-  "CREATE_SUBMIT": "Indsend"
+  "CREATE_SUBMIT": "Indsend",
+
+  "FLIGHT_FROM": "Fly fra",
+  "FLIGHT_CALCULATE": "Beregn",
+  "FLIGHT_DAY": "Dag",
+  "FLIGHT_GROUP": "Gruppe",
+  "FLIGHT_PRICE": "Pris"
 }

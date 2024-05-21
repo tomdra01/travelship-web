@@ -40,5 +40,11 @@
   "CREATE_DESCRIPTION": "Descripción",
   "CREATE_LOCATION": "Ubicación",
   "CREATE_CODE": "Código (opcional)",
-  "CREATE_SUBMIT": "Enviar"
+  "CREATE_SUBMIT": "Enviar",
+
+  "FLIGHT_FROM": "Vuelo desde",
+  "FLIGHT_CALCULATE": "Calcular",
+  "FLIGHT_DAY": "Día",
+  "FLIGHT_GROUP": "Grupo",
+  "FLIGHT_PRICE": "Precio"
 }

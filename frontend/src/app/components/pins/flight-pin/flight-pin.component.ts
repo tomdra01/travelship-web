@@ -4,6 +4,8 @@ import { FormsModule } from "@angular/forms";
 import { FlightData } from "../../../../../models/Flight";
 import { CommonModule, CurrencyPipe } from "@angular/common";
 import { WebsocketService } from "../../../service/websocket.service";
+import {LanguageService} from "../../../service/language.service";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-flight-pin',
@@ -11,7 +13,8 @@ import { WebsocketService } from "../../../service/websocket.service";
   imports: [
     FormsModule,
     CurrencyPipe,
-    CommonModule
+    CommonModule,
+    TranslateModule
   ],
   templateUrl: './flight-pin.component.html',
   styleUrls: ['./flight-pin.component.css']
@@ -27,7 +30,9 @@ export class FlightPinComponent implements OnInit {
   flightData: { day: string; group: string; price: number; }[] = [];
   showFlights: boolean = false;
 
-  constructor(private websocketService: WebsocketService, private flightService: FlightService) { }
+  constructor(private websocketService: WebsocketService, private flightService: FlightService, private languageService: LanguageService) {
+    this.languageService.initializeLanguage();
+  }
 
   ngOnInit() {
     if (!this.pin.description || this.pin.description.trim() === '') {
