@@ -68,16 +68,28 @@ export class ViewTravelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.tripId = +params['tripId'];
-      if (this.tripId) {
-        this.loadTripDetails(this.tripId);
-      }
-    });
+    // Check if the URL has the 'refresh' query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasRefreshed = urlParams.get('refresh');
 
-    this.userDetailsService.getUserDetails();
-    this.initWebSocket();
+    if (!hasRefreshed) {
+      // If not, set the 'refresh' parameter and reload the page
+      urlParams.set('refresh', 'true');
+      window.location.search = urlParams.toString();
+    } else {
+      // If the page has already been refreshed, proceed with initialization
+      this.route.params.subscribe((params) => {
+        this.tripId = +params['tripId'];
+        if (this.tripId) {
+          this.loadTripDetails(this.tripId);
+        }
+      });
+
+      this.userDetailsService.getUserDetails();
+      this.initWebSocket();
+    }
   }
+
 
   loadTripDetails(tripId: number) {
     this.tripDetailsService.loadTripDetails(tripId).subscribe({
