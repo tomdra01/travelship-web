@@ -1,0 +1,51 @@
+name: Integration Test Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: cd backend && cd test && dotnet restore
+
+      - name: Build the test project
+        run: cd backend && cd test && dotnet build --no-restore
+
+      - name: Start Web API
+        run: |
+          cd backend/httpapi
+          dotnet run &
+          echo "API_PID=$!" >> $GITHUB_ENV
+          sleep 30
+
+      - name: Run API tests
+        run: |
+          cd backend/test
+          sleep 60
+          dotnet test --no-build --filter FullyQualifiedName~test.api
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+
+      - name: Shutdown Web API
+        if: always()
+        run: kill $API_PID

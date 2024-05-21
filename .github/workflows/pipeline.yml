@@ -53,3 +53,7 @@ jobs:
           dotnet-sonarscanner begin /k:"VahPheephoopou2" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
           dotnet build
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+  
+  integration-tests:
+    name: integration-tests
+    runs-on: ubuntu-latest
