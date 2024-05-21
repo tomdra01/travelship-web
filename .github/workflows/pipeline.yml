@@ -28,7 +28,7 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache SonarQube scanner
         id: cache-sonar-scanner
-        uses: actions/cache@v3  # Updated to v3 to use Node.js 20
+        uses: actions/cache@v3 
         with:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
@@ -48,7 +48,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         shell: powershell
-        working-directory: ./backend  # Set the working directory to backend
+        working-directory: ./backend  
         run: |
           dotnet-sonarscanner begin /k:"VahPheephoopou2" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
           dotnet build
