@@ -76,16 +76,26 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: cd backend && dotnet restore
+        run: |
+          cd backend/httpapi
+          dotnet restore httpapi.csproj
 
       - name: Build the test project
-        run: cd backend && dotnet build --no-restore
+        run: |
+          cd backend/test
+          dotnet build --no-restore test.csproj
 
       - name: Start Web API
-        run: cd backend/httpapi && sleep 30 && dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
+        run: |
+          cd backend/httpapi
+          sleep 30
+          dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
 
       - name: Run API tests
-        run: cd backend/test && sleep 60 && dotnet test --no-build --filter FullyQualifiedName~test.api
+        run: |
+          cd backend/test
+          sleep 60
+          dotnet test --no-build --filter FullyQualifiedName~test.api
         env:
           DB_CON: ${{ secrets.DB_CON }}
 
