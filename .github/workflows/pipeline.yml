@@ -77,7 +77,7 @@ jobs:
 
       - name: Restore dependencies
         run: |
-          cd backend && cd httpapi
+          cd backend && cd HttpApi
           dotnet restore
 
       - name: Build the test project
@@ -87,7 +87,7 @@ jobs:
 
       - name: Start Web API
         run: |
-          cd backend && cd httpapi
+          cd backend && cd HttpApi
           dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
           sleep 30
 
