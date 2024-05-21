@@ -57,9 +57,6 @@ jobs:
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     
     steps:
       - name: Checkout code
@@ -71,7 +68,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Cache NuGet packages
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
@@ -79,25 +76,18 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: cd backend && cd test && dotnet restore
 
       - name: Build the test project
-        run: dotnet build --no-restore
+        run: cd backend && cd test && dotnet build --no-restore
 
       - name: Start Web API
-        run: |
-          cd httpapi
-          dotnet run &
-          echo "API_PID=$!" >> $GITHUB_ENV
-          sleep 30
+        run: cd backend && cd httpapi && sleep 30 && dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
 
       - name: Run API tests
-        run: |
-          cd ../test
-          sleep 60
-          dotnet test 
+        run: cd backend && cd test && sleep 60 && dotnet test --no-build --filter FullyQualifiedName~test.api
         env:
-          DB_CON: ${{ secrets.DB_CON }}
+          pgconn: ${{ secrets.PGCONN }}
 
       - name: Shutdown Web API
         if: always()
