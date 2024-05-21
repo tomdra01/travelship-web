@@ -9,7 +9,7 @@ on:
 jobs:
   static-code-analysis:
     name: static-code-analysis
-    runs-on: ubuntu-22.04
+    runs-on: windows-latest
     permissions: read-all
     steps:
       - uses: actions/checkout@v3  
