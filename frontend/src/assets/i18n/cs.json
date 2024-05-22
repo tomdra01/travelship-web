@@ -40,5 +40,11 @@
   "CREATE_DESCRIPTION": "Popis",
   "CREATE_LOCATION": "Umístění",
   "CREATE_CODE": "Kód (volitelné)",
-  "CREATE_SUBMIT": "Odeslat"
+  "CREATE_SUBMIT": "Odeslat",
+
+  "FLIGHT_FROM": "Let z",
+  "FLIGHT_CALCULATE": "Vypočítat",
+  "FLIGHT_DAY": "Den",
+  "FLIGHT_GROUP": "Skupina",
+  "FLIGHT_PRICE": "Cena"
 }

@@ -40,5 +40,11 @@
   "CREATE_DESCRIPTION": "وصف",
   "CREATE_LOCATION": "موقع",
   "CREATE_CODE": "رمز (اختياري)",
-  "CREATE_SUBMIT": "إرسال"
+  "CREATE_SUBMIT": "إرسال",
+
+  "FLIGHT_FROM": "رحلة من",
+  "FLIGHT_CALCULATE": "احسب",
+  "FLIGHT_DAY": "اليوم",
+  "FLIGHT_GROUP": "مجموعة",
+  "FLIGHT_PRICE": "السعر"
 }

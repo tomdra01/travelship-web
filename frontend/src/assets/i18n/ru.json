@@ -40,5 +40,11 @@
   "CREATE_DESCRIPTION": "Описание",
   "CREATE_LOCATION": "Местоположение",
   "CREATE_CODE": "Код (необязательно)",
-  "CREATE_SUBMIT": "Отправить"
+  "CREATE_SUBMIT": "Отправить",
+
+  "FLIGHT_FROM": "Рейс из",
+  "FLIGHT_CALCULATE": "Рассчитать",
+  "FLIGHT_DAY": "День",
+  "FLIGHT_GROUP": "Группа",
+  "FLIGHT_PRICE": "Цена"
 }

@@ -21,9 +21,6 @@ public class Trip
 
     [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
     public string? Description { get; set; }
-
-    [Range(0, int.MaxValue, ErrorMessage = "Number of people joined must be a non-negative number.")]
-    public int PeopleJoined { get; set; }
     
     [StringLength(6, ErrorMessage = "Code cannot exceed 6 characters.")]
     [RegularExpression("^[A-Z]*$", ErrorMessage = "Code must consist of uppercase letters only.")]

@@ -1,7 +1,9 @@
 textarea {
+  margin-top: 5%;
+
   resize: none;
 
-  min-height: 115px;
+  min-height: 85%;
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;

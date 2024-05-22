@@ -11,7 +11,6 @@ import {LanguageService} from "../../service/language.service";
 })
 export class HeaderComponent implements OnInit{
   loginButton = true;
-  private authService = inject(GoogleApiService);
   flagUrl: string | undefined;
 
   userInfo?: { name: any; picture: any; email: any }
