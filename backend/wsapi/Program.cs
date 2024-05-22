@@ -19,7 +19,6 @@ var dbConString = FormatConnectionString.Format(Configuration.DbCon);
 builder.Services.AddSingleton<PinRepository>(provider => new PinRepository(dbConString));
 builder.Services.AddSingleton<IPinService, PinService>();
 
-
 var services = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
@@ -43,12 +42,16 @@ server.Start(socket =>
         {
             await app.InvokeClientEventHandler(services, socket, message);
         }
+        catch (JsonException jsonEx)
+        {
+            Console.WriteLine($"JSON Error at wsapi/Program.cs: {jsonEx.Message} - Raw Message: {message}");
+            socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClientDto { errorMessage = "Invalid JSON format: " + jsonEx.Message }));
+        }
         catch (Exception e)
         {
             Console.WriteLine("Caught Exception at wsapi/Program.cs: " + e.Message);
             socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClientDto { errorMessage = "An error occurred: " + e.Message }));
         }
-
     };
 });
 Console.ReadLine();
