@@ -30,7 +30,7 @@ jobs:
 
       - name: Migrate Database
         env:
-          DB_URL: ${{ secrets.DB_CON }}
+          DB_URL: ${{ secrets.DB_URL }}
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
