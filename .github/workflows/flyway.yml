@@ -24,9 +24,9 @@ jobs:
           echo "Listing root directory:"
           ls -al /
           echo "Listing project directory:"
-          ls -al ../..
+          ls -al .
           echo "Listing migration directory:"
-          ls -al ../../db/migration
+          ls -al ./db/migration
 
       - name: Migrate Database
         env:
@@ -34,4 +34,4 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
-          flyway -url=${DB_URL} -user=${DB_USER} -password=${DB_PASSWORD} -locations=filesystem:../../db/migration migrate
+          flyway -url=${DB_URL} -user=${DB_USER} -password=${DB_PASSWORD} -locations=filesystem:./db/migration migrate
