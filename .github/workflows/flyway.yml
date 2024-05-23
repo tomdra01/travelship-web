@@ -1,0 +1,26 @@
+name: Flyway Migration Pipeline
+
+on:
+  push:
+    branches:
+      - flyway
+
+jobs:
+  database-migration:
+    name: Database Migration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Flyway
+        run: |
+          wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/8.5.13/flyway-commandline-8.5.13-linux-x64.tar.gz | tar xvz && ln -s `pwd`/flyway-8.5.13/flyway /usr/local/bin
+
+      - name: Migrate Database
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          flyway -url=${DB_URL} -user=${DB_USER} -password=${DB_PASSWORD} -locations=filesystem:./backend/db/migration migrate
