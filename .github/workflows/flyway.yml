@@ -32,7 +32,7 @@ jobs:
 
       - name: Baseline Database
         env:
-          DB_URL: jdbc:postgresql://cornelius.db.elephantsql.com:5432/jiddccrd
+          DB_URL: ${{ secrets.DB_URL }}
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
@@ -40,7 +40,7 @@ jobs:
 
       - name: Migrate Database
         env:
-          DB_URL: jdbc:postgresql://cornelius.db.elephantsql.com:5432/jiddccrd
+          DB_URL: ${{ secrets.DB_URL }}
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
