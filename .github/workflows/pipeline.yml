@@ -53,11 +53,31 @@ jobs:
           dotnet-sonarscanner begin /k:"VahPheephoopou2" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
           dotnet build
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-          
+
+  database-migration:
+    name: Database Migration
+    runs-on: ubuntu-latest
+    needs: static-code-analysis
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Flyway
+        run: |
+          wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/8.5.13/flyway-commandline-8.5.13-linux-x64.tar.gz | tar xvz && ln -s `pwd`/flyway-8.5.13/flyway /usr/local/bin
+
+      - name: Migrate Database
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          flyway -url=${DB_URL} -user=${DB_USER} -password=${DB_PASSWORD} -locations=filesystem:./db/migration migrate
+
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
-    needs: static-code-analysis
+    needs: [static-code-analysis, database-migration]
     
     steps:
       - name: Checkout code
