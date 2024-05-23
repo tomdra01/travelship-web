@@ -1,35 +1,56 @@
 ﻿using System.Text.Json;
 using Fleck;
 using lib;
+using Repository;
+using Repository.Models;
 using WebsocketApi.DTOs.Client;
 using WebsocketApi.DTOs.Server;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
+using Infrastructure.interfaces;
 
-namespace WebsocketApi.Events;
-
-public class ClientWantsToBroadcastToTrip : BaseEventHandler<ClientWantsToBroadcastToTripDto>
+namespace WebsocketApi.Events
 {
-    private readonly IConfiguration _configuration;
+    public class ClientWantsToBroadcastToTrip : BaseEventHandler<ClientWantsToBroadcastToTripDto>
+    {
+        private readonly IConfiguration _configuration;
+        private readonly IMessageService _messageService;
 
-    public ClientWantsToBroadcastToTrip(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-    
-    public override Task Handle(ClientWantsToBroadcastToTripDto dto, IWebSocketConnection ws)
-    {
-        if (StateService.Connections.TryGetValue(ws.ConnectionInfo.Id, out var metaData))
+        public ClientWantsToBroadcastToTrip(IConfiguration configuration, IMessageService messageService)
         {
-            var message = new ServerBroadcastsMessageWithUsername()
+            _configuration = configuration;
+            _messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
+        }
+
+        public override async Task Handle(ClientWantsToBroadcastToTripDto dto, IWebSocketConnection ws)
+        {
+            if (StateService.Connections.TryGetValue(ws.ConnectionInfo.Id, out var metaData))
             {
-                message = dto.message,
-                username = metaData.Username
-            };
-            StateService.BroadcastToTrip(dto.tripId, JsonSerializer.Serialize(message));
+                var messageDto = new Message
+                {
+                    MessageContent = dto.message,
+                    Username = metaData.Username,
+                    TripId = dto.tripId
+                };
+
+                var addedMessageDto = await ProcessMessageAddition(messageDto);
+                StateService.BroadcastToTrip(dto.tripId, JsonSerializer.Serialize(addedMessageDto));
+            }
+            else
+            {
+                Console.WriteLine($"No connection found for ID: {ws.ConnectionInfo.Id}");
+            }
         }
-        else
+
+        private async Task<ServerBroadcastsMessageWithUsername> ProcessMessageAddition(Message message)
         {
-            Console.WriteLine($"No connection found for ID: {ws.ConnectionInfo.Id}");
+            var addedMessage = await _messageService.AddMessage(message);
+
+            return new ServerBroadcastsMessageWithUsername
+            {
+                message = addedMessage.MessageContent,
+                username = addedMessage.Username
+            };
         }
-        return Task.CompletedTask;
     }
 }

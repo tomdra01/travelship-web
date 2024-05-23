@@ -18,6 +18,8 @@ var dbConString = FormatConnectionString.Format(Configuration.DbCon);
 
 builder.Services.AddSingleton<PinRepository>(provider => new PinRepository(dbConString));
 builder.Services.AddSingleton<IPinService, PinService>();
+builder.Services.AddSingleton<MessageRepository>(provider => new MessageRepository(dbConString));
+builder.Services.AddSingleton<IMessageService, MessageService>();
 
 var services = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
 
