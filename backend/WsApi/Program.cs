@@ -46,12 +46,12 @@ server.Start(socket =>
         }
         catch (JsonException jsonEx)
         {
-            Console.WriteLine($"JSON Error at wsapi/Program.cs: {jsonEx.Message} - Raw Message: {message}");
+            Console.WriteLine($"JSON Error at WsApi/Program.cs: {jsonEx.Message} - Raw Message: {message}");
             socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClientDto { errorMessage = "Invalid JSON format: " + jsonEx.Message }));
         }
         catch (Exception e)
         {
-            Console.WriteLine("Caught Exception at wsapi/Program.cs: " + e.Message);
+            Console.WriteLine("Caught Exception at WsApi/Program.cs: " + e.Message);
             socket.Send(JsonSerializer.Serialize(new ServerSendsErrorMessageToClientDto { errorMessage = "An error occurred: " + e.Message }));
         }
     };
