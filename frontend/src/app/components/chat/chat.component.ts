@@ -39,15 +39,22 @@ export class ChatComponent implements OnInit {
   }
 
   private handleWebSocketEvent(data: any) {
-    switch (data.eventType) {
-      case 'ServerBroadcastsMessageWithUsername':
+    if (data.eventType === 'ServerAddsClientToTrip') {
+      data.Messages.forEach((msg: { Id: number, MessageContent: string, Username: string, TripId: number }) => {
         this.messages.push({
-          text: data.message,
-          username: data.username,
-          fromUser: data.username === this.userDetailsService.username,
-          flagUrl: data.username === this.userDetailsService.username ? this.userDetailsService.flagUrl : undefined,
+          text: msg.MessageContent,
+          username: msg.Username,
+          fromUser: msg.Username === this.userDetailsService.username,
+          flagUrl: msg.Username === this.userDetailsService.username ? this.userDetailsService.flagUrl : undefined,
         });
-        break;
+      });
+    } else if (data.eventType === 'ServerBroadcastsMessageWithUsername') {
+      this.messages.push({
+        text: data.message,
+        username: data.username,
+        fromUser: data.username === this.userDetailsService.username,
+        flagUrl: data.username === this.userDetailsService.username ? this.userDetailsService.flagUrl : undefined,
+      });
     }
   }
 

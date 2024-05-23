@@ -10,10 +10,12 @@ namespace WebsocketApi.Events;
 public class ClientWantsToEnterTrip : BaseEventHandler<ClientWantsToEnterTripDto>
 {
     private readonly IPinService _pinService;
+    private readonly IMessageService _messageService;
 
-    public ClientWantsToEnterTrip(IPinService pinService)
+    public ClientWantsToEnterTrip(IPinService pinService, IMessageService messageService)
     {
         _pinService = pinService ?? throw new ArgumentNullException(nameof(pinService));
+        _messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
     }
 
     public override async Task Handle(ClientWantsToEnterTripDto dto, IWebSocketConnection ws)
@@ -23,11 +25,13 @@ public class ClientWantsToEnterTrip : BaseEventHandler<ClientWantsToEnterTripDto
         if (isSuccess)
         {
             var pins = await _pinService.GetPinsByTripId(dto.TripId);
+            var messages = await _messageService.GetMessagesByTripId(dto.TripId);  // Now this should work without throwing null reference
             
             var response = new ServerAddsClientToTrip
             {
                 message = "You have been added to trip " + dto.TripId,
-                Pins = pins
+                Pins = pins,
+                Messages = messages
             };
 
             ws.Send(JsonSerializer.Serialize(response));
