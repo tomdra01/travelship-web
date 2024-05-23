@@ -10,22 +10,8 @@ public class CrudTripTest
 {
     private static Trip? createdTrip;
     
-    [OneTimeSetUp]
-    public void Setup()
-    {
-        try
-        {
-            Helper.TriggerRebuild();
-            Console.WriteLine("Database rebuild was successful.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Failed to rebuild database: " + ex.Message);
-            throw;
-        }
-    }
-    
     private static readonly HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Helper.ApiBaseUrl) };
+    
 
     [TestCase("Ski Adventure", "Switzerland", "2024-02-10", "A thrilling ski trip full of adventure and fun. Join us for a memorable experience in the snow-capped mountains of Switzerland. Perfect for families and individuals alike looking to escape the mundane.",  null), Order(1)]
     public async Task TripCanBeSuccessfullyCreatedFromHttpRequest(string name, string location, string date, string description, string code)

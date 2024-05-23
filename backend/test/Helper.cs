@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using dotenv.net;
 using Npgsql;
 
 namespace ApiTests;
@@ -11,12 +12,15 @@ public static class Helper
 
     static Helper()
     {
-        var envVarKeyName = "pgconn";
-        ///var connectionString = Environment.GetEnvironmentVariable("DB_CON");
-        var connectionString = "postgres://jiddccrd:dStoIch-khgauAEnetRDOCnLyNg_8Km8@cornelius.db.elephantsql.com/jiddccrd";
+        DotEnv.Load();
+        
+        //var envVarKeyName = "pgconn";
+        var connectionString = Environment.GetEnvironmentVariable("DB_CON");
+        //var connectionString = "postgres://jiddccrd:dStoIch-khgauAEnetRDOCnLyNg_8Km8@cornelius.db.elephantsql.com/jiddccrd";
+        
         if (connectionString == null)
         {
-            throw new Exception("Connection string environment variable 'pgconn' is empty.");
+            throw new Exception("Connection string is null.");
         }
 
         try
@@ -37,35 +41,5 @@ public static class Helper
             throw new Exception("Connection string is found but could not be used.", e);
         }
     }
-    
-    public static void TriggerRebuild()
-    {
-        using (var conn = DataSource.OpenConnection())
-        {
-            try
-            {
-                conn.Execute(RebuildScript);
-            }
-            catch (Exception e)
-            {
-                throw new Exception("There was an error rebuilding the database.", e);
-            }
-        }
-    }
-
-
-    public static string RebuildScript = @"
-        DROP TABLE IF EXISTS Test.trips CASCADE;
-        
-        CREATE TABLE Test.trips (
-            id           serial PRIMARY KEY,
-            name         varchar(255) NOT NULL,
-            location     varchar(255) NOT NULL,
-            date         date NOT NULL,
-            description  text,
-            peoplejoined integer NOT NULL DEFAULT 0,
-            code         varchar(10) CONSTRAINT unique_trip_code UNIQUE
-        );
-        ";
     
 }
