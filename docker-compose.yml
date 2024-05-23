@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  http-api:
+    build:
+      context: ./backend/HttpApi
+      dockerfile: HttpApi/Dockerfile
+    ports:
+      - "5181:80"
+      - "5443:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  websocket-api:
+    build:
+      context: ./backend/WsApi
+      dockerfile: WebsocketApi/Dockerfile
+    ports:
+      - "8181:80"
+      - "5444:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  angular-app:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wsapi", "wsapi\wsapi.csproj", "{B80C9031-BA00-4DF0-A3AB-AC01733A10F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WsApi", "WsApi\WsApi.csproj", "{B80C9031-BA00-4DF0-A3AB-AC01733A10F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "httpapi", "httpapi\httpapi.csproj", "{466C0018-CD1D-4725-8FBB-3B3B67523A98}"
 EndProject
