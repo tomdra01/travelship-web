@@ -17,10 +17,21 @@ jobs:
         run: |
           wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/8.5.13/flyway-commandline-8.5.13-linux-x64.tar.gz | tar xvz && ln -s `pwd`/flyway-8.5.13/flyway /usr/local/bin
 
+      - name: Print Working Directory and List Files
+        run: |
+          echo "Working Directory:"
+          pwd
+          echo "Listing root directory:"
+          ls -al /
+          echo "Listing project directory:"
+          ls -al ../..
+          echo "Listing migration directory:"
+          ls -al ../../db/migration
+
       - name: Migrate Database
         env:
           DB_URL: ${{ secrets.DB_CON }}
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
-          flyway -url=${DB_URL} -user=${DB_USER} -password=${DB_PASSWORD} -locations=filesystem: ../../db/migration migrate
+          flyway -url=${DB_URL} -user=${DB_USER} -password=${DB_PASSWORD} -locations=filesystem:../../db/migration migrate
