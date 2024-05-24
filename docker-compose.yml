@@ -4,22 +4,28 @@ services:
   http-api:
     build:
       context: ./backend/HttpApi
-      dockerfile: HttpApi/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "5181:80"
       - "5443:443"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - DB_CON=${DB_CON}
+    depends_on:
+      - postgres
 
   websocket-api:
     build:
       context: ./backend/WsApi
-      dockerfile: WebsocketApi/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8181:80"
       - "5444:443"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - DB_CON=${DB_CON}
+    depends_on:
+      - postgres
 
   angular-app:
     build:
@@ -27,3 +33,27 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4200:80"
+
+  flyway:
+    image: flyway/flyway:latest
+    command: -url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME} -user=${DB_USER} -password=${DB_PASSWORD} migrate
+    volumes:
+      - ./db/migrations:/flyway/sql
+    environment:
+      - FLYWAY_PLACEHOLDERS_DB_URL=${DB_URL}
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,6 +1,4 @@
-﻿using Dapper;
-using dotenv.net;
-using Npgsql;
+﻿using Npgsql;
 
 namespace ApiTests;
 
@@ -12,11 +10,10 @@ public static class Helper
 
     static Helper()
     {
-        DotEnv.Load();
         
         //var envVarKeyName = "pgconn";
-        var connectionString = Environment.GetEnvironmentVariable("DB_CON");
-        //var connectionString = "postgres://jiddccrd:dStoIch-khgauAEnetRDOCnLyNg_8Km8@cornelius.db.elephantsql.com/jiddccrd";
+        //var connectionString = Environment.GetEnvironmentVariable("DB_CON");
+        var connectionString = "postgres://jiddccrd:dStoIch-khgauAEnetRDOCnLyNg_8Km8@cornelius.db.elephantsql.com/jiddccrd";
         
         if (connectionString == null)
         {
