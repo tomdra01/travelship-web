@@ -112,12 +112,20 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push httpapi image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend &&
           docker-compose -f backend/docker-compose.yml build httpapi
           docker tag tomdra01/httpapi:test tomdra01/httpapi:latest
           docker push tomdra01/httpapi:latest
       - name: Build and push wsapi image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend &&
           docker-compose -f backend/docker-compose.yml build wsapi
