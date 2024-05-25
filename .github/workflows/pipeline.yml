@@ -100,6 +100,7 @@ jobs:
   build-and-push-docker-images:
     name: Build and Push Docker Images
     runs-on: ubuntu-latest
+    needs: [integration-tests]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -110,12 +111,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: List directory contents for debugging
-        run: |
-          echo "Listing root directory:"
-          ls -a
-          echo "Listing backend directory:"
-          ls -a backend
       - name: Build and push httpapi image
         env:
           DB_CON: ${{ secrets.DB_CON }}
@@ -123,7 +118,6 @@ jobs:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend
-          ls -a
           docker-compose build httpapi
           docker tag tomdra01/httpapi:test tomdra01/httpapi:latest
           docker push tomdra01/httpapi:latest
@@ -134,7 +128,6 @@ jobs:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend
-          ls -a
           docker-compose build wsapi
           docker tag tomdra01/wsapi:test tomdra01/wsapi:latest
           docker push tomdra01/wsapi:latest
