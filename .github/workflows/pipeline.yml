@@ -113,11 +113,13 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push httpapi image
         run: |
+          cd backend &&
           docker-compose -f backend/docker-compose.yml build httpapi
           docker tag tomdra01/httpapi:test tomdra01/httpapi:latest
           docker push tomdra01/httpapi:latest
       - name: Build and push wsapi image
         run: |
+          cd backend &&
           docker-compose -f backend/docker-compose.yml build wsapi
           docker tag tomdra01/wsapi:test tomdra01/wsapi:latest
           docker push tomdra01/wsapi:latest
