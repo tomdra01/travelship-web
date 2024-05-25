@@ -4,7 +4,7 @@ services:
   httpapi:
     build:
       context: .
-      dockerfile: httpapi/Dockerfile
+      dockerfile: HttpApi/Dockerfile
     image: tomdra01/httpapi:test
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -17,7 +17,7 @@ services:
   wsapi:
     build:
       context: .
-      dockerfile: wsapi/Dockerfile
+      dockerfile: WsApi/Dockerfile
     image: tomdra01/wsapi:test
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
