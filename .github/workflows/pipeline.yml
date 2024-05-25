@@ -113,9 +113,9 @@ jobs:
       - name: List directory contents for debugging
         run: |
           echo "Listing root directory:"
-          ls -al
+          ls -a
           echo "Listing backend directory:"
-          ls -al backend
+          ls -a backend
       - name: Build and push httpapi image
         env:
           DB_CON: ${{ secrets.DB_CON }}
@@ -123,7 +123,8 @@ jobs:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend
-          docker-compose -f docker-compose.yml build httpapi
+          ls -a
+          docker-compose build httpapi
           docker tag tomdra01/httpapi:test tomdra01/httpapi:latest
           docker push tomdra01/httpapi:latest
       - name: Build and push wsapi image
@@ -133,6 +134,7 @@ jobs:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend
-          docker-compose -f docker-compose.yml build wsapi
+          ls -a
+          docker-compose build wsapi
           docker tag tomdra01/wsapi:test tomdra01/wsapi:latest
           docker push tomdra01/wsapi:latest
