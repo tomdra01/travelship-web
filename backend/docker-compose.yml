@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  httpapi:
+    build:
+      context: .
+      dockerfile: httpapi/Dockerfile
+    image: tomdra01/httpapi:test
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DB_CON=${DB_CON}
+      - UNSPLASH_KEY=${UNSPLASH_KEY}
+      - RAPIDAPI_KEY=${RAPIDAPI_KEY}
+    ports:
+      - "8080:80"
+
+  wsapi:
+    build:
+      context: .
+      dockerfile: wsapi/Dockerfile
+    image: tomdra01/wsapi:test
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DB_CON=${DB_CON}
+      - UNSPLASH_KEY=${UNSPLASH_KEY}
+      - RAPIDAPI_KEY=${RAPIDAPI_KEY}
+    ports:
+      - "8181:80"

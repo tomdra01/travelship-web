@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <RootNamespace>WebsocketApi</RootNamespace>
+        <RootNamespace>WsApi</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

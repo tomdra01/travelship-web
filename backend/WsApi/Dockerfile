@@ -5,10 +5,20 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["WsApi/WsApi.csproj", "WsApi/"]
-RUN dotnet restore "WsApi/WsApi.csproj"
-COPY . .
-WORKDIR "/src/WebsocketApi"
+
+# Copy and restore dependencies
+COPY wsapi/WsApi.csproj ./wsapi/
+COPY service/service.csproj ./service/
+COPY repository/repository.csproj ./repository/
+COPY utility/utility.csproj ./utility/
+RUN dotnet restore "./wsapi/WsApi.csproj"
+
+# Copy everything else and build
+COPY wsapi/. ./wsapi/
+COPY service/. ./service/
+COPY repository/. ./repository/
+COPY utility/. ./utility/
+WORKDIR "/src/wsapi"
 RUN dotnet build "WsApi.csproj" -c Release -o /app/build
 
 FROM build AS publish

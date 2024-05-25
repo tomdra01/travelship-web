@@ -5,16 +5,26 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["HttpApi/HttpApi.csproj", "HttpApi/"]
-RUN dotnet restore "HttpApi/HttpApi.csproj"
-COPY . .
-WORKDIR "/src/HttpApi"
-RUN dotnet build "HttpApi.csproj" -c Release -o /app/build
+
+# Copy and restore dependencies
+COPY httpapi/httpapi.csproj ./httpapi/
+COPY service/service.csproj ./service/
+COPY repository/repository.csproj ./repository/
+COPY utility/utility.csproj ./utility/
+RUN dotnet restore "./httpapi/httpapi.csproj"
+
+# Copy everything else and build
+COPY httpapi/. ./httpapi/
+COPY service/. ./service/
+COPY repository/. ./repository/
+COPY utility/. ./utility/
+WORKDIR "/src/httpapi"
+RUN dotnet build "httpapi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "HttpApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "httpapi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HttpApi.dll"]
+ENTRYPOINT ["dotnet", "httpapi.dll"]
