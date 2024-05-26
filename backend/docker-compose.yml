@@ -12,7 +12,7 @@ services:
       - UNSPLASH_KEY=${UNSPLASH_KEY}
       - RAPIDAPI_KEY=${RAPIDAPI_KEY}
     ports:
-      - "8070:8080"
+      - "5181:8080"
     depends_on:
       - postgres
 
