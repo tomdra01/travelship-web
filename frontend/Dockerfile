@@ -4,11 +4,11 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-# If building for production use the production script, else just build normally
 RUN npm run build
 
 # Stage 2: Serve the app with Apache
 FROM httpd:2.4-alpine
 COPY --from=build /app/dist/frontend /usr/local/apache2/htdocs/
+COPY apache.conf /usr/local/apache2/conf/httpd.conf
 EXPOSE 80
 CMD ["httpd-foreground"]
