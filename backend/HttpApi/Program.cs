@@ -32,7 +32,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("SpecificOriginsPolicy",
         builder =>
         {
-            builder.WithOrigins("http://localhost:4200", "http://localhost:3000", "http://164.68.109.76")
+            builder.WithOrigins("http://localhost:4200", "http://localhost:3000", "http://164.68.109.76", "164.68.109.76:80")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -50,7 +50,7 @@ var policyCollection = new HeaderPolicyCollection()
     .AddDefaultSecurityHeaders()
     .AddContentSecurityPolicy(cspBuilder =>
     {
-        cspBuilder.AddDefaultSrc().Self().From("http://164.68.109.76 http://localhost:4200 http://localhost:3000");
+        cspBuilder.AddDefaultSrc().Self().From("http://164.68.109.76 http://localhost:4200 http://localhost:3000 164.68.109.76:80");
     });
 app.UseSecurityHeaders(policyCollection);
 
