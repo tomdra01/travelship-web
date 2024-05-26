@@ -5,11 +5,12 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 # If building for production use the production script, else just build normally
-# Assuming you want the default production build:
 RUN npm run build
 
-# Stage 2: Serve the app with Nginx
-FROM nginx:alpine
-COPY --from=build /app/dist/frontend /usr/share/nginx/html
+# Stage 2: Serve the app with http-server
+FROM node:20.9.0-alpine
+WORKDIR /app
+RUN npm install -g http-server
+COPY --from=build /app/dist/frontend /app
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["http-server", "/app", "-p", "80"]
