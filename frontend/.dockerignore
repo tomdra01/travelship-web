@@ -1,0 +1,32 @@
+# Node modules and npm log
+node_modules
+npm-debug.log
+
+# Git and version control
+.git
+.gitignore
+
+# Logs
+*.log
+
+# Dependency directories
+bower_components
+
+# Build output
+dist
+
+# Editor directories and files
+.idea
+*.sublime-workspace
+*.sublime-project
+.vscode
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Optional: Exclude specific file types or other directories
+*.md
+documentation
+examples
+tests

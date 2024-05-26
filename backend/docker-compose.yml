@@ -12,7 +12,7 @@ services:
       - UNSPLASH_KEY=${UNSPLASH_KEY}
       - RAPIDAPI_KEY=${RAPIDAPI_KEY}
     ports:
-      - "8080:80"
+      - "8080:8080"
     depends_on:
       - postgres
 
@@ -27,9 +27,20 @@ services:
       - UNSPLASH_KEY=${UNSPLASH_KEY}
       - RAPIDAPI_KEY=${RAPIDAPI_KEY}
     ports:
-      - "8181:80"
+      - "8181:8080"
     depends_on:
       - postgres
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: tomdra01/frontend:test
+    ports:
+      - "80:8080"
+    depends_on:
+      - httpapi
+      - wsapi
 
   postgres:
     image: postgres:latest
@@ -54,6 +65,20 @@ services:
       FLYWAY_URL: jdbc:postgresql://postgres:5432/${DB_USER}
       FLYWAY_USER: ${DB_USER}
       FLYWAY_PASSWORD: ${DB_PASSWORD}
+      FLYWAY_SCHEMAS: production
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --debug --http-api-update
+    environment:
+      - WATCHTOWER_HTTP_API_TOKEN=authtoken
+      - WATCHTOWER_LABEL_ENABLE=true
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+    ports:
+      - 8080:8080
 
 volumes:
   postgres_data:
