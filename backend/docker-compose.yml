@@ -3,7 +3,7 @@ version: '3.8'
 services:
   httpapi:
     build:
-      context: backend
+      context: .
       dockerfile: HttpApi/Dockerfile
     image: tomdra01/httpapi:test
     environment:
@@ -18,7 +18,7 @@ services:
 
   wsapi:
     build:
-      context: backend
+      context: .
       dockerfile: WsApi/Dockerfile
     image: tomdra01/wsapi:test
     environment:
