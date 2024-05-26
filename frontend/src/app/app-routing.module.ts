@@ -23,7 +23,7 @@ const routes: Routes = [
     component: AccountComponent,
   },
   {
-    path: 'travel/:tripId',
+    path: 'trips/:tripId',
     component: ViewTravelComponent,
   },
   {
