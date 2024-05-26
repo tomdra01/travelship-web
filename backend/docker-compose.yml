@@ -8,7 +8,7 @@ services:
     image: tomdra01/httpapi:test
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/forecasts
+      - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_USER}
       - UNSPLASH_KEY=${UNSPLASH_KEY}
       - RAPIDAPI_KEY=${RAPIDAPI_KEY}
     ports:
@@ -23,7 +23,7 @@ services:
     image: tomdra01/wsapi:test
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/forecasts
+      - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_USER}
       - UNSPLASH_KEY=${UNSPLASH_KEY}
       - RAPIDAPI_KEY=${RAPIDAPI_KEY}
     ports:
