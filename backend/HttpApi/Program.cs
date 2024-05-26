@@ -48,9 +48,9 @@ app.UseSwaggerUI();
 
 var policyCollection = new HeaderPolicyCollection()
     .AddDefaultSecurityHeaders()
-    .AddContentSecurityPolicy(builder =>
+    .AddContentSecurityPolicy(cspBuilder =>
     {
-        builder.AddDefaultSrc().Self().From("http://localhost:4200, http://localhost:3000");
+        cspBuilder.AddDefaultSrc().Self().From("http://164.68.109.76 http://localhost:4200 http://localhost:3000");
     });
 app.UseSecurityHeaders(policyCollection);
 
