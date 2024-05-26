@@ -7,10 +7,8 @@ COPY . .
 # If building for production use the production script, else just build normally
 RUN npm run build
 
-# Stage 2: Serve the app with http-server
-FROM node:20.9.0-alpine
-WORKDIR /app
-RUN npm install -g http-server
-COPY --from=build /app/dist/frontend /app
+# Stage 2: Serve the app with Apache
+FROM httpd:2.4-alpine
+COPY --from=build /app/dist/frontend /usr/local/apache2/htdocs/
 EXPOSE 80
-CMD ["http-server", "/app", "-p", "80"]
+CMD ["httpd-foreground"]
