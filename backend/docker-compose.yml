@@ -1,6 +1,18 @@
 version: '3.8'
 
 services:
+  traefik:
+    image: traefik:v2.4
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
   httpapi:
     build:
       context: .
@@ -13,6 +25,10 @@ services:
       - RAPIDAPI_KEY=${RAPIDAPI_KEY}
     ports:
       - "5181:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.httpapi.rule=PathPrefix(`/api`)"
+      - "traefik.http.services.httpapi.loadbalancer.server.port=8080"
     depends_on:
       - postgres
 
@@ -28,6 +44,10 @@ services:
       - RAPIDAPI_KEY=${RAPIDAPI_KEY}
     ports:
       - "8181:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wsapi.rule=PathPrefix(`/ws`)"
+      - "traefik.http.services.wsapi.loadbalancer.server.port=8080"
     depends_on:
       - postgres
 
@@ -38,6 +58,10 @@ services:
     image: tomdra01/frontend:test
     ports:
       - "80:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`164.68.109.76`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
     depends_on:
       - httpapi
       - wsapi
@@ -78,7 +102,7 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
     ports:
-      - 8090:8080
+      - "8090:8080"
 
 volumes:
   postgres_data:
