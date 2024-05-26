@@ -1,5 +1,9 @@
+-- Ensure the production schema exists
+CREATE SCHEMA IF NOT EXISTS production;
+
 -- Create trips table
-CREATE TABLE trips (
+CREATE TABLE production.trips
+(
     id serial PRIMARY KEY,
     name varchar(255),
     location varchar(255),
@@ -9,30 +13,23 @@ CREATE TABLE trips (
     code varchar(10) UNIQUE
 );
 
--- Set owner
-ALTER TABLE trips OWNER TO jiddccrd;
-
 -- Create pins table
-CREATE TABLE pins (
+CREATE TABLE production.pins
+(
     pinid bigint NOT NULL PRIMARY KEY,
     type varchar(255) NOT NULL,
     title varchar(255) NOT NULL,
     description text,
     xposition integer NOT NULL,
     yposition integer NOT NULL,
-    tripid integer NOT NULL REFERENCES trips(id) ON DELETE CASCADE
+    tripid integer NOT NULL REFERENCES production.trips(id) ON DELETE CASCADE
 );
 
--- Set owner
-ALTER TABLE pins OWNER TO jiddccrd;
-
 -- Create messages table
-CREATE TABLE messages (
+CREATE TABLE production.messages
+(
     id serial PRIMARY KEY,
     messagecontent text NOT NULL,
     username varchar(50) NOT NULL,
-    tripid integer NOT NULL REFERENCES trips(id)
+    tripid integer NOT NULL REFERENCES production.trips(id)
 );
-
--- Set owner
-ALTER TABLE messages OWNER TO jiddccrd;

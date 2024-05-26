@@ -54,6 +54,24 @@ jobs:
           dotnet build
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
+  database-migration:
+    name: Database Migration
+    runs-on: ubuntu-latest
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_CON: postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@postgres:5432/${{ secrets.DB_USER }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+      - name: Run Flyway migrations
+        run: |
+          cd backend
+          sleep 10
+          docker-compose up flyway
+
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest

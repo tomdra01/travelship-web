@@ -8,11 +8,13 @@ services:
     image: tomdra01/httpapi:test
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DB_CON=${DB_CON}
+      - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/forecasts
       - UNSPLASH_KEY=${UNSPLASH_KEY}
       - RAPIDAPI_KEY=${RAPIDAPI_KEY}
     ports:
       - "8080:80"
+    depends_on:
+      - postgres
 
   wsapi:
     build:
@@ -21,8 +23,37 @@ services:
     image: tomdra01/wsapi:test
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DB_CON=${DB_CON}
+      - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/forecasts
       - UNSPLASH_KEY=${UNSPLASH_KEY}
       - RAPIDAPI_KEY=${RAPIDAPI_KEY}
     ports:
       - "8181:80"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_USER}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  flyway:
+    image: flyway/flyway
+    depends_on:
+      - postgres
+    command: migrate
+    volumes:
+      - ../db/migration:/flyway/sql
+    environment:
+      FLYWAY_URL: jdbc:postgresql://postgres:5432/${DB_USER}
+      FLYWAY_USER: ${DB_USER}
+      FLYWAY_PASSWORD: ${DB_PASSWORD}
+
+volumes:
+  postgres_data:
