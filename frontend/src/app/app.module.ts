@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
@@ -47,6 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     })
   ],
   providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
