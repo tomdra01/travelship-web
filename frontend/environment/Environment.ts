@@ -3,6 +3,6 @@ export const environment = {
   //httpUrl: "http://localhost:5181",
   //websocketUrl: "ws://localhost:8181",
 
-  httpUrl: "http://localhost:8070",
-  websocketUrl: "ws://localhost:8181"
+  httpUrl: "http://164.68.109.76:8070",
+  websocketUrl: "ws://164.68.109.76/:8181"
 };
