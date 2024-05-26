@@ -3,8 +3,8 @@ version: '3.8'
 services:
   httpapi:
     build:
-      context: .
-      dockerfile: HttpApi/Dockerfile
+      context: backend
+      dockerfile: backend/HttpApi/Dockerfile
     image: tomdra01/httpapi:test
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -18,8 +18,8 @@ services:
 
   wsapi:
     build:
-      context: .
-      dockerfile: WsApi/Dockerfile
+      context: backend
+      dockerfile: backend/WsApi/Dockerfile
     image: tomdra01/wsapi:test
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -33,7 +33,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: frontend
       dockerfile: Dockerfile
     image: tomdra01/frontend:test
     ports:
