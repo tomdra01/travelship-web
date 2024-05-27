@@ -37,7 +37,7 @@ services:
       dockerfile: ../frontend/Dockerfile
     image: tomdra01/frontend:test
     ports:
-      - "5181:80"
+      - "80:80"
     depends_on:
       - httpapi
       - wsapi
