@@ -7,8 +7,9 @@ COPY . .
 # If building for production use the production script, else just build normally
 RUN npm run build
 
-# Stage 2: Serve the app with Apache
-FROM httpd:2.4-alpine
-COPY --from=build /app/dist/frontend /usr/local/apache2/htdocs/
+# Stage 2: Serve the app with Nginx
+FROM nginx:stable-alpine
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
-CMD ["httpd-foreground"]
+CMD ["nginx", "-g", "daemon off;"]
