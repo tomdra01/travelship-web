@@ -60,7 +60,7 @@ services:
       - postgres
     command: migrate
     volumes:
-      - ../db/migration:/flyway/sql
+      - ./db/migration:/flyway/sql
     environment:
       FLYWAY_URL: jdbc:postgresql://postgres:5432/${DB_USER}
       FLYWAY_USER: ${DB_USER}
