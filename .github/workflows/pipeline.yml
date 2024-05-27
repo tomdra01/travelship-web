@@ -132,6 +132,8 @@ jobs:
       - name: Build and push httpapi image
         env:
           DB_CON: ${{ secrets.DB_CON }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
@@ -142,6 +144,8 @@ jobs:
       - name: Build and push wsapi image
         env:
           DB_CON: ${{ secrets.DB_CON }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
@@ -152,6 +156,8 @@ jobs:
       - name: Build and push frontend image
         env:
           DB_CON: ${{ secrets.DB_CON }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
