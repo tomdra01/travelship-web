@@ -149,3 +149,9 @@ jobs:
           docker-compose build wsapi
           docker tag tomdra01/wsapi:test tomdra01/wsapi:latest
           docker push tomdra01/wsapi:latest
+      - name: Build and push frontend image
+        run: |
+          cd backend
+          docker-compose build frontend
+          docker tag tomdra01/frontend:test tomdra01/frontend:latest
+          docker push tomdra01/frontend:latest
