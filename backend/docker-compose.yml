@@ -30,6 +30,17 @@ services:
       - "8181:80"
     depends_on:
       - postgres
+  
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../frontend/Dockerfile
+    image: tomdra01/frontend:test
+    ports:
+      - "80:80"
+    depends_on:
+      - httpapi
+      - wsapi
 
   postgres:
     image: postgres:latest
