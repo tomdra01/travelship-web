@@ -56,4 +56,12 @@ server.Start(socket =>
         }
     };
 });
-Console.ReadLine();
+
+var completionSource = new TaskCompletionSource();
+Console.CancelKeyPress += (sender, e) =>
+{
+    e.Cancel = true;
+    completionSource.SetResult();
+};
+
+await completionSource.Task;
