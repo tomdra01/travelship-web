@@ -22,7 +22,7 @@ public class TripRepository
 
         public async Task<IEnumerable<Trip>> GetAllTrips()
         {
-            const string sql = "SELECT * FROM Trips;";
+            const string sql = "SELECT * FROM Production.Trips;";
             using (var connection = await CreateConnectionAsync())
             {
                 var trips = await connection.QueryAsync<Trip>(sql);
@@ -32,7 +32,7 @@ public class TripRepository
 
         public async Task<IEnumerable<Trip>> GetPublicTrips()
         {
-            const string sql = "SELECT * FROM Trips WHERE code IS NULL OR code = '';";
+            const string sql = "SELECT * FROM Production.Trips WHERE code IS NULL OR code = '';";
             using (var connection = await CreateConnectionAsync())
             {
                 var trips = await connection.QueryAsync<Trip>(sql);
@@ -42,7 +42,7 @@ public class TripRepository
 
         public async Task<Trip> GetTripById(int tripId)
         {
-            const string sql = "SELECT * FROM Trips WHERE id = @TripId;";
+            const string sql = "SELECT * FROM Production.Trips WHERE id = @TripId;";
             using (var connection = await CreateConnectionAsync())
             {
                 var trip = await connection.QuerySingleOrDefaultAsync<Trip>(sql, new { TripId = tripId });
@@ -52,7 +52,7 @@ public class TripRepository
 
         public async Task<Trip> GetTripByCode(string code)
         {
-            const string sql = "SELECT * FROM Trips WHERE code = @Code;";
+            const string sql = "SELECT * FROM Production.Trips WHERE code = @Code;";
             using (var connection = await CreateConnectionAsync())
             {
                 var trip = await connection.QuerySingleOrDefaultAsync<Trip>(sql, new { Code = code });
@@ -63,7 +63,7 @@ public class TripRepository
         public async Task<Trip> CreateTrip(Trip trip)
         {
             const string sql = @"
-                INSERT INTO Trips (Name, Location, Date, Description, Code)
+                INSERT INTO Production.Trips (Name, Location, Date, Description, Code)
                 VALUES (@Name, @Location, @Date, @Description, @Code) RETURNING *;";
             using (var connection = await CreateConnectionAsync())
             {
@@ -75,7 +75,7 @@ public class TripRepository
         public async Task<Trip> UpdateTrip(Trip trip)
         {
             const string sql = @"
-                UPDATE Trips
+                UPDATE Production.Trips
                 SET Name = @Name, Location = @Location, Date = @Date, Description = @Description, Code = @Code
                 WHERE id = @ID
                 RETURNING *;";
@@ -88,7 +88,7 @@ public class TripRepository
 
         public async Task<bool> DeleteTrip(int tripId)
         {
-            const string sql = "DELETE FROM Trips WHERE id = @TripId;";
+            const string sql = "DELETE FROM Production.Trips WHERE id = @TripId;";
             using (var connection = await CreateConnectionAsync())
             {
                 var result = await connection.ExecuteAsync(sql, new { TripId = tripId }) > 0;
