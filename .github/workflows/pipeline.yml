@@ -150,6 +150,10 @@ jobs:
           docker tag tomdra01/wsapi:test tomdra01/wsapi:latest
           docker push tomdra01/wsapi:latest
       - name: Build and push frontend image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend
           docker-compose build frontend
