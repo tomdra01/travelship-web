@@ -57,11 +57,7 @@ server.Start(socket =>
     };
 });
 
-var completionSource = new TaskCompletionSource();
-Console.CancelKeyPress += (sender, e) =>
+while (true)
 {
-    e.Cancel = true;
-    completionSource.SetResult();
-};
-
-await completionSource.Task;
+    Thread.Sleep(1000);
+}

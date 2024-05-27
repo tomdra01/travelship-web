@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - pipeline/tower
+      - pipeline/watchtower
 
 jobs:
   build-and-push-docker-images:
@@ -47,7 +47,7 @@ jobs:
     steps:
       - name: Trigger update
         run: |
-          curl --fail -X GET 'http://164.68.109.76:8080/v1/update' -H 'Authorization: Bearer authtoken'
+          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer authtoken'
 
       - name: Sleep for cooldown
         run: sleep 10
