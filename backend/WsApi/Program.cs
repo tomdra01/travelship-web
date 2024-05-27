@@ -24,7 +24,7 @@ builder.Services.AddSingleton<IMessageService, MessageService>();
 var services = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
-var server = new WebSocketServer("ws://0.0.0.0:8181");
+var server = new WebSocketServer("ws://0.0.0.0:8080");
 
 server.Start(socket =>
 {
