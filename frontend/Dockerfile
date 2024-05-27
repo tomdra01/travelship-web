@@ -4,7 +4,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-# If building for production use the production script, else just build normally
 RUN npm run build
 
 # Stage 2: Serve the app with Nginx
