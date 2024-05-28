@@ -30,7 +30,7 @@ jobs:
       - name: Build Frontend
         run: |
           cd frontend
-          ng build --prod
+          ng build
 
       - name: Serve Frontend
         run: |
