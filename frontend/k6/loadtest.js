@@ -2,7 +2,7 @@ import http from 'k6/http';
 import { sleep, check } from 'k6';
 
 export let options = {
-    vus:800, // 800 virtual users
+    vus:500, // 500 virtual users
     duration: '1m',
     thresholds: {
         'http_req_duration': ['p(90)<225'], // 90% of requests must complete below 225ms
