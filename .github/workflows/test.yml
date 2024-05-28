@@ -13,6 +13,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install Dependencies
+        run: |
+          npm install testcafe@latest
+
       - name: Run End-to-End Tests
         run: |
-          npx testcafe chromium:headless ./frontend/test-cafe/angular-test.js --page-request-timeout 30000 --retry-test-pages --quarantine-mode
+          npx testcafe "chromium:headless --no-sandbox" ./frontend/test-cafe/angular-test.js --page-request-timeout 30000 --quarantine-mode
