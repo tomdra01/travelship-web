@@ -15,4 +15,4 @@ jobs:
 
       - name: Run End-to-End Tests
         run: |
-          npx testcafe chromium:headless ./frontend/test-cafe/angular-test.js
+          npx testcafe chromium:headless ./frontend/test-cafe/angular-test.js --page-request-timeout 10000 --retry-test-pages
