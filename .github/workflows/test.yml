@@ -63,6 +63,9 @@ jobs:
     container:
       image: testcafe/testcafe
     steps:
+      - name: Set permissions
+        run: sudo chown -R $(whoami) /__w/_temp/
+        shell: bash
       - uses: actions/checkout@v3
       - name: Install Node.js
         uses: actions/setup-node@v3
