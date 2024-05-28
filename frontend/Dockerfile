@@ -1,5 +1,6 @@
-# Stage 1: Build the Angular app in Node.js
-FROM node:20.9.0 AS build
+# Stage 1: Build the Angular app
+FROM node:20.9.0 as build
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
