@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - pipeline/watchtower
+      - pipeline/watch-test
 
 jobs:
   build-and-push-docker-images:
@@ -54,7 +54,6 @@ jobs:
 
       - name: Deploy services using Docker Compose
         run: |
-          cd backend
           docker-compose up -d
 
       - name: Check service status
