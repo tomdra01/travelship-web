@@ -177,12 +177,20 @@ jobs:
       - name: Cooldown 10s
         run: sleep 10
 
+      - name: Shutdown existing services
+        run: |
+          cd backend
+          docker compose down
+
+      - name: Cooldown 5s
+        run: sleep 5
+
       - name: Deploy services using Docker Compose
         run: |
           cd backend
-          docker-compose up -d
+          docker compose up -d
 
       - name: Check service status
         run: |
           cd backend
-          docker-compose ps
+          docker ps
