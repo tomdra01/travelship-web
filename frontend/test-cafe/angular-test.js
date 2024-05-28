@@ -1,8 +1,8 @@
 import { Selector } from 'testcafe';
-import {environment} from "../environment/Environment";
 
 fixture `Frontend Tests`
-  .page(`${environment.frontendUrl}`);
+  .page `http://164.68.109.76:80`;
+
 test('Full navigation and interaction test', async t => {
   // BUTTON SELECTORS
   const homeButton = Selector('button').withText('Home');
