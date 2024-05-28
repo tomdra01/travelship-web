@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 
 fixture `Frontend Tests`
-  .page `http://localhost:4200`;
+  .page `http://travelship.net`;
 
 test('Full navigation and interaction test', async t => {
   // BUTTON SELECTORS
@@ -45,7 +45,7 @@ test('Full navigation and interaction test', async t => {
   // Navigate to Plan a Trip and check
   await t
     .click(planATripButton)
-    .expect(Selector('div').withText('Add a Trip').exists)
+    .expect(Selector('div').withText('Create Trip').exists)
     .ok('Did not navigate to Plan a Trip page or "Plan a Trip" title was not found');
 
   // Navigate back to Home and check

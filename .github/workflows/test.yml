@@ -4,34 +4,19 @@ on:
   push:
     branches:
       - main
-      - pipeline/----
+      - pipeline/flyway-im
 
 jobs:
-  trigger-update-and-deploy:
+  end-to-end-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Trigger update
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
         run: |
-          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer authtoken'
+          npm install testcafe@latest
 
-      - name: Cooldown 10s
-        run: sleep 10
-
-      - name: Shutdown existing services
+      - name: Run End-to-End Tests
         run: |
-          cd backend
-          docker compose down
-
-      - name: Cooldown 3s
-        run: sleep 3
-
-      - name: Deploy services using Docker Compose
-        run: |
-          cd backend
-          docker compose up -d
-
-      - name: Check service status
-        run: |
-          cd backend
-          docker ps
+          npx testcafe "chromium:headless --no-sandbox" ./frontend/test-cafe/angular-test.js --page-request-timeout 30000 --quarantine-mode

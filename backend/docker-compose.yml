@@ -68,7 +68,7 @@ services:
     volumes:
       - ./db/:/flyway/sql
     environment:
-      FLYWAY_URL: jdbc:postgresql://postgres:5432/${DB_USER}
+      FLYWAY_URL: jdbc:postgresql://164.68.109.76:5432/${DB_USER}
       FLYWAY_USER: ${DB_USER}
       FLYWAY_PASSWORD: ${DB_PASSWORD}
       FLYWAY_SCHEMAS: production
