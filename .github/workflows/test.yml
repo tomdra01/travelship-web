@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - pipeline/flyway-im
+      - develop
 
 jobs:
   end-to-end-tests:
@@ -13,10 +13,35 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.9.0'
+
+      - name: Install Angular CLI
+        run: |
+          npm install -g @angular/cli
+
       - name: Install Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          ng build --prod
+
+      - name: Serve Frontend
+        run: |
+          cd frontend
+          ng serve
+
+      - name: Install TestCafe
         run: |
           npm install testcafe@latest
 
       - name: Run End-to-End Tests
         run: |
-          npx testcafe "chromium:headless --no-sandbox" ./frontend/test-cafe/angular-test.js --page-request-timeout 30000 --quarantine-mode
+          cd frontend/test-cafe
+          testcafe chromium:headless angular-test.js
