@@ -4,34 +4,23 @@ on:
   push:
     branches:
       - main
-      - pipeline/----
+      - pipeline/flyway-imp
 
 jobs:
-  trigger-update-and-deploy:
+  database-migration:
+    name: Database Migration
     runs-on: ubuntu-latest
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_CON: postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@postgres:5432/${{ secrets.DB_USER }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Trigger update
-        run: |
-          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer authtoken'
-
-      - name: Cooldown 10s
-        run: sleep 10
-
-      - name: Shutdown existing services
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+      - name: Run Flyway migrations
         run: |
           cd backend
-          docker compose down
-
-      - name: Cooldown 3s
-        run: sleep 3
-
-      - name: Deploy services using Docker Compose
-        run: |
-          cd backend
-          docker compose up -d
-
-      - name: Check service status
-        run: |
-          cd backend
-          docker ps
+          sleep 10
+          docker-compose up flyway
