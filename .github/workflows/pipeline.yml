@@ -160,26 +160,8 @@ jobs:
       - name: Cooldown 10s
         run: sleep 10
 
-      - name: Shutdown existing services
-        run: |
-          cd backend
-          docker compose down
-
-      - name: Cooldown 3s
-        run: sleep 3
-
-      - name: Deploy services using Docker Compose
-        run: |
-          cd backend
-          docker compose up -d
-
-      - name: Check service status
-        run: |
-          cd backend
-          docker ps
-
   database-migration:
-    needs: [trigger-update-and-deploy]
+    #needs: [trigger-update-and-deploy]
     name: Database Migration
     runs-on: ubuntu-latest
     env:
