@@ -32,7 +32,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("SpecificOriginsPolicy",
         builder =>
         {
-            builder.WithOrigins("http://localhost:4200", "http://localhost:3000", "http://localhost:5181", "http://localhost:8181")
+            builder.WithOrigins("http://localhost:4200", "http://localhost:3000", "http://164.68.109.76", "164.68.109.76:80", "http://travelship.net")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -48,9 +48,9 @@ app.UseSwaggerUI();
 
 var policyCollection = new HeaderPolicyCollection()
     .AddDefaultSecurityHeaders()
-    .AddContentSecurityPolicy(builder =>
+    .AddContentSecurityPolicy(cspBuilder =>
     {
-        builder.AddDefaultSrc().Self().From("http://localhost:4200, http://localhost:3000");
+        cspBuilder.AddDefaultSrc().Self().From("http://164.68.109.76 http://localhost:4200 http://localhost:3000");
     });
 app.UseSecurityHeaders(policyCollection);
 

@@ -1,0 +1,62 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - pipeline/watchtower
+
+jobs:
+  build-and-push-docker-images:
+    name: Build and Push Docker Images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push httpapi image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+        run: |
+          cd backend
+          docker-compose build httpapi
+          docker tag tomdra01/httpapi:test tomdra01/httpapi:latest
+          docker push tomdra01/httpapi:latest
+      - name: Build and push wsapi image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+        run: |
+          cd backend
+          docker-compose build wsapi
+          docker tag tomdra01/wsapi:test tomdra01/wsapi:latest
+          docker push tomdra01/wsapi:latest
+
+  trigger-update-and-deploy:
+    needs: build-and-push-docker-images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger update
+        run: |
+          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer authtoken'
+
+      - name: Sleep for cooldown
+        run: sleep 10
+
+      - name: Deploy services using Docker Compose
+        run: |
+          cd backend
+          docker-compose up -d
+
+      - name: Check service status
+        run: |
+          docker-compose ps
