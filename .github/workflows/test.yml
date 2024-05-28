@@ -44,4 +44,4 @@ jobs:
 
       - name: Run End-to-End Tests
         run: |
-          npx testcafe "chromium:headless --no-sandbox" http://localhost:4200/frontend/test-cafe/angular-test.js
+          npx testcafe "chromium:headless --no-sandbox" "frontend/test-cafe/angular-test.js"
