@@ -8,7 +8,6 @@ on:
 
 jobs:
   end-to-end-tests:
-    needs: build-and-push-docker-images
     runs-on: ubuntu-latest
     container:
       image: testcafe/testcafe
