@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - develop/disable
+      - develop
 
 jobs:
   static-code-analysis:
@@ -220,3 +220,31 @@ jobs:
       - name: Run End-to-End Tests
         run: |
           npx testcafe "chromium:headless --no-sandbox" "frontend/test-cafe/angular-test.js"
+
+  performance-tests:
+    name: K6 Performance Tests
+    needs: [database-migration]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up k6 Repository
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gnupg software-properties-common
+          sudo wget -q -O - https://dl.k6.io/key.gpg | sudo apt-key add -
+          sudo sh -c 'echo "deb https://dl.k6.io/deb stable main" > /etc/apt/sources.list.d/k6.list'
+
+      - name: Install k6
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y k6
+
+      - name: Run k6 Load Test
+        run: |
+          k6 run frontend/k6/loadtest.js
+          sleep 3
+          k6 run frontend/k6/soaktest.js
+          sleep 3
+          k6 run frontend/k6/spiketest.js
