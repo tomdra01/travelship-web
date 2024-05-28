@@ -15,17 +15,17 @@ jobs:
         run: |
           curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer authtoken'
 
-      - name: Sleep for cooldown
+      - name: Cooldown 10s
         run: sleep 10
+
+      - name: Change Directory
+        run: cd ../
 
       - name: Test Dir Location
         run: ls -la
-        working-directory: .
 
       - name: Deploy services using Docker Compose
         run: docker-compose up -d
-        working-directory: ../
 
       - name: Check service status
         run: docker-compose ps
-        working-directory: ../
