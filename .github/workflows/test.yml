@@ -24,8 +24,8 @@ jobs:
 
       - name: Deploy services using Docker Compose
         run: docker-compose up -d
-        working-directory: .
+        working-directory: ../
 
       - name: Check service status
         run: docker-compose ps
-        working-directory: .
+        working-directory: ../
