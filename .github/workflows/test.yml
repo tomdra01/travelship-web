@@ -8,7 +8,6 @@ on:
 
 jobs:
   trigger-update-and-deploy:
-    needs: build-and-push-docker-images
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
