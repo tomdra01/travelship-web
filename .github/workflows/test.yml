@@ -18,6 +18,10 @@ jobs:
       - name: Sleep for cooldown
         run: sleep 10
 
+      - name: Test Dir Location
+        run: ls -la
+        working-directory: .
+
       - name: Deploy services using Docker Compose
         run: docker-compose up -d
         working-directory: .
