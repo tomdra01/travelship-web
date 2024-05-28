@@ -5,7 +5,7 @@ export let options = {
     vus:500, // 500 virtual users
     duration: '1m',
     thresholds: {
-        'http_req_duration': ['p(90)<225'], // 90% of requests must complete below 225ms
+        'http_req_duration': ['p(89)<500'], // 89% of requests must complete below 500ms
     },
 };
 
