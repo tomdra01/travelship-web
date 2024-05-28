@@ -9,8 +9,6 @@ on:
 jobs:
   end-to-end-tests:
     runs-on: ubuntu-latest
-    container:
-      image: testcafe/testcafe
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
