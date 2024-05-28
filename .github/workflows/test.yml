@@ -13,6 +13,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.9.0'
+
+      - name: Install Dependencies
+        run: npm install
+
       - name: Run End-to-End Tests
-        run: |
-          npx testcafe chromium:headless ./frontend/test-cafe/angular-test.js --page-request-timeout 10000 --retry-test-pages
+        run: npx testcafe chromium:headless ./frontend/test-cafe/angular-test.js --page-request-timeout 10000 --retry-test-pages --hostname localhost
