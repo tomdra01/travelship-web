@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - pipeline/flyway-imp
+      - pipeline/flyway-im
 
 jobs:
   end-to-end-tests:
