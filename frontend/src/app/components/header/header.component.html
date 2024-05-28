@@ -5,6 +5,7 @@
   <button (click)="aboutUsButton()">{{ 'HEADER_ABOUT_US' | translate }}</button>
   <button *ngIf="loginButton" (click)="loginClick()">{{ 'HEADER_LOGIN' | translate }}</button>
   <button *ngIf="!loginButton" (click)="accountClick()">{{ 'HEADER_ACCOUNT' | translate }}</button>
+  <div>test</div>
   <div *ngIf="!loginButton" class="userDetails">
     <div class="userName">{{ userInfo?.name }}</div>
     <div><img class="profilePic" src="{{ userInfo?.picture }}"></div>
