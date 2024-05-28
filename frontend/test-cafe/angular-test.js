@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 
 fixture `Frontend Tests`
-  .page `http://travelship.net`;
+  .page `http://164.68.109.76:80/`;
 
 test('Full navigation and interaction test', async t => {
   // BUTTON SELECTORS
