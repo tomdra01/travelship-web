@@ -1,0 +1,71 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-push-docker-images:
+    name: Build and Push Docker Images
+    runs-on: ubuntu-latest
+    needs: [ integration-tests ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push httpapi image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+        run: |
+          cd backend
+          docker-compose build httpapi
+          docker tag tomdra01/httpapi:latest tomdra01/httpapi:latest
+          docker push tomdra01/httpapi:latest
+      - name: Build and push wsapi image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+        run: |
+          cd backend
+          docker-compose build wsapi
+          docker tag tomdra01/wsapi:latest tomdra01/wsapi:latest
+          docker push tomdra01/wsapi:latest
+      - name: Build and push frontend image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+        run: |
+          cd backend
+          docker-compose build frontend
+          docker tag tomdra01/frontend:latest tomdra01/frontend:latest
+          docker push tomdra01/frontend:latest
+
+  trigger-update-and-deploy:
+    needs: [ build-and-push-docker-images ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Trigger update
+        run: |
+          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer authtoken'
+
+      - name: Cooldown 10s
+        run: sleep 10

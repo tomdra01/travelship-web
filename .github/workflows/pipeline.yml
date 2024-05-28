@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - develop
+      - develop-disabled
 
 jobs:
   static-code-analysis:
@@ -121,7 +121,7 @@ jobs:
         run: |
           cd backend
           docker-compose build httpapi
-          docker tag tomdra01/httpapi:test tomdra01/httpapi:latest
+          docker tag tomdra01/httpapi:latest tomdra01/httpapi:latest
           docker push tomdra01/httpapi:latest
       - name: Build and push wsapi image
         env:
@@ -133,7 +133,7 @@ jobs:
         run: |
           cd backend
           docker-compose build wsapi
-          docker tag tomdra01/wsapi:test tomdra01/wsapi:latest
+          docker tag tomdra01/wsapi:latest tomdra01/wsapi:latest
           docker push tomdra01/wsapi:latest
       - name: Build and push frontend image
         env:
@@ -145,7 +145,7 @@ jobs:
         run: |
           cd backend
           docker-compose build frontend
-          docker tag tomdra01/frontend:test tomdra01/frontend:latest
+          docker tag tomdra01/frontend:latest tomdra01/frontend:latest
           docker push tomdra01/frontend:latest
 
   trigger-update-and-deploy:
@@ -161,7 +161,7 @@ jobs:
         run: sleep 10
 
   database-migration:
-    #needs: [trigger-update-and-deploy]
+    needs: [trigger-update-and-deploy]
     name: Database Migration
     runs-on: ubuntu-latest
     env:
