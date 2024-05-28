@@ -18,14 +18,13 @@ jobs:
       - name: Cooldown 10s
         run: sleep 10
 
-      - name: Change Directory
-        run: cd backend
-
-      - name: Test Dir Location
-        run: ls -la
-
       - name: Deploy services using Docker Compose
-        run: docker-compose up -d
+        run: |
+          cd backend
+          ls -la
+          docker-compose up -d
 
       - name: Check service status
-        run: docker-compose ps
+        run: |
+          cd backend
+          docker-compose ps
