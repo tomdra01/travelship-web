@@ -7,7 +7,8 @@ on:
       - develop
 
 jobs:
-  load-tests:
+  performance-tests:
+    name: K6 Performance Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
