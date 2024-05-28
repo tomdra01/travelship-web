@@ -165,3 +165,24 @@ jobs:
           docker-compose build frontend
           docker tag tomdra01/frontend:test tomdra01/frontend:latest
           docker push tomdra01/frontend:latest
+
+  trigger-update-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Trigger update
+        run: |
+          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer authtoken'
+
+      - name: Cooldown 10s
+        run: sleep 10
+
+      - name: Deploy services using Docker Compose
+        run: |
+          cd backend
+          docker-compose up -d
+
+      - name: Check service status
+        run: |
+          cd backend
+          docker-compose ps
