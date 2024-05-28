@@ -167,6 +167,7 @@ jobs:
           docker push tomdra01/frontend:latest
 
   trigger-update-and-deploy:
+    needs: [build-and-push-docker-images]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
