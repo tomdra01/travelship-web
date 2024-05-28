@@ -7,41 +7,21 @@ on:
       - develop
 
 jobs:
-  end-to-end-tests:
+  load-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.9.0'
-
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
-
-      - name: Install Dependencies
+      - name: Install K6
         run: |
-          cd frontend
-          npm install
+          sudo apt-get update
+          sudo apt-get install -y k6
 
-      - name: Build Frontend
+      - name: Run K6 Load Test
         run: |
-          cd frontend
-          ng build
-
-      - name: Install HTTP Server
-        run: npm install -g http-server
-
-      - name: Serve Frontend
-        run: |
-          cd frontend/dist/frontend
-          http-server -p 4200 &
-
-      - name: Install TestCafe
-        run: npm install testcafe@latest
-
-      - name: Run End-to-End Tests
-        run: |
-          npx testcafe "chromium:headless --no-sandbox" "frontend/test-cafe/angular-test.js"
+          k6 run frontend/k6/loadtest.js
+          sleep 3
+          k6 run frontend/k6/soaktest.js
+          sleep 3
+          k6 run frontend/k6/spiketest.js

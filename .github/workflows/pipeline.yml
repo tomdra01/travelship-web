@@ -149,6 +149,7 @@ jobs:
           docker push tomdra01/frontend:latest
 
   trigger-update-and-deploy:
+    name: Deploy to Test environment
     needs: [build-and-push-docker-images]
     runs-on: ubuntu-latest
     steps:
@@ -178,3 +179,44 @@ jobs:
           cd backend
           sleep 10
           docker-compose up flyway
+
+  end-to-end-tests:
+    name: End-to-End Tests
+    needs: [database-migration]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.9.0'
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Install Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          ng build
+
+      - name: Install HTTP Server
+        run: npm install -g http-server
+
+      - name: Serve Frontend
+        run: |
+          cd frontend/dist/frontend
+          http-server -p 4200 &
+
+      - name: Install TestCafe
+        run: npm install testcafe@latest
+
+      - name: Run End-to-End Tests
+        run: |
+          npx testcafe "chromium:headless --no-sandbox" "frontend/test-cafe/angular-test.js"
