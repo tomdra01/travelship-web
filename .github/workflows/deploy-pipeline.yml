@@ -1,15 +1,15 @@
-name: CI/CD Pipeline
+name: Deploy to Production
 
 on:
   push:
     branches:
       - main
-      - develop/disable
 
 jobs:
   build-and-push-docker-images:
     name: Build and Push Docker Images
     runs-on: ubuntu-latest
+    needs: [ integration-tests ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,8 +30,8 @@ jobs:
         run: |
           cd backend
           docker-compose build httpapi
-          docker tag tomdra01/httpapi:latest tomdra01/httpapi:latest
-          docker push tomdra01/httpapi:latest
+          docker tag tomdra01/httpapi:prod tomdra01/httpapi:prod
+          docker push tomdra01/httpapi:prod
       - name: Build and push wsapi image
         env:
           DB_CON: ${{ secrets.DB_CON }}
@@ -42,8 +42,8 @@ jobs:
         run: |
           cd backend
           docker-compose build wsapi
-          docker tag tomdra01/wsapi:latest tomdra01/wsapi:latest
-          docker push tomdra01/wsapi:latest
+          docker tag tomdra01/wsapi:prod tomdra01/wsapi:prod
+          docker push tomdra01/wsapi:prod
       - name: Build and push frontend image
         env:
           DB_CON: ${{ secrets.DB_CON }}
@@ -54,17 +54,37 @@ jobs:
         run: |
           cd backend
           docker-compose build frontend
-          docker tag tomdra01/frontend:latest tomdra01/frontend:latest
-          docker push tomdra01/frontend:latest
+          docker tag tomdra01/frontend:prod tomdra01/frontend:prod
+          docker push tomdra01/frontend:prod
 
   trigger-update-and-deploy:
+    name: Deploy to Production environment
     needs: [ build-and-push-docker-images ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Trigger update
         run: |
-          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer authtoken'
+          curl --fail -X GET 'http://167.86.96.91:8090/v1/update' -H 'Authorization: Bearer authtoken'
 
       - name: Cooldown 10s
         run: sleep 10
+
+  database-migration:
+    needs: [ trigger-update-and-deploy ]
+    name: Database Migration
+    runs-on: ubuntu-latest
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_CON: postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@postgres:5432/${{ secrets.DB_USER }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+      - name: Run Flyway migrations
+        run: |
+          cd backend
+          sleep 10
+          docker-compose up flyway

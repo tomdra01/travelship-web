@@ -121,8 +121,8 @@ jobs:
         run: |
           cd backend
           docker-compose build httpapi
-          docker tag tomdra01/httpapi:latest tomdra01/httpapi:latest
-          docker push tomdra01/httpapi:latest
+          docker tag tomdra01/httpapi:staging tomdra01/httpapi:staging
+          docker push tomdra01/httpapi:staging
       - name: Build and push wsapi image
         env:
           DB_CON: ${{ secrets.DB_CON }}
@@ -133,8 +133,8 @@ jobs:
         run: |
           cd backend
           docker-compose build wsapi
-          docker tag tomdra01/wsapi:latest tomdra01/wsapi:latest
-          docker push tomdra01/wsapi:latest
+          docker tag tomdra01/wsapi:staging tomdra01/wsapi:staging
+          docker push tomdra01/wsapi:staging
       - name: Build and push frontend image
         env:
           DB_CON: ${{ secrets.DB_CON }}
@@ -145,8 +145,8 @@ jobs:
         run: |
           cd backend
           docker-compose build frontend
-          docker tag tomdra01/frontend:latest tomdra01/frontend:latest
-          docker push tomdra01/frontend:latest
+          docker tag tomdra01/frontend:staging tomdra01/frontend:staging
+          docker push tomdra01/frontend:staging
 
   trigger-update-and-deploy:
     name: Deploy to Test environment
