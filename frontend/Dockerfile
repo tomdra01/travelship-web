@@ -5,7 +5,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+ARG configuration=production
+RUN npm run build -- --configuration=$configuration
 
 # Stage 2: Serve the app with Nginx
 FROM nginx:stable-alpine

@@ -1,5 +1,5 @@
 export const environment = {
-  //production: true,
+  production: false,
   //httpUrl: "http://localhost:5181",
   //websocketUrl: "ws://localhost:8181",
 

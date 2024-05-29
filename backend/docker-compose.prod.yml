@@ -8,4 +8,9 @@ services:
     image: tomdra01/wsapi:prod
 
   frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../frontend/Dockerfile
+      args:
+        - configuration=production
     image: tomdra01/frontend:prod
