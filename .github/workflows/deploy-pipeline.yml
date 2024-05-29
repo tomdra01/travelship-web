@@ -29,9 +29,9 @@ jobs:
         run: |
           cd backend
           docker-compose build httpapi
-          docker tag tomdra01/httpapi:prod tomdra01/httpapi:prod
+          docker tag tomdra01/httpapi:latest tomdra01/httpapi:prod
           docker push tomdra01/httpapi:prod
-      - name: Build and push wsapi image
+      - name: Build and Push WsApi Image
         env:
           DB_CON: ${{ secrets.DB_CON }}
           DB_USER: ${{ secrets.DB_USER }}
@@ -41,9 +41,9 @@ jobs:
         run: |
           cd backend
           docker-compose build wsapi
-          docker tag tomdra01/wsapi:prod tomdra01/wsapi:prod
+          docker tag tomdra01/wsapi:latest tomdra01/wsapi:prod
           docker push tomdra01/wsapi:prod
-      - name: Build and push frontend image
+      - name: Build and Push Frontend Image
         env:
           DB_CON: ${{ secrets.DB_CON }}
           DB_USER: ${{ secrets.DB_USER }}
@@ -53,7 +53,7 @@ jobs:
         run: |
           cd backend
           docker-compose build frontend
-          docker tag tomdra01/frontend:prod tomdra01/frontend:prod
+          docker tag tomdra01/frontend:latest tomdra01/frontend:prod
           docker push tomdra01/frontend:prod
 
   trigger-update-and-deploy:
