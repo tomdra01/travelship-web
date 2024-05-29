@@ -30,9 +30,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("SpecificOriginsPolicy",
-        builder =>
+        policyBuilder =>
         {
-            builder.WithOrigins("http://localhost:4200", "http://localhost:3000", "http://164.68.109.76", "164.68.109.76:80", "http://travelship.net")
+            policyBuilder.WithOrigins(
+                    "http://localhost:4200",
+                    "http://164.68.109.76",
+                    "http://164.68.109.76:80",
+                    "http://travelship.net",
+                    "http://167.86.96.91",
+                    "http://167.86.96.91:80")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -50,7 +56,11 @@ var policyCollection = new HeaderPolicyCollection()
     .AddDefaultSecurityHeaders()
     .AddContentSecurityPolicy(cspBuilder =>
     {
-        cspBuilder.AddDefaultSrc().Self().From("http://164.68.109.76 http://localhost:4200 http://localhost:3000");
+        cspBuilder.AddDefaultSrc().Self()
+            .From("http://164.68.109.76")
+            .From("http://167.86.96.91")
+            .From("http://travelship.net")
+            .From("http://localhost:4200");
     });
 app.UseSecurityHeaders(policyCollection);
 
