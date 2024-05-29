@@ -39,6 +39,8 @@ services:
     build:
       context: ../frontend
       dockerfile: ../frontend/Dockerfile
+      args:
+        - configuration=development
     image: tomdra01/frontend:staging
     ports:
       - "80:80"
