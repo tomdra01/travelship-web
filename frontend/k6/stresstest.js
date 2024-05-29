@@ -1,6 +1,6 @@
 import http from 'k6/http';
 import { sleep, check } from 'k6';
-import {environment} from "../environment/Environment";
+import {environment} from "../src/environment/Environment";
 
 export let options = {
     stages: [
