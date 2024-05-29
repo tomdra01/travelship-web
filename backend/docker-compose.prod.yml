@@ -14,3 +14,16 @@ services:
       args:
         - configuration=production
     image: tomdra01/frontend:prod
+
+  flyway:
+    image: flyway/flyway
+    depends_on:
+      - postgres
+    command: migrate
+    volumes:
+      - ./db/:/flyway/sql
+    environment:
+      FLYWAY_URL: jdbc:postgresql://167.86.96.91:5432/${DB_USER}
+      FLYWAY_USER: ${DB_USER}
+      FLYWAY_PASSWORD: ${DB_PASSWORD}
+      FLYWAY_SCHEMAS: production
