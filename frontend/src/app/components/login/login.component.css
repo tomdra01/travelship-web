@@ -1,0 +1,10 @@
+.spaceDivider{
+  margin-top: 12%;
+  margin-bottom: 12%;
+}
+
+.middleCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

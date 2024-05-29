@@ -1,0 +1,50 @@
+{
+  "ABOUT_TITLE": "О Travelship",
+  "ABOUT_DESC": "Соединяйтесь и сотрудничайте в вашем следующем приключении!",
+  "ABOUT_FEATURES_TITLE": "Особенности:",
+  "ABOUT_FEATURE_1": "Создайте свою поездку: Публичные или частные планы поездок.",
+  "ABOUT_FEATURE_2": "Присоединяйтесь к существующим поездкам: Найдите путешествия, которые соответствуют вашим целям.",
+  "ABOUT_FEATURE_3": "Интерактивная доска: Планируйте маршруты, проверяйте рейсы, бронируйте отели и устанавливайте даты вместе.",
+  "ABOUT_FEATURE_4": "Бесшовная интеграция: Управляйте логистикой поездок с легкостью.",
+  "ABOUT_COMMUNITY_DESC": "Travelship - это не просто приложение; это сообщество, готовое исследовать мир. Начните свое путешествие сегодня!",
+
+  "JOIN_PUBLIC_TRIPS": "Присоединиться к публичным поездкам",
+  "TRIP_NAME": "Название",
+  "TRIP_DESCRIPTION": "Описание",
+  "TRIP_LOCATION": "Местоположение",
+  "PEOPLE_JOINED": "Присоединившиеся люди",
+  "START_DATE": "Дата начала",
+  "OPEN": "Открыть",
+
+  "HEADER_HOME": "Главная",
+  "HEADER_JOIN_TRAVEL": "Присоединиться к поездке",
+  "HEADER_ABOUT_US": "О нас",
+  "HEADER_LOGIN": "Войти",
+  "HEADER_ACCOUNT": "Аккаунт",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "Просмотр публичных поездок",
+  "CONTENT_JOIN_PRIVATE_TRIP": "Присоединиться к частной поездке",
+  "CONTENT_PLAN_TRIP": "Планировать поездку",
+
+  "TRIPINFO_LOCATION": "Местоположение",
+  "TRIPINFO_DATE": "Дата",
+  "TRIPINFO_DESCRIPTION": "Описание",
+  "TRIPINFO_PARTICIPANTS": "Участники",
+  "LOADING_TRIP_DETAILS": "Загрузка деталей поездки...",
+  "ADD_PIN": "Добавить пин",
+  "CHAT_SEND": "Отправить",
+
+  "CREATE_TITLE": "Создать поездку",
+  "CREATE_NAME": "Название",
+  "CREATE_DATE": "Дата",
+  "CREATE_DESCRIPTION": "Описание",
+  "CREATE_LOCATION": "Местоположение",
+  "CREATE_CODE": "Код (необязательно)",
+  "CREATE_SUBMIT": "Отправить",
+
+  "FLIGHT_FROM": "Рейс из",
+  "FLIGHT_CALCULATE": "Рассчитать",
+  "FLIGHT_DAY": "День",
+  "FLIGHT_GROUP": "Группа",
+  "FLIGHT_PRICE": "Цена"
+}

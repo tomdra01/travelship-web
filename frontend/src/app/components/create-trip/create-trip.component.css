@@ -1,0 +1,82 @@
+.title
+{
+  margin-top: 3%;
+  color: #3746ac;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.content-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.right-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group.small input,
+.form-group.medium input {
+  width: 75%;
+  margin-left: 2%;
+  margin-right: 5%;
+}
+
+.form-group.large textarea {
+  width: 75%;
+  resize: none;
+}
+
+input,
+textarea {
+  padding: 10px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-bottom: 2px solid transparent;
+  transition: border-bottom-color 0.3s;
+
+  margin-left: 2%;
+  margin-right: 5%;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-bottom-color: #3746ac; /* Border color on focus */
+}
+
+/* Styles for labels */
+label {
+  color: #3746ac; /* Label color */
+  font-weight: bold;
+}
+
+.plane-image {
+  background-image: url('/assets/plane.svg');
+  background-size: cover;
+  width: 100%; /* Adjust width as necessary */
+  height: 200px; /* Adjust height as necessary */
+  margin-bottom: 20px;
+}
+
+/* Styles for random image */
+.image-container {
+  width: 100%; /* Adjust width as necessary */
+  height: 200px; /* Adjust height as necessary */
+  background-size: cover;
+  background-position: bottom;
+}

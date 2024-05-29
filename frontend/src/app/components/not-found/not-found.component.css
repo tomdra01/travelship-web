@@ -1,0 +1,20 @@
+.error-container {
+  text-align: center; /* Centers the text and image in the div */
+  margin-top: 50px; /* Adds space at the top */
+  color: #333; /* Dark grey text color */
+  font-family: Arial, sans-serif; /* Sets the font style */
+}
+
+.error-container h1 {
+  font-size: 48px; /* Large font size for 404 */
+}
+
+.error-container p {
+  font-size: 24px; /* Adequate font size for the message */
+}
+
+.error-pic {
+  width: 50%; /* Reduces the size of the image */
+  max-width: 300px; /* Ensures the image is not too large */
+  margin-top: 20px; /* Adds space between the text and the image */
+}

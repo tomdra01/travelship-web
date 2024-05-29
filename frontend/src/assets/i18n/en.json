@@ -1,0 +1,50 @@
+{
+  "ABOUT_TITLE": "About Travelship",
+  "ABOUT_DESC": "Connect and Collaborate on Your Next Adventure!",
+  "ABOUT_FEATURES_TITLE": "Features:",
+  "ABOUT_FEATURE_1": "Create Your Own Trip: Public or private travel plans.",
+  "ABOUT_FEATURE_2": "Join Existing Trips: Find journeys that match your goals.",
+  "ABOUT_FEATURE_3": "Interactive Pinboard: Plan itineraries, check flights, book hotels, and set dates together.",
+  "ABOUT_FEATURE_4": "Seamless Integration: Manage travel logistics with ease.",
+  "ABOUT_COMMUNITY_DESC": "Travelship is more than an app; it's a community ready to explore the world. Start your journey today!",
+
+  "JOIN_PUBLIC_TRIPS": "Join Public Trips",
+  "TRIP_NAME": "Name",
+  "TRIP_DESCRIPTION": "Description",
+  "TRIP_LOCATION": "Location",
+  "PEOPLE_JOINED": "People Joined",
+  "START_DATE": "Start Date",
+  "OPEN": "Open",
+
+  "HEADER_HOME": "Home",
+  "HEADER_JOIN_TRAVEL": "Join Travel",
+  "HEADER_ABOUT_US": "About Us",
+  "HEADER_LOGIN": "Login",
+  "HEADER_ACCOUNT": "Account",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "View Public Trips",
+  "CONTENT_JOIN_PRIVATE_TRIP": "Join a Private Trip",
+  "CONTENT_PLAN_TRIP": "Plan a Trip",
+
+  "TRIPINFO_LOCATION": "Location",
+  "TRIPINFO_DATE": "Date",
+  "TRIPINFO_DESCRIPTION": "Description",
+  "TRIPINFO_PARTICIPANTS": "Participants",
+  "LOADING_TRIP_DETAILS": "Loading trip details...",
+  "ADD_PIN": "Add Pin",
+  "CHAT_SEND": "Send",
+
+  "CREATE_TITLE": "Create Trip",
+  "CREATE_NAME": "Name",
+  "CREATE_DATE": "Date",
+  "CREATE_DESCRIPTION": "Description",
+  "CREATE_LOCATION": "Location",
+  "CREATE_CODE": "Code (optional)",
+  "CREATE_SUBMIT": "Submit",
+
+  "FLIGHT_FROM": "Flight from",
+  "FLIGHT_CALCULATE": "Calculate",
+  "FLIGHT_DAY": "Day",
+  "FLIGHT_GROUP": "Group",
+  "FLIGHT_PRICE": "Price"
+}

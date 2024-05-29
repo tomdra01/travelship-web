@@ -1,0 +1,50 @@
+{
+  "ABOUT_TITLE": "حول Travelship",
+  "ABOUT_DESC": "تواصل وتعاون في مغامرتك القادمة!",
+  "ABOUT_FEATURES_TITLE": "الميزات:",
+  "ABOUT_FEATURE_1": "إنشاء رحلتك الخاصة: خطط السفر العامة أو الخاصة.",
+  "ABOUT_FEATURE_2": "الانضمام إلى الرحلات الحالية: ابحث عن الرحلات التي تتوافق مع أهدافك.",
+  "ABOUT_FEATURE_3": "لوحة التثبيت التفاعلية: خطط مسارات الرحلة، تحقق من الرحلات الجوية، احجز الفنادق، واضبط التواريخ معًا.",
+  "ABOUT_FEATURE_4": "تكامل سلس: إدارة لوجستيات السفر بسهولة.",
+  "ABOUT_COMMUNITY_DESC": "Travelship أكثر من مجرد تطبيق؛ إنها مجتمع مستعد لاستكشاف العالم. ابدأ رحلتك اليوم!",
+
+  "JOIN_PUBLIC_TRIPS": "الانضمام إلى الرحلات العامة",
+  "TRIP_NAME": "الاسم",
+  "TRIP_DESCRIPTION": "الوصف",
+  "TRIP_LOCATION": "الموقع",
+  "PEOPLE_JOINED": "الأشخاص المنضمون",
+  "START_DATE": "تاريخ البدء",
+  "OPEN": "افتح",
+
+  "HEADER_HOME": "الرئيسية",
+  "HEADER_JOIN_TRAVEL": "الانضمام إلى السفر",
+  "HEADER_ABOUT_US": "معلومات عنا",
+  "HEADER_LOGIN": "تسجيل الدخول",
+  "HEADER_ACCOUNT": "الحساب",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "عرض الرحلات العامة",
+  "CONTENT_JOIN_PRIVATE_TRIP": "الانضمام إلى رحلة خاصة",
+  "CONTENT_PLAN_TRIP": "خطط لرحلة",
+
+  "TRIPINFO_LOCATION": "الموقع",
+  "TRIPINFO_DATE": "التاريخ",
+  "TRIPINFO_DESCRIPTION": "الوصف",
+  "TRIPINFO_PARTICIPANTS": "المشاركون",
+  "LOADING_TRIP_DETAILS": "جارٍ تحميل تفاصيل الرحلة...",
+  "ADD_PIN": "إضافة دبوس",
+  "CHAT_SEND": "إرسال",
+
+  "CREATE_TITLE": "إنشاء رحلة",
+  "CREATE_NAME": "اسم",
+  "CREATE_DATE": "تاريخ",
+  "CREATE_DESCRIPTION": "وصف",
+  "CREATE_LOCATION": "موقع",
+  "CREATE_CODE": "رمز (اختياري)",
+  "CREATE_SUBMIT": "إرسال",
+
+  "FLIGHT_FROM": "رحلة من",
+  "FLIGHT_CALCULATE": "احسب",
+  "FLIGHT_DAY": "اليوم",
+  "FLIGHT_GROUP": "مجموعة",
+  "FLIGHT_PRICE": "السعر"
+}

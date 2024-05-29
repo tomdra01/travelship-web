@@ -1,0 +1,157 @@
+/* Flexbox container for trip info and controls */
+.trip-container {
+  display: flex;
+  align-items: flex-start; /* Align items at the top */
+  margin: 20px;
+}
+
+/* General Styles for Trip Info */
+.trip-info {
+  width: 60%; /* Adjust width as needed */
+  margin-right: 20px; /* Space between trip info and controls */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Styles for Controls */
+.controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 40%; /* Adjust width as needed */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: transparent; /* Make background transparent */
+}
+
+.pinboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 550px;
+  width: 98%;
+  margin: 20px;
+  padding: 15px;
+  border: 2px dashed #ccc;
+  background-color: #fff;
+  position: relative;
+}
+
+.pin {
+  user-select: none; /* Prevent text selection */
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.textArea {
+  width: 80%;
+  height: 55%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.close {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Chat Container */
+.chat-container {
+  width: 300px;
+  border: 1px solid #ccc;
+  margin: 20px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+}
+
+.chat-messages {
+  height: 150px;
+  overflow-y: scroll;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.chat-input {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.chat-Button {
+  margin: 0 10px 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: transparent;
+  color: black;
+  border: none;
+  transition: transform 0.4s ease;
+}
+
+.chat-Button:hover {
+  background-color: #6B63FF;
+  transform: scale(1.075);
+}
+
+/* User Info Styles */
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.username {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Message Styling */
+.message-entry {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.user-message {
+  justify-content: flex-end;
+}
+
+.other-message {
+  justify-content: flex-start;
+}
+
+.message-content {
+  max-width: 80%;
+  padding: 5px;
+  border-radius: 8px;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+}
+
+.user-message .message-content {
+  background-color: #b3d9ff;
+  margin-left: auto;
+}
+
+.message-text {
+  margin-left: 10px;
+}

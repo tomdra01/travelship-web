@@ -1,0 +1,29 @@
+<div class="pin" [style.top]="pin.y + 'px'" [style.left]="pin.x + 'px'" (mousedown)="onDragStart($event)">
+
+  <span class="close" (click)="removePin()">&times;</span>
+
+  <div *ngIf="!showFlights">
+    <p>{{ 'FLIGHT_FROM' | translate }}</p>
+    <input type="text" [(ngModel)]="fromCity" placeholder="Enter From City">
+    <button (click)="calculateTicket()">{{ 'FLIGHT_CALCULATE' | translate }}</button>
+  </div>
+
+  <div *ngIf="showFlights">
+    <table>
+      <thead>
+      <tr>
+        <th>{{ 'FLIGHT_DAY' | translate }}</th>
+        <th>{{ 'FLIGHT_GROUP' | translate }}</th>
+        <th>{{ 'FLIGHT_PRICE' | translate }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let flight of flightData">
+        <td>{{ flight.day }}</td>
+        <td>{{ flight.group }}</td>
+        <td>{{ flight.price | currency }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

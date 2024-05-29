@@ -1,0 +1,33 @@
+<div class="trip-container">
+  <div class="trip-info">
+    <div *ngIf="tripInfo; else loading">
+      <h1>{{ tripInfo.name }}</h1>
+      <div><strong>{{ 'TRIPINFO_LOCATION' | translate }}:</strong> {{ tripInfo.location }}</div>
+      <div><strong>{{ 'TRIPINFO_DATE' | translate }}:</strong> {{ tripInfo.date | date }}</div>
+      <div><strong>{{ 'TRIPINFO_DESCRIPTION' | translate }}:</strong> {{ tripInfo.description }}</div>
+    </div>
+    <ng-template #loading>
+      <p>{{ 'LOADING_TRIP_DETAILS' | translate }}</p>
+    </ng-template>
+  </div>
+
+  <div class="controls">
+    <select [(ngModel)]="selectedOption">
+      <option *ngFor="let option of pinOptions" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+    <button (click)="addPinClient()">{{ 'ADD_PIN' | translate }}</button>
+  </div>
+</div>
+
+<div class="pinboard" #pinboard>
+  <ng-container *ngFor="let pin of pins">
+    <app-note-pin *ngIf="pin.type === 'NotePin'" [pin]="pin" [tripInfo]="tripInfo" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-note-pin>
+    <app-hotel-pin *ngIf="pin.type === 'HotelPin'" [pin]="pin" [tripInfo]="tripInfo" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-hotel-pin>
+    <app-flight-pin *ngIf="pin.type === 'FlightTicketPin'" [pin]="pin" [tripInfo]="tripInfo" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-flight-pin>
+    <app-date-pin *ngIf="pin.type === 'TripDatePin'" [pin]="pin" [tripInfo]="tripInfo" (dragStarted)="onDragStart($event)" (pinRemoved)="removePinClient($event)"></app-date-pin>
+  </ng-container>
+</div>
+
+<app-chat [tripId]="tripId"></app-chat>

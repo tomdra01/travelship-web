@@ -1,0 +1,50 @@
+{
+  "ABOUT_TITLE": "O Travelship",
+  "ABOUT_DESC": "Spojte se a spolupracujte na vašem příštím dobrodružství!",
+  "ABOUT_FEATURES_TITLE": "Funkce:",
+  "ABOUT_FEATURE_1": "Vytvořte svůj vlastní výlet: Veřejné nebo soukromé cestovní plány.",
+  "ABOUT_FEATURE_2": "Přidejte se k existujícím výletům: Najděte cesty, které odpovídají vašim cílům.",
+  "ABOUT_FEATURE_3": "Interaktivní nástěnka: Plánujte itineráře, kontrolujte lety, rezervujte hotely a určujte společná data.",
+  "ABOUT_FEATURE_4": "Bezproblémová integrace: Správa cestovní logistiky s lehkostí.",
+  "ABOUT_COMMUNITY_DESC": "Travelship je více než aplikace; je to komunita připravená prozkoumat svět. Zahajte svou cestu dnes!",
+
+  "JOIN_PUBLIC_TRIPS": "Připojte se k veřejným výletům",
+  "TRIP_NAME": "Název",
+  "TRIP_DESCRIPTION": "Popis",
+  "TRIP_LOCATION": "Místo",
+  "PEOPLE_JOINED": "Připojení lidé",
+  "START_DATE": "Datum začátku",
+  "OPEN": "Otevřít",
+
+  "HEADER_HOME": "Domů",
+  "HEADER_JOIN_TRAVEL": "Připojit se k cestě",
+  "HEADER_ABOUT_US": "O nás",
+  "HEADER_LOGIN": "Přihlásit se",
+  "HEADER_ACCOUNT": "Účet",
+
+  "CONTENT_VIEW_PUBLIC_TRIPS": "Zobrazit veřejné výlety",
+  "CONTENT_JOIN_PRIVATE_TRIP": "Připojit se k soukromému výletu",
+  "CONTENT_PLAN_TRIP": "Naplánovat výlet",
+
+  "TRIPINFO_LOCATION": "Umístění",
+  "TRIPINFO_DATE": "Datum",
+  "TRIPINFO_DESCRIPTION": "Popis",
+  "TRIPINFO_PARTICIPANTS": "Účastníci",
+  "LOADING_TRIP_DETAILS": "Načítání podrobností o výletu...",
+  "ADD_PIN": "Přidat špendlík",
+  "CHAT_SEND": "Odeslat",
+
+  "CREATE_TITLE": "Vytvořit výlet",
+  "CREATE_NAME": "Název",
+  "CREATE_DATE": "Datum",
+  "CREATE_DESCRIPTION": "Popis",
+  "CREATE_LOCATION": "Umístění",
+  "CREATE_CODE": "Kód (volitelné)",
+  "CREATE_SUBMIT": "Odeslat",
+
+  "FLIGHT_FROM": "Let z",
+  "FLIGHT_CALCULATE": "Vypočítat",
+  "FLIGHT_DAY": "Den",
+  "FLIGHT_GROUP": "Skupina",
+  "FLIGHT_PRICE": "Cena"
+}

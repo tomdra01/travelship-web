@@ -1,0 +1,20 @@
+<div class="spaceDivider"></div>
+
+<div class="content-container">
+  <div class="text-container">
+    <div id="title" class="title1">Travelship</div>
+    <div class="title2">your travel buddy.</div>
+  </div>
+  <div class="image"></div>
+</div>
+
+<div class="spaceDivider"></div>
+
+<div class="buttonContainer">
+  <button class="button" (click)="scrollToPublicTrips()">{{ 'CONTENT_VIEW_PUBLIC_TRIPS' | translate }}</button>
+  <button class="button" (click)="clickJoinTravel()">{{ 'CONTENT_JOIN_PRIVATE_TRIP' | translate }}</button>
+  <button class="button" (click)="clickPlanTrip()">{{ 'CONTENT_PLAN_TRIP' | translate }}</button>
+</div>
+
+<div class="spaceDivider"></div>
+<div #publicTrips></div>

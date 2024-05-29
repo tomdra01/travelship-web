@@ -1,0 +1,4 @@
+<div class="pin" [style.top]="pin.y + 'px'" [style.left]="pin.x + 'px'" (mousedown)="onDragStart($event)">
+  <textarea (input)="onContentChange($event)">{{ pin.description }}</textarea>
+  <span class="close" (click)="removePin()">&times;</span>
+</div>

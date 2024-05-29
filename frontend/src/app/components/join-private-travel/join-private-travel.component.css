@@ -1,0 +1,41 @@
+.spaceDivider {
+  margin-top: 40%;
+  margin-bottom: 40%;
+}
+
+.middleCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title2 {
+  color: #3746ac;
+  margin-top: 5%;
+}
+
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36.5%;
+}
+
+input[type="text"] {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+.balloon-background {
+  position: absolute;
+  top: 65%;
+  right: 80%;
+  width: 320px;
+  height: 320px;
+  background: url('/assets/baloon.svg') center/cover no-repeat;
+  z-index: 0;
+}

@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  httpapi:
+    build:
+      context: .
+      dockerfile: HttpApi/Dockerfile
+    image: tomdra01/httpapi:staging
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_USER}
+      - UNSPLASH_KEY=${UNSPLASH_KEY}
+      - RAPIDAPI_KEY=${RAPIDAPI_KEY}
+    ports:
+      - "5181:8080"
+    depends_on:
+      - postgres
+    labels:
+    - "com.centurylinklabs.watchtower.enable=true"
+
+  wsapi:
+    build:
+      context: .
+      dockerfile: WsApi/Dockerfile
+    image: tomdra01/wsapi:staging
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_USER}
+      - UNSPLASH_KEY=${UNSPLASH_KEY}
+      - RAPIDAPI_KEY=${RAPIDAPI_KEY}
+    ports:
+      - "8181:8080"
+    depends_on:
+      - postgres
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../frontend/Dockerfile
+    image: tomdra01/frontend:staging
+    ports:
+      - "80:80"
+    depends_on:
+      - httpapi
+      - wsapi
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_USER}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  flyway:
+    image: flyway/flyway
+    depends_on:
+      - postgres
+    command: migrate
+    volumes:
+      - ./db/:/flyway/sql
+    environment:
+      FLYWAY_URL: jdbc:postgresql://164.68.109.76:5432/${DB_USER}
+      FLYWAY_USER: ${DB_USER}
+      FLYWAY_PASSWORD: ${DB_PASSWORD}
+      FLYWAY_SCHEMAS: production
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --debug --http-api-update
+    environment:
+      - WATCHTOWER_HTTP_API_TOKEN=authtoken
+      - WATCHTOWER_LABEL_ENABLE=true
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+    ports:
+      - 8090:8080
+
+volumes:
+  postgres_data:
