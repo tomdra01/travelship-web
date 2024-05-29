@@ -50,7 +50,7 @@ var policyCollection = new HeaderPolicyCollection()
     .AddDefaultSecurityHeaders()
     .AddContentSecurityPolicy(cspBuilder =>
     {
-        cspBuilder.AddDefaultSrc().Self().From("http://164.68.109.76 http://localhost:4200 http://localhost:3000");
+        cspBuilder.AddDefaultSrc().Self().From("http://164.68.109.76 http://167.86.96.91 http://localhost:4200 http://localhost:3000");
     });
 app.UseSecurityHeaders(policyCollection);
 
