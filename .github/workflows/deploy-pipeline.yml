@@ -53,7 +53,7 @@ jobs:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend
-          docker compose -f docker-compose.prod.yml build frontend
+          docker compose -f docker-compose.prod.yml build frontend --build-arg configuration=development
           docker tag tomdra01/frontend:prod tomdra01/frontend:prod
           docker push tomdra01/frontend:prod
 
