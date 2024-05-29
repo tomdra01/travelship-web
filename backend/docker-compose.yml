@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: HttpApi/Dockerfile
-    image: tomdra01/httpapi:latest
+    image: tomdra01/httpapi:staging
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_USER}
@@ -22,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: WsApi/Dockerfile
-    image: tomdra01/wsapi:latest
+    image: tomdra01/wsapi:staging
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DB_CON=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_USER}
@@ -39,7 +39,7 @@ services:
     build:
       context: ../frontend
       dockerfile: ../frontend/Dockerfile
-    image: tomdra01/frontend:latest
+    image: tomdra01/frontend:staging
     ports:
       - "80:80"
     depends_on:
