@@ -28,8 +28,7 @@ jobs:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend
-          docker compose build httpapi
-          docker tag tomdra01/httpapi:prod tomdra01/httpapi:prod
+          docker-compose -f docker-compose.yml -f docker-compose.prod.yml build httpapi
           docker push tomdra01/httpapi:prod
       - name: Build and push wsapi image
         env:
@@ -40,8 +39,7 @@ jobs:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend
-          docker compose build wsapi
-          docker tag tomdra01/wsapi:prod tomdra01/wsapi:prod
+          docker-compose -f docker-compose.yml -f docker-compose.prod.yml build wsapi
           docker push tomdra01/wsapi:prod
       - name: Build and push frontend image
         env:
@@ -52,8 +50,8 @@ jobs:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           cd backend
-          docker compose -f docker-compose.prod.yml build frontend --build-arg configuration=development
-          docker tag tomdra01/frontend:prod tomdra01/frontend:prod
+          docker-compose -f docker-compose.yml -f docker-compose.prod.yml build --build-arg configuration=production frontend
+          docker tag tomdra01/frontend:latest tomdra01/frontend:prod
           docker push tomdra01/frontend:prod
 
   trigger-update-and-deploy:
