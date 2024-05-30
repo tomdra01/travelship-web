@@ -102,72 +102,72 @@ jobs:
           docker tag tomdra01/httpapi:staging tomdra01/httpapi:staging
           docker push tomdra01/httpapi:staging
 
-    build-and-push-wsapi:
-      name: Build and Push WsApi Image
-      runs-on: ubuntu-latest
-      needs: [ integration-tests ]
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v1
-        - name: Login to Docker Hub
-          uses: docker/login-action@v2
-          with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-        - name: Build and push wsapi image
-          env:
-            DB_CON: ${{ secrets.DB_CON }}
-            DB_USER: ${{ secrets.DB_USER }}
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-            UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
-            RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          run: |
-            cd backend
-            docker compose build wsapi
-            docker tag tomdra01/wsapi:staging tomdra01/wsapi:staging
-            docker push tomdra01/wsapi:staging
+  build-and-push-wsapi:
+    name: Build and Push WsApi Image
+    runs-on: ubuntu-latest
+    needs: [ integration-tests ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push wsapi image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+        run: |
+          cd backend
+          docker compose build wsapi
+          docker tag tomdra01/wsapi:staging tomdra01/wsapi:staging
+          docker push tomdra01/wsapi:staging
 
-    build-and-push-frontend:
-      name: Build and Push Frontend Image
-      runs-on: ubuntu-latest
-      needs: [ integration-tests ]
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v1
-        - name: Login to Docker Hub
-          uses: docker/login-action@v2
-          with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-        - name: Build and push frontend image
-          env:
-            DB_CON: ${{ secrets.DB_CON }}
-            DB_USER: ${{ secrets.DB_USER }}
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-            UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
-            RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          run: |
-            cd backend
-            docker compose build frontend --build-arg configuration=development
-            docker tag tomdra01/frontend:staging tomdra01/frontend:staging
-            docker push tomdra01/frontend:staging
+  build-and-push-frontend:
+    name: Build and Push Frontend Image
+    runs-on: ubuntu-latest
+    needs: [ integration-tests ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push frontend image
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+        run: |
+          cd backend
+          docker compose build frontend --build-arg configuration=development
+          docker tag tomdra01/frontend:staging tomdra01/frontend:staging
+          docker push tomdra01/frontend:staging
 
-    deploy-to-test-environment:
-      name: Deploy to Test environment
-      needs: [ build-and-push-httpapi, build-and-push-wsapi, build-and-push-frontend ]
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - name: Trigger update
-          run: |
-            curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}'
+  deploy-to-test-environment:
+    name: Deploy to Test environment
+    needs: [ build-and-push-httpapi, build-and-push-wsapi, build-and-push-frontend ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Trigger update
+        run: |
+          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}'
 
-        - name: Cooldown 10s
-          run: sleep 10
+      - name: Cooldown 10s
+        run: sleep 10
 
   database-migration:
     name: Database Migration
