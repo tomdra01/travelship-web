@@ -134,7 +134,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Trigger update
         run: |
-          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer authtoken'
+          curl --fail -X GET 'http://164.68.109.76:8090/v1/update' -H 'Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}'
 
       - name: Cooldown 10s
         run: sleep 10
