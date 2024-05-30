@@ -35,7 +35,6 @@ jobs:
   build-and-push-wsapi:
     name: Build and Push WsApi Image
     runs-on: ubuntu-latest
-    needs: [ integration-tests, static-code-analysis ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -62,7 +61,6 @@ jobs:
   build-and-push-frontend:
     name: Build and Push Frontend Image
     runs-on: ubuntu-latest
-    needs: [ integration-tests, static-code-analysis ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -88,7 +86,7 @@ jobs:
 
   trigger-update-and-deploy:
     name: Deploy to Production environment
-    needs: [ build-and-push-docker-images ]
+    needs: [ build-and-push-httpapi, build-and-push-wsapi, build-and-push-frontend ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
