@@ -78,7 +78,7 @@ jobs:
   build-and-push-httpapi:
     name: Build and Push HttpApi Image
     runs-on: ubuntu-latest
-    needs: [ integration-tests ]
+    needs: [ integration-tests, static-code-analysis ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -105,7 +105,7 @@ jobs:
   build-and-push-wsapi:
     name: Build and Push WsApi Image
     runs-on: ubuntu-latest
-    needs: [ integration-tests ]
+    needs: [ integration-tests, static-code-analysis ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -132,7 +132,7 @@ jobs:
   build-and-push-frontend:
     name: Build and Push Frontend Image
     runs-on: ubuntu-latest
-    needs: [ integration-tests ]
+    needs: [ integration-tests, static-code-analysis ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
