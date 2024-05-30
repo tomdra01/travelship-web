@@ -33,6 +33,10 @@ html, body {
   width: 100vw;
   height: 100vh;
   z-index: 1;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 /* Adjust background image for small screens and high-density screens */
@@ -46,6 +50,76 @@ html, body {
   .app {
     position: relative;
     z-index: 2;
+  }
+}
+
+/* iPhone 15 and 15 Pro */
+@media only screen
+and (width: 393px)
+and (height: 852px)
+and (-webkit-device-pixel-ratio: 3) {
+  .bgImage {
+    background-attachment: scroll;
+  }
+}
+
+/* iPhone 15 Plus and 15 Pro Max */
+@media only screen
+and (width: 430px)
+and (height: 932px)
+and (-webkit-device-pixel-ratio: 3) {
+  .bgImage {
+    background-attachment: scroll;
+  }
+}
+
+/* iPhone 14 */
+@media only screen
+and (width: 390px)
+and (height: 844px)
+and (-webkit-device-pixel-ratio: 3) {
+  .bgImage {
+    background-attachment: scroll;
+  }
+}
+
+/* iPhone 14 Plus */
+@media only screen
+and (width: 428px)
+and (height: 926px)
+and (-webkit-device-pixel-ratio: 3) {
+  .bgImage {
+    background-attachment: scroll;
+  }
+}
+
+/* iPhone 13 Mini */
+@media only screen
+and (width: 375px)
+and (height: 812px)
+and (-webkit-device-pixel-ratio: 3) {
+  .bgImage {
+    background-attachment: scroll;
+  }
+}
+
+/* iPhone 11 */
+@media only screen
+and (width: 414px)
+and (height: 896px)
+and (-webkit-device-pixel-ratio: 2) {
+  .bgImage {
+    background-attachment: scroll;
+  }
+}
+
+/* iPhone 11 Pro Max */
+@media only screen
+and (width: 414px)
+and (height: 896px)
+and (-webkit-device-pixel-ratio: 3) {
+  .bgImage {
+    background-attachment: scroll;
   }
 }
 
