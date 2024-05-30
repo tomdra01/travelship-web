@@ -29,7 +29,7 @@ jobs:
         run: |
           cd backend
           docker compose build httpapi
-          docker tag tomdra01/httpapi:prod tomdra01/httpapi:prod
+          docker tag httpapi:latest tomdra01/httpapi:prod
           docker push tomdra01/httpapi:prod
 
   build-and-push-wsapi:
@@ -55,7 +55,7 @@ jobs:
         run: |
           cd backend
           docker compose build wsapi
-          docker tag tomdra01/wsapi:prod tomdra01/wsapi:prod
+          docker tag wsapi:latest tomdra01/wsapi:prod
           docker push tomdra01/wsapi:prod
 
   build-and-push-frontend:
@@ -81,7 +81,7 @@ jobs:
         run: |
           cd backend
           docker compose build frontend --build-arg configuration=production
-          docker tag tomdra01/frontend:prod tomdra01/frontend:prod
+          docker tag frontend:latest tomdra01/frontend:prod
           docker push tomdra01/frontend:prod
 
   trigger-update-and-deploy:
