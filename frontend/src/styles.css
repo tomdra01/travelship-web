@@ -17,7 +17,6 @@ html, body {
 
 /* App basic settings */
 .app {
-  background-image: url("/assets/layer-wave-bg.svg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -30,154 +29,80 @@ html, body {
   background-size: cover;
 }
 
-/* Background image settings */
-.bgImage {
-  background-image: url("/assets/layer-wave-bg.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-/* Adjust background image for small screens and high-density screens */
-@media (max-width: 600px), (min-resolution: 2dppx) {
-  .bgImage {
-    background-attachment: scroll;
-    background-size: cover;
-    height: 100%;
-  }
-
-  .app {
-    position: relative;
-    z-index: 1;
-  }
-}
-
 /* iPhone 15 and 15 Pro */
-@media only screen
-and (width: 393px)
-and (height: 852px)
-and (-webkit-device-pixel-ratio: 3) {
-  .bgImage {
-    background-attachment: scroll;
-    background-size: cover;
-    height: 100%;
+@media only screen and (width: 393px) and (height: 852px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
   }
 
-  .app {
-    position: relative;
-    z-index: 1;
+  .title2 {
+    font-size: 2vw;
   }
 }
 
 /* iPhone 15 Plus and 15 Pro Max */
-@media only screen
-and (width: 430px)
-and (height: 932px)
-and (-webkit-device-pixel-ratio: 3) {
-  .bgImage {
-    background-attachment: scroll;
-    background-size: cover;
-    height: 100%;
+@media only screen and (width: 430px) and (height: 932px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
   }
 
-  .app {
-    position: relative;
-    z-index: 1;
+  .title2 {
+    font-size: 2vw;
   }
 }
 
 /* iPhone 14 */
-@media only screen
-and (width: 390px)
-and (height: 844px)
-and (-webkit-device-pixel-ratio: 3) {
-  .bgImage {
-    background-attachment: scroll;
-    background-size: cover;
-    height: 100%;
+@media only screen and (width: 390px) and (height: 844px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
   }
 
-  .app {
-    position: relative;
-    z-index: 1;
+  .title2 {
+    font-size: 2vw;
   }
 }
 
 /* iPhone 14 Plus */
-@media only screen
-and (width: 428px)
-and (height: 926px)
-and (-webkit-device-pixel-ratio: 3) {
-  .bgImage {
-    background-attachment: scroll;
-    background-size: cover;
-    height: 100%;
+@media only screen and (width: 428px) and (height: 926px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
   }
 
-  .app {
-    position: relative;
-    z-index: 1;
+  .title2 {
+    font-size: 2vw;
   }
 }
 
 /* iPhone 13 Mini */
-@media only screen
-and (width: 375px)
-and (height: 812px)
-and (-webkit-device-pixel-ratio: 3) {
-  .bgImage {
-    background-attachment: scroll;
-    background-size: cover;
-    height: 100%;
+@media only screen and (width: 375px) and (height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
   }
 
-  .app {
-    position: relative;
-    z-index: 1;
+  .title2 {
+    font-size: 2vw;
   }
 }
 
 /* iPhone 11 */
-@media only screen
-and (width: 414px)
-and (height: 896px)
-and (-webkit-device-pixel-ratio: 2) {
-  .bgImage {
-    background-attachment: scroll;
-    background-size: cover;
-    height: 100%;
+@media only screen and (width: 414px) and (height: 896px) and (-webkit-device-pixel-ratio: 2) {
+  .title1 {
+    font-size: 6vw;
   }
 
-  .app {
-    position: relative;
-    z-index: 1;
+  .title2 {
+    font-size: 2vw;
   }
 }
 
 /* iPhone 11 Pro Max */
-@media only screen
-and (width: 414px)
-and (height: 896px)
-and (-webkit-device-pixel-ratio: 3) {
-  .bgImage {
-    background-attachment: scroll;
-    background-size: cover;
-    height: 100%;
+@media only screen and (width: 414px) and (height: 896px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
   }
 
-  .app {
-    position: relative;
-    z-index: 1;
+  .title2 {
+    font-size: 2vw;
   }
 }
 
