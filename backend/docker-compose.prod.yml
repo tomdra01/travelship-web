@@ -14,3 +14,7 @@ services:
       args:
         - configuration=production
     image: tomdra01/frontend:prod
+
+  flyway:
+    environment:
+      FLYWAY_URL: jdbc:postgresql://167.86.96.91:5432/${DB_USER}

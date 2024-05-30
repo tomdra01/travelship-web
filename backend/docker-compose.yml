@@ -81,7 +81,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --debug --http-api-update
     environment:
-      - WATCHTOWER_HTTP_API_TOKEN=authtoken
+      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_TOKEN}
       - WATCHTOWER_LABEL_ENABLE=true
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
