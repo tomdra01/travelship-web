@@ -58,7 +58,7 @@ jobs:
 
   trigger-update-and-deploy:
     name: Deploy to Production environment
-    needs: [ build-and-push-httpapi, build-and-push-wsapi, build-and-push-frontend ]
+    needs: [ build-and-push-docker-images ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
