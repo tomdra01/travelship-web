@@ -64,26 +64,19 @@ jobs:
       - uses: actions/checkout@v3
       - name: Trigger update
         run: |
-          curl --fail -X GET 'http://167.86.96.91:8090/v1/update' -H 'Authorization: Bearer authtoken'
+          curl --fail -X GET 'http://167.86.96.91:8090/v1/update' -H 'Authorization: Bearer ${{ secrets.WATCHTOWERTOKEN }}'
 
       - name: Cooldown 10s
         run: sleep 10
 
   database-migration:
-    needs: [ trigger-update-and-deploy ]
     name: Database Migration
     runs-on: ubuntu-latest
-    env:
-      DB_USER: ${{ secrets.DB_USER }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_CON: postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@postgres:5432/${{ secrets.DB_USER }}
+    needs: [ trigger-update-and-deploy ]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v1
-      - name: Run Flyway migrations
-        run: |
+      - uses: actions/checkout@v3
+      - uses: docker/setup-buildx-action@v1
+      - run: |
           cd backend
           sleep 10
-          docker-compose up flyway
+          docker compose up flyway
