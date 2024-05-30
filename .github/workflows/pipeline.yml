@@ -67,6 +67,7 @@ jobs:
           DB_CON: ${{ secrets.DB_CON }}
           UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          ApiBaseUrl: ${{ secrets.APIBASEURL }}
         run: |
           dotnet run --project ./backend/HttpApi &
           echo "API_PID=$!" >> $GITHUB_ENV
