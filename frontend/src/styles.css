@@ -1,5 +1,6 @@
 html, body {
-  background-color: white;
+  background-image: url("assets/layer-wave-bg.svg");
+  background-size: cover;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -16,9 +17,17 @@ html, body {
 
 /* App basic settings */
 .app {
+  background-image: url("/assets/layer-wave-bg.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   position: relative;
   z-index: 1;
   min-height: 100vh; /* Ensure app-root fills the whole height */
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 /* Background image settings */
