@@ -17,7 +17,7 @@ html, body {
 /* App basic settings */
 .app {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   min-height: 100vh; /* Ensure app-root fills the whole height */
 }
 
@@ -32,7 +32,7 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1;
+  z-index: 0;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -49,7 +49,7 @@ html, body {
 
   .app {
     position: relative;
-    z-index: 2;
+    z-index: 1;
   }
 }
 
@@ -60,6 +60,13 @@ and (height: 852px)
 and (-webkit-device-pixel-ratio: 3) {
   .bgImage {
     background-attachment: scroll;
+    background-size: cover;
+    height: 100%;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -70,6 +77,13 @@ and (height: 932px)
 and (-webkit-device-pixel-ratio: 3) {
   .bgImage {
     background-attachment: scroll;
+    background-size: cover;
+    height: 100%;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -80,6 +94,13 @@ and (height: 844px)
 and (-webkit-device-pixel-ratio: 3) {
   .bgImage {
     background-attachment: scroll;
+    background-size: cover;
+    height: 100%;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -90,6 +111,13 @@ and (height: 926px)
 and (-webkit-device-pixel-ratio: 3) {
   .bgImage {
     background-attachment: scroll;
+    background-size: cover;
+    height: 100%;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -100,6 +128,13 @@ and (height: 812px)
 and (-webkit-device-pixel-ratio: 3) {
   .bgImage {
     background-attachment: scroll;
+    background-size: cover;
+    height: 100%;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -110,6 +145,13 @@ and (height: 896px)
 and (-webkit-device-pixel-ratio: 2) {
   .bgImage {
     background-attachment: scroll;
+    background-size: cover;
+    height: 100%;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -120,6 +162,13 @@ and (height: 896px)
 and (-webkit-device-pixel-ratio: 3) {
   .bgImage {
     background-attachment: scroll;
+    background-size: cover;
+    height: 100%;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
   }
 }
 
