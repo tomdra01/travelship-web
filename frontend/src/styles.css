@@ -1,6 +1,6 @@
-/* Grundindstillinger for html og body */
 html, body {
-  background-color: white;
+  background-image: url("assets/layer-wave-bg.svg");
+  background-size: cover;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -8,31 +8,102 @@ html, body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/* Box sizing for alle elementer */
+/* Box sizing for all elements */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Appens grundindstillinger */
+/* App basic settings */
 .app {
-  position: relative;
-  z-index: 2;
-}
-
-/* Baggrundsbillede indstillinger */
-.bgImage {
-  background-image: url("/assets/layer-wave-bg.svg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  position: relative;
   z-index: 1;
+  min-height: 100vh; /* Ensure app-root fills the whole height */
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* iPhone 15 and 15 Pro */
+@media only screen and (width: 393px) and (height: 852px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
+  }
+
+  .title2 {
+    font-size: 2vw;
+  }
+}
+
+/* iPhone 15 Plus and 15 Pro Max */
+@media only screen and (width: 430px) and (height: 932px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
+  }
+
+  .title2 {
+    font-size: 2vw;
+  }
+}
+
+/* iPhone 14 */
+@media only screen and (width: 390px) and (height: 844px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
+  }
+
+  .title2 {
+    font-size: 2vw;
+  }
+}
+
+/* iPhone 14 Plus */
+@media only screen and (width: 428px) and (height: 926px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
+  }
+
+  .title2 {
+    font-size: 2vw;
+  }
+}
+
+/* iPhone 13 Mini */
+@media only screen and (width: 375px) and (height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
+  }
+
+  .title2 {
+    font-size: 2vw;
+  }
+}
+
+/* iPhone 11 */
+@media only screen and (width: 414px) and (height: 896px) and (-webkit-device-pixel-ratio: 2) {
+  .title1 {
+    font-size: 6vw;
+  }
+
+  .title2 {
+    font-size: 2vw;
+  }
+}
+
+/* iPhone 11 Pro Max */
+@media only screen and (width: 414px) and (height: 896px) and (-webkit-device-pixel-ratio: 3) {
+  .title1 {
+    font-size: 6vw;
+  }
+
+  .title2 {
+    font-size: 2vw;
+  }
 }
 
 /* Scrollbar styling */
@@ -61,11 +132,11 @@ html, body {
   border-color: #3746ac !important;
 }
 
-/* Knapper styling */
+/* Button styling */
 button {
   margin: 0 10px 10px;
   padding: 10px 20px;
-  font-size: 1rem; /* Brug rem for skalerbarhed */
+  font-size: 1rem; /* Use rem for scalability */
   cursor: pointer;
   background-color: transparent;
   color: white;
@@ -146,5 +217,113 @@ button:hover {
   button {
     font-size: 0.875rem;
     padding: 8px 16px;
+  }
+}
+
+.title2 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: whitesmoke;
+  margin-left: 7%;
+  margin-top: 10%;
+}
+
+.spaceDivider {
+  margin-top: 4%;
+  margin-bottom: 4%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12%;
+  margin-top: 7%;
+}
+
+.image {
+  margin-top: 2%;
+  margin-left: 4%;
+  height: 50vh;
+  width: 100%;
+  background-image: url("/assets/travel2.svg");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.content-container {
+  display: flex;
+  align-items: center;
+}
+
+.text-container {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Media queries for small screens */
+@media (max-width: 600px) {
+  .content-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .title2 {
+    font-size: 2rem;
+    margin-left: 0;
+    margin-top: 5%;
+  }
+
+  .image {
+    height: 30vh;
+    margin-left: 0;
+  }
+
+  .text-container {
+    margin-right: 0;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+  }
+
+  .button {
+    margin-bottom: 10px;
+  }
+}
+
+/* Media queries for medium screens */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .title2 {
+    font-size: 2.5rem;
+    margin-left: 5%;
+    margin-top: 7%;
+  }
+
+  .image {
+    height: 40vh;
+  }
+
+  .buttonContainer {
+    margin-top: 5%;
+  }
+
+  .button {
+    margin: 5px;
+  }
+}
+
+/* Media queries for large screens */
+@media (min-width: 1025px) {
+  .title2 {
+    font-size: 3rem;
+    margin-left: 7%;
+    margin-top: 10%;
+  }
+
+  .image {
+    height: 50vh;
   }
 }
