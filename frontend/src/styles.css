@@ -7,21 +7,21 @@ html, body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/* Box sizing for alle elementer */
+/* Box sizing for all elements */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Appens grundindstillinger */
+/* App basic settings */
 .app {
   position: relative;
   z-index: 2;
-  min-height: 100vh; /* Tilføjet for at sikre, at app-root fylder hele højden */
+  min-height: 100vh; /* Ensure app-root fills the whole height */
 }
 
-/* Baggrundsbillede indstillinger */
+/* Background image settings */
 .bgImage {
   background-image: url("/assets/layer-wave-bg.svg");
   background-size: cover;
@@ -33,6 +33,15 @@ html, body {
   width: 100vw;
   height: 100vh;
   z-index: 1;
+}
+
+/* Adjust background image for small screens */
+@media (max-width: 600px) {
+  .bgImage {
+    background-attachment: scroll;
+    background-size: contain;
+    height: auto;
+  }
 }
 
 /* Scrollbar styling */
@@ -61,11 +70,11 @@ html, body {
   border-color: #3746ac !important;
 }
 
-/* Knapper styling */
+/* Button styling */
 button {
   margin: 0 10px 10px;
   padding: 10px 20px;
-  font-size: 1rem; /* Brug rem for skalerbarhed */
+  font-size: 1rem; /* Use rem for scalability */
   cursor: pointer;
   background-color: transparent;
   color: white;
@@ -192,7 +201,7 @@ button:hover {
   flex-direction: column;
 }
 
-/* Medieforespørgsler for små skærme */
+/* Media queries for small screens */
 @media (max-width: 600px) {
   .content-container {
     flex-direction: column;
@@ -223,7 +232,7 @@ button:hover {
   }
 }
 
-/* Medieforespørgsler for mellemstore skærme */
+/* Media queries for medium screens */
 @media (min-width: 601px) and (max-width: 1024px) {
   .title2 {
     font-size: 2.5rem;
@@ -244,7 +253,7 @@ button:hover {
   }
 }
 
-/* Medieforespørgsler for store skærme */
+/* Media queries for large screens */
 @media (min-width: 1025px) {
   .title2 {
     font-size: 3rem;
