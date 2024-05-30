@@ -35,12 +35,17 @@ html, body {
   z-index: 1;
 }
 
-/* Adjust background image for small screens */
-@media (max-width: 600px) {
+/* Adjust background image for small screens and high-density screens */
+@media (max-width: 600px), (min-resolution: 2dppx) {
   .bgImage {
     background-attachment: scroll;
-    background-size: contain;
-    height: auto;
+    background-size: cover;
+    height: 100%;
+  }
+
+  .app {
+    position: relative;
+    z-index: 2;
   }
 }
 
