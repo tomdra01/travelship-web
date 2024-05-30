@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using ApiTests.Models;
+using dotenv.net;
 using FluentAssertions;
 
 namespace ApiTests;
@@ -11,6 +12,12 @@ public class CrudTripTest
     private static Trip? createdTrip;
     
     private static readonly HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Helper.ApiBaseUrl) };
+    
+    [SetUp]
+    public void LoadEnvironmentVariables()
+    {
+        DotEnv.Load();
+    }
     
 
     [TestCase("Ski Adventure", "Switzerland", "2024-02-10", "A thrilling ski trip full of adventure and fun. Join us for a memorable experience in the snow-capped mountains of Switzerland. Perfect for families and individuals alike looking to escape the mundane.",  null), Order(1)]

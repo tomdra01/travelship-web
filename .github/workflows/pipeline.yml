@@ -51,28 +51,47 @@ jobs:
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
-      - uses: actions/cache@v2
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v2
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: ${{ runner.os }}-nuget-
-      - run: dotnet restore ./backend/HttpApi
-      - run: dotnet build --no-restore ./backend/test
-      - env:
+
+      - name: Restore dependencies
+        run: dotnet restore ./backend/HttpApi
+
+      - name: Build project
+        run: dotnet build --no-restore ./backend/test
+
+      - name: Run API
+        env:
           DB_CON: ${{ secrets.DB_CON }}
           UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           dotnet run --project ./backend/HttpApi &
           echo "API_PID=$!" >> $GITHUB_ENV
-          sleep 30
-      - run: dotnet test --no-build ./backend/test
-      - if: always()
+          sleep 30 # Give time for the API to become fully operational
+
+      - name: Run Tests
+        env:
+          DB_CON: ${{ secrets.DB_CON }}
+          ApiBaseUrl: ${{ secrets.APIBASEURL }}
+        run: dotnet test --no-build ./backend/test
+
+      - name: Kill API Process
+        if: always()
         run: kill $API_PID
 
   build-and-push-httpapi:

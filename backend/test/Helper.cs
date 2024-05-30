@@ -5,15 +5,11 @@ namespace ApiTests;
 public static class Helper
 {
     public static readonly NpgsqlDataSource DataSource;
-    public static readonly string ClientBaseUrl = "http://localhost:4200/";
-    public static readonly string ApiBaseUrl = "http://localhost:5181/api";
+    public static readonly string ApiBaseUrl = Environment.GetEnvironmentVariable("ApiBaseUrl")!;
 
     static Helper()
     {
-        
-        //var envVarKeyName = "pgconn";
-        //var connectionString = Environment.GetEnvironmentVariable("DB_CON");
-        var connectionString = "postgres://jiddccrd:dStoIch-khgauAEnetRDOCnLyNg_8Km8@cornelius.db.elephantsql.com/jiddccrd";
+        var connectionString = Environment.GetEnvironmentVariable("DB_CON");
         
         if (connectionString == null)
         {
