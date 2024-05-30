@@ -1,5 +1,12 @@
 # Travelship
 
+## Deployed Application
+
+### Production Environment
+http://travelship.net/
+### Test Environment
+http://164.68.109.76/
+
 ## About the Project
 Travelship is designed to connect travelers around the world, enabling them to plan their travels collaboratively. Users can create travel plans that are either public or private, with private plans featuring unique join codes for added exclusivity and security.
 
