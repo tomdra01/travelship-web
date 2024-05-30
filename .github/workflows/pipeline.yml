@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - developdis
+      - develop
 
 jobs:
   static-code-analysis:
