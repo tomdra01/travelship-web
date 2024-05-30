@@ -12,9 +12,8 @@ public static class Helper
     {
         
         //var envVarKeyName = "pgconn";
-        //var connectionString = Environment.GetEnvironmentVariable("DB_CON");
-        var connectionString = "postgres://jiddccrd:dStoIch-khgauAEnetRDOCnLyNg_8Km8@cornelius.db.elephantsql.com/jiddccrd";
-        
+        var connectionString = Environment.GetEnvironmentVariable("DB_CON");
+
         if (connectionString == null)
         {
             throw new Exception("Connection string is null.");
